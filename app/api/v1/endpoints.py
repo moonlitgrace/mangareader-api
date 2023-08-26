@@ -1,9 +1,7 @@
 from fastapi import APIRouter
-from bs4 import BeautifulSoup
+from .scraper import PopularManagasScraper
 
 router = APIRouter()
-
-BASE_URL = "https://mangareader.to/home"
 
 @router.get("/")
 async def root():
@@ -11,6 +9,5 @@ async def root():
 
 @router.get("/popular")
 async def get_trending_mangas():
-	soup = BeautifulSoup(BASE_URL)
-	print(soup)
-	return None
+	managas = PopularManagasScraper().scrape()
+	return managas

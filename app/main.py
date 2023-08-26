@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 # v1 api
-from app.api.v1 import api, endpoints
+from app.api.v1 import endpoints
 
 app = FastAPI()
 
