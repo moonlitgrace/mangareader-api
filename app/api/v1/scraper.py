@@ -1,10 +1,13 @@
+from typing import Text
+from fastapi import responses
 import requests
 from bs4 import BeautifulSoup
 from app.utils import isfloat
 
 # Scrape popular mangas
-class PopularManagasScraper:
+class PopularScraper:
     def __init__(self):
+        super().__init__()
         self.URL = "https://mangareader.to/home"
 
     def _scrape_text(self, element, selector):
@@ -13,7 +16,6 @@ class PopularManagasScraper:
 
     def _scrape_numeric(self, element, selector):
         selected_value = self._scrape_text(element, selector)
-        print(selected_value)
         if selected_value:
             for value in selected_value.split():
                 if isfloat(value) or value.isdigit(): return float(value)
@@ -50,7 +52,7 @@ class PopularManagasScraper:
 
         response = requests.get(self.URL)
         soup = BeautifulSoup(response.content, "html5lib")
-        container = soup.find("div", {"id": "manga-trending"})
+        container = soup.select_one("#manga-trending")
 
         if container:
             element_list = container.find_all("div", class_="swiper-slide")
@@ -64,6 +66,49 @@ class PopularManagasScraper:
                     "rating": self._scrape_rating(element),
                     "chapters": self._scrape_chapters(element),
                     "volumes": self._scrape_volumes(element)
+                }
+
+                data.append(manga_data)
+        return data
+
+class TopTenScraper():
+    def __init__(self):
+        super().__init__()
+        self.URL = "https://mangareader.to/home"
+
+    def _scrape_text(self, element, selector):
+        selected_element = element.select_one(selector)
+        return selected_element.text.strip() if selected_element else None
+
+    def _scrape_numeric(self, element, selector):
+        selected_value = self._scrape_text(element, selector)
+        if selected_value:
+            for value in selected_value.split():
+                if isfloat(value) or value.isdigit(): return float(value)
+        return None
+
+    def _scrape_title(self, element):
+        title = element.select_one(".desi-head-title a").text
+        return title if title else None
+
+    def _scrape_chapter(self, element):
+        return self._scrape_numeric(element, ".desi-sub-text")
+
+    def scrape(self):
+        data = []
+
+        response = requests.get(self.URL)
+        soup = BeautifulSoup(response.content, "html5lib")
+        container = soup.select_one(".deslide-wrap #slider .swiper-wrapper")
+
+        if container:
+            element_list = container.find_all("div", class_="swiper-slide")
+
+            for element in element_list:
+                manga_data = {
+                    "rank": element_list.index(element) + 1,
+                    "title": self._scrape_title(element),
+                    "chapter": self._scrape_chapter(element)
                 }
 
                 data.append(manga_data)

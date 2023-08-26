@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .scraper import PopularManagasScraper
+from .scraper import PopularScraper, TopTenScraper
 
 router = APIRouter()
 
@@ -9,5 +9,10 @@ async def root():
 
 @router.get("/popular")
 async def get_trending_mangas():
-	managas = PopularManagasScraper().scrape()
-	return managas
+	response = PopularScraper().scrape()
+	return response
+
+@router.get("/top-10")
+async def get_top_ten():
+	response = TopTenScraper().scrape()
+	return response
