@@ -8,7 +8,16 @@ from app.utils import isfloat
 class PopularScraper:
     def __init__(self):
         super().__init__()
+        # Base url to scrape
         self.URL = "https://mangareader.to/home"
+        # Selectors
+        self.RANKING_SELECTOR = ".number span"
+        self.TITLE_SELECTOR = ".anime-name"
+        self.LINK_SELECTOR = "a.link-mask"
+        self.IMAGE_SELECTOR = "img.manga-poster-img"
+        self.RATING_SELECTOR = ".mp-desc p:nth-of-type(2)"
+        self.CHAPTERS_SELECTOR = ".mp-desc p:nth-of-type(4)"
+        self.VOLUMES_SELECTOR = ".mp-desc p:nth-of-type(5)"
 
     def _scrape_text(self, element, selector):
         selected_element = element.select_one(selector)
@@ -22,30 +31,30 @@ class PopularScraper:
         return None
 
     def _scrape_ranking(self, element):
-        ranking = self._scrape_text(element, ".number span")
+        ranking = self._scrape_text(element, self.RANKING_SELECTOR)
         return int(ranking) if ranking else None
 
     def _scrape_title(self, element):
-        return self._scrape_text(element, ".anime-name")
+        return self._scrape_text(element, self.TITLE_SELECTOR)
 
     def _scrape_link(self, element):
-        link = element.find("a", class_="link-mask")["href"]
+        link = element.select_one(self.LINK_SELECTOR)["href"]
         slug = link.replace("/", "")
         return slug if slug else None
 
     def _scrape_image(self, element):
-        cover = element.find("img", "manga-poster-img")
+        cover = element.select_one(self.IMAGE_SELECTOR)
         return cover["src"] if cover else None
 
     def _scrape_rating(self, element):
-        rating = self._scrape_text(element, ".mp-desc p:nth-of-type(2)")
+        rating = self._scrape_text(element, self.RATING_SELECTOR)
         return float(rating) if rating else None
 
     def _scrape_chapters(self, element):
-        return self._scrape_numeric(element, ".mp-desc p:nth-of-type(4)")
+        return self._scrape_numeric(element, self.CHAPTERS_SELECTOR)
 
     def _scrape_volumes(self, element):
-        return self._scrape_numeric(element, ".mp-desc p:nth-of-type(5)")
+        return self._scrape_numeric(element, self.VOLUMES_SELECTOR)
 
     def scrape(self):
         data = []
