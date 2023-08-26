@@ -91,6 +91,15 @@ class TopTenScraper():
         title = element.select_one(".desi-head-title a").text
         return title if title else None
 
+    def _scrape_slug(self, element):
+        link = element.select_one(".desi-head-title a")["href"]
+        slug = link.replace("/", "")
+        return slug if slug else None
+
+    def _scrape_cover(self, element):
+        cover = element.select_one("img.manga-poster-img")
+        return cover["src"] if cover else None
+
     def _scrape_chapter(self, element):
         return self._scrape_numeric(element, ".desi-sub-text")
 
@@ -118,6 +127,8 @@ class TopTenScraper():
                 manga_data = {
                     "rank": element_list.index(element) + 1,
                     "title": self._scrape_title(element),
+                    "slug": self._scrape_slug(element),
+                    "cover": self._scrape_cover(element),
                     "chapter": self._scrape_chapter(element),
                     "synopsis": self._scrape_synopsis(element),
                     "genres": self._scrape_genres(element)
