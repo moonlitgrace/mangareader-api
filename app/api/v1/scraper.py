@@ -40,6 +40,20 @@ class PopularManagasScraper:
                 if string.isdigit(): return int(string)
         return "Chapters not found"
 
+    def _scrape_volumes(self, element):
+        container = element.find("div", class_="mp-desc")
+        volumes_string = container.find_all("p")[4].text
+        if volumes_string:
+            for string in volumes_string.split():
+                if string.isdigit(): return int(string)
+        return "Volumes not found"
+
+    def _scrape_link(self, element):
+        link = element.find("a", class_="link-mask")["href"]
+        slug = link.replace("/", "")
+        if slug: return slug
+        return "Slug not found"
+
     def scrape(self):
         data = []
 
@@ -54,9 +68,11 @@ class PopularManagasScraper:
                 manga_data = {
                     "rank": self._scrape_ranking(element),
                     "title": self._scrape_title(element),
+                    "slug": self._scrape_link(element),
                     "cover": self._scrape_image(element),
                     "rating": self._scrape_rating(element),
-                    "chapters": self._scrape_chapters(element)
+                    "chapters": self._scrape_chapters(element),
+                    "volumes": self._scrape_volumes(element)
                 }
 
                 data.append(manga_data)
