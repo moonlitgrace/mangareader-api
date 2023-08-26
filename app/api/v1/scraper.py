@@ -7,20 +7,20 @@ class PopularManagasScraper:
         self.URL = "https://mangareader.to/home"
 
     def _scrape_ranking(self, element):
-        ranking_container = element.find("div", {"class", "number"})
+        ranking_container = element.find("div", class_="number")
         rank = ranking_container.find("span")
         if rank:
-            return rank.text.strip()
+            return float(rank.text)
         return "Ranking not found"
 
     def _scrape_title(self, element):
-        title_element = element.find("div", {"class": "anime-name"})
+        title_element = element.find("div", class_="anime-name")
         if title_element:
             return title_element.text.strip()
         return "No title found"
 
     def _scrape_image(self, element):
-        cover = element.find("img", {"class", "manga-poster-img"})
+        cover = element.find("img", class_="manga-poster-img")
         if cover:
             return cover["src"]
         return "Cover image not found"
@@ -29,7 +29,7 @@ class PopularManagasScraper:
         container = element.find("div", class_="mp-desc")
         rating = container.find_all("p")[1].text
         if rating:
-            return rating
+            return float(rating)
         return "Rating not found"
 
     def scrape(self):
@@ -40,7 +40,7 @@ class PopularManagasScraper:
         container = soup.find("div", {"id": "manga-trending"})
 
         if container:
-            element_list = container.find_all("div", {"class": "swiper-slide"})
+            element_list = container.find_all("div", class_="swiper-slide")
 
             for element in element_list:
                 manga_data = {
