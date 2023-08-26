@@ -32,6 +32,14 @@ class PopularManagasScraper:
             return float(rating)
         return "Rating not found"
 
+    def _scrape_chapters(self, element):
+        container = element.find("div", class_="mp-desc")
+        chapters_string = container.find_all("p")[3].text
+        if chapters_string:
+            for string in chapters_string.split():
+                if string.isdigit(): return int(string)
+        return "Chapters not found"
+
     def scrape(self):
         data = []
 
@@ -47,7 +55,8 @@ class PopularManagasScraper:
                     "rank": self._scrape_ranking(element),
                     "title": self._scrape_title(element),
                     "cover": self._scrape_image(element),
-                    "rating": self._scrape_rating(element)
+                    "rating": self._scrape_rating(element),
+                    "chapters": self._scrape_chapters(element)
                 }
 
                 data.append(manga_data)
