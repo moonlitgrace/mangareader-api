@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "mangaapi"
+version = "0.1.0"
+description = "A Python-based web scraping API built with FastAPI that provides easy access to manga contents."
+authors = ["tokitou-san <tokitousan2005@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.102.0"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
