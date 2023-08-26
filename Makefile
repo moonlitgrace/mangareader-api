@@ -1,2 +1,2 @@
 run server:
-	poetry run uvicorn main:app --reload
+	poetry run uvicorn app.main:app --reload
