@@ -94,6 +94,16 @@ class TopTenScraper():
     def _scrape_chapter(self, element):
         return self._scrape_numeric(element, ".desi-sub-text")
 
+    def _scrape_synopsis(self, element):
+        return self._scrape_text(element, ".sc-detail .scd-item")
+
+    def _scrape_genres(self, element):
+        genres = []
+        genres_list = element.select(".sc-detail .scd-genres span")
+        for genre in genres_list:
+            genres.append(genre.text)
+        return genres
+
     def scrape(self):
         data = []
 
@@ -108,7 +118,9 @@ class TopTenScraper():
                 manga_data = {
                     "rank": element_list.index(element) + 1,
                     "title": self._scrape_title(element),
-                    "chapter": self._scrape_chapter(element)
+                    "chapter": self._scrape_chapter(element),
+                    "synopsis": self._scrape_synopsis(element),
+                    "genres": self._scrape_genres(element)
                 }
 
                 data.append(manga_data)
