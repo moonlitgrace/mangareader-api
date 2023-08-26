@@ -14,3 +14,15 @@ MangaAPI is a Python-based web scraping tool built with FastAPI that provides ea
     <li><b>Customizable</b>: The modular architecture allows for easy expansion and customization.</li>
     <li><b>Self-Hostable</b>: Deploy the API on your own server and enjoy full control over your manga data access.</li>
 </ul>
+
+<h2>Contribution</h2>
+<p>
+    Contributions to MangaAPI are welcome! If you encounter issues or want to add new features, feel free to open pull requests. <br>
+    Give a ⭐️ if you find this project interesting and useful!
+</p>
+
+<h2>Disclaimer</h2>
+<p>This project is developed for educational purposes and convenience in accessing manga content. Respect the website's terms of use and consider the legality of web scraping in your jurisdiction.</p>
+
+<h2>License</h2>
+<p>MangaScraper API is released under the <a href="LICENSE">MIT License</a>.</p>
