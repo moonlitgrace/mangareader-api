@@ -1,4 +1,3 @@
-from enum import Enum
 from fastapi import FastAPI
 
 # v1 api
