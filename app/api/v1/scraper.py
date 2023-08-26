@@ -1,11 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
-def isfloat(str: str) -> bool:
-    try:
-        float(str)
-        return True
-    except ValueError: return False
+from app.utils import isfloat
 
 # Scrape popular mangas
 class PopularManagasScraper:
