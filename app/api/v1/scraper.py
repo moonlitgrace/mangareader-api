@@ -25,6 +25,13 @@ class PopularManagasScraper:
             return cover["src"]
         return "Cover image not found"
 
+    def _scrape_rating(self, element):
+        container = element.find("div", class_="mp-desc")
+        rating = container.find_all("p")[1].text
+        if rating:
+            return rating
+        return "Rating not found"
+
     def scrape(self):
         data = []
 
@@ -39,7 +46,8 @@ class PopularManagasScraper:
                 manga_data = {
                     "rank": self._scrape_ranking(element),
                     "title": self._scrape_title(element),
-                    "cover": self._scrape_image(element)
+                    "cover": self._scrape_image(element),
+                    "rating": self._scrape_rating(element)
                 }
 
                 data.append(manga_data)
