@@ -16,25 +16,31 @@ class PopularScraper:
 		return HTMLParser(res.content)
 
 	@staticmethod
-	def __get_title(element: Node):
-		title = element.css_first(".anime-name").text()
+	def __get_title(node: Node):
+		title = node.css_first(".anime-name").text()
 		return title if title else None
 
 	@staticmethod
-	def __get_slug(element: Node):
-		slug = element.css_first("a.link-mask").attributes["href"]
+	def __get_slug(node: Node):
+		slug = node.css_first("a.link-mask").attributes["href"]
 		return slug.replace("/", "") if slug else None
 
 	@staticmethod
-	def __get_cover(element: Node):
-		cover = element.css_first("img.manga-poster-img").attributes["src"]
+	def __get_cover(node: Node):
+		cover = node.css_first("img.manga-poster-img").attributes["src"]
 		return cover if cover else None
 
-	def __build_dict(self, element):
+	@staticmethod
+	def __get_rating(node: Node):
+		rating = node.css_first(".mp-desc p:nth-of-type(2)").text()
+		return rating if rating else None
+
+	def __build_dict(self, node):
 		manga_dict = {
-			"title": self.__get_title(element),
-			"slug": self.__get_slug(element),
-			"cover": self.__get_cover(element)
+			"title": self.__get_title(node),
+			"slug": self.__get_slug(node),
+			"cover": self.__get_cover(node),
+			"rating": self.__get_rating(node)
 		}
 
 		return manga_dict
@@ -43,12 +49,12 @@ class PopularScraper:
 		mangas_list = []
 
 		container = self.parser.css_first("div#manga-trending")
-		elements_list = container.css("div.swiper-slide")
+		nodes_list = container.css("div.swiper-slide")
 
-		for index, element in enumerate(elements_list, start=1):
+		for index, node in enumerate(nodes_list, start=1):
 			manga_dict = {
 				"id": index,
-				**self.__build_dict(element)
+				**self.__build_dict(node)
 			}
 
 			mangas_list.append(manga_dict)
