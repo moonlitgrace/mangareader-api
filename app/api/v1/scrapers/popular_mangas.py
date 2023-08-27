@@ -16,6 +16,11 @@ class PopularScraper:
 		return HTMLParser(res.content)
 
 	@staticmethod
+	def __get_ranking(node: Node):
+		ranking = node.css_first(".number span")
+		return ranking.text() if ranking else None
+
+	@staticmethod
 	def __get_title(node: Node):
 		title = node.css_first(".anime-name").text()
 		return title if title else None
@@ -37,6 +42,7 @@ class PopularScraper:
 
 	def __build_dict(self, node):
 		manga_dict = {
+			"rank": self.__get_ranking(node),
 			"title": self.__get_title(node),
 			"slug": self.__get_slug(node),
 			"cover": self.__get_cover(node),
