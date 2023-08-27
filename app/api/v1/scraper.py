@@ -75,6 +75,7 @@ class PopularScraper:
                 data.append(manga_data)
         return data
 
+# Scrape topten mangas
 class TopTenScraper():
     def __init__(self):
         super().__init__()
@@ -144,3 +145,17 @@ class TopTenScraper():
 
                 data.append(manga_data)
         return data
+
+# Scrape most viewed mangas
+class MostViewedScraper():
+    def __init__(self) -> None:
+        super().__init__()
+
+    def scrape_today(self):
+        pass
+
+    def scrape_week(self):
+        pass
+
+    def scrape_month(self):
+        pass

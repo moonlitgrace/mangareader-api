@@ -1,6 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, responses
 
-from .scraper import PopularScraper, TopTenScraper
+from .scraper import PopularScraper, TopTenScraper, MostViewedScraper
 from .models import PopularMangaModel, TopTenMangaModel
 
 router = APIRouter()
@@ -19,3 +19,14 @@ async def get_top_ten() -> list[TopTenMangaModel]:
 	response = TopTenScraper().scrape()
 	return response
 
+@router.get("/most-viewed/{local_date}")
+async def get_most_viewed(local_date: str):
+	if local_date == "today":
+		response = MostViewedScraper().scrape_today()
+		return "Today"
+	elif local_date == "week":
+		response = MostViewedScraper().scrape_week()
+		return "Week"
+	elif local_date == "month":
+		response = MostViewedScraper().scrape_month()
+		return "Month"
