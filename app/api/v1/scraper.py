@@ -152,6 +152,13 @@ class MostViewedScraper():
         super().__init__()
         # Base url
         self.URL = "https://mangareader.to/home"
+        # Css selectors
+        self.TITLE_SELECTOR = ".manga-detail .manga-name a"
+        self.IMAGE_SELECTOR = "img.manga-poster-img"
+        self.VIEWS_SELECTOR = ".fd-infor span.fdi-view"
+        self.CHAPTERS_SELECTOR = ".fd-infor .fdi-chapter:nth-child(1)"
+        self.VOLUMES_SELECTOR = ".fd-infor .fdi-chapter:nth-child(2)"
+        self.GENRES_SELECTOR = ".fd-infor .fdi-cate a"
 
     def _scrape_text(self, element, selector):
         selected_element = element.select_one(selector)
@@ -165,29 +172,29 @@ class MostViewedScraper():
         return None
 
     def _scrape_title(self, element):
-        return self._scrape_text(element, ".manga-detail .manga-name a")
+        return self._scrape_text(element, self.TITLE_SELECTOR)
 
     def _scrape_slug(self, element):
-        link = element.select_one(".manga-detail .manga-name a")["href"]
+        link = element.select_one(self.TITLE_SELECTOR)["href"]
         slug = link.replace("/", "")
         return slug if slug else None
 
     def _scrape_cover(self, element):
-        cover = element.select_one("img.manga-poster-img")["src"]
+        cover = element.select_one(self.IMAGE_SELECTOR)["src"]
         cover_high_res = cover.replace("200x300", "500x800")
         return cover_high_res if cover_high_res else None
 
     def _scrape_views(self, element):
-        return self._scrape_numeric(element, ".fd-infor span.fdi-view")
+        return self._scrape_numeric(element, self.VIEWS_SELECTOR)
 
     def _scrape_chapters(self, element):
-        return self._scrape_numeric(element, ".fd-infor .fdi-chapter:nth-child(1)")
+        return self._scrape_numeric(element, self.CHAPTERS_SELECTOR)
 
     def _scrape_volumes(self, element):
-        return self._scrape_numeric(element, ".fd-infor .fdi-chapter:nth-child(2)")
+        return self._scrape_numeric(element, self.VOLUMES_SELECTOR)
 
     def _scrape_genres(self, element):
-        genres = element.select(".fd-infor .fdi-cate a")
+        genres = element.select(self.GENRES_SELECTOR)
         return [genre.text for genre in genres] if genres else None
 
     def scrape_today(self):
