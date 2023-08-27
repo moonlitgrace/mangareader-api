@@ -1,7 +1,7 @@
 from fastapi import APIRouter, responses
 
 from .scraper import PopularScraper, TopTenScraper, MostViewedScraper
-from .models import PopularMangaModel, TopTenMangaModel
+from .models import PopularMangaModel, TopTenMangaModel, MostViewedMangaModel
 
 router = APIRouter()
 
@@ -19,7 +19,7 @@ async def get_top_ten() -> list[TopTenMangaModel]:
 	response = TopTenScraper().scrape()
 	return response
 
-@router.get("/most-viewed/{chart}")
+@router.get("/most-viewed/{chart}", response_model=list[MostViewedMangaModel])
 async def get_most_viewed(chart: str | None = None):
 	most_viewed_scraper = MostViewedScraper()
 	

@@ -19,3 +19,14 @@ class TopTenMangaModel(BaseModel):
 	chapter: float
 	synopsis: str
 	genres: list[str]
+
+# Response model for "/most-viewed/" endpoint
+class MostViewedMangaModel(BaseModel):
+	rank: int
+	title: str
+	slug: str
+	cover: str
+	views: int
+	chapters: float
+	volumes: float
+	genres: list[str]
