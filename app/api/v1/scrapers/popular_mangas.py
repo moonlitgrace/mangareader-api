@@ -30,15 +30,19 @@ class PopularScraper:
 		slug = node.css_first("a.link-mask").attributes["href"]
 		return slug.replace("/", "") if slug else None
 
-	@staticmethod
-	def __get_cover(node: Node):
-		cover = node.css_first("img.manga-poster-img").attributes["src"]
-		return cover if cover else None
+	def __get_cover(self, node: Node):
+		cover_src = node.css_first("img.manga-poster-img").attributes["src"]
+		return cover_src if cover_src else None
 
 	@staticmethod
 	def __get_rating(node: Node):
 		rating = node.css_first(".mp-desc p:nth-of-type(2)").text()
 		return rating if rating else None
+
+	@staticmethod
+	def __get_langs(node: Node):
+		langs = node.css_first(".mp-desc p:nth-of-type(3)").text().split("/")
+		return langs if langs else None
 
 	@staticmethod
 	def __get_chapters(node: Node):
@@ -77,6 +81,7 @@ class PopularScraper:
 			"slug": self.__get_slug(node),
 			"cover": self.__get_cover(node),
 			"rating": self.__get_rating(node),
+			"langs": self.__get_langs(node),
 			"chapters": self.__get_chapters(node),
 			"volumes": self.__get_volumes(node)
 		}
