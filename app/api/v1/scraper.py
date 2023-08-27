@@ -180,6 +180,16 @@ class MostViewedScraper():
     def _scrape_views(self, element):
         return self._scrape_numeric(element, ".fd-infor span.fdi-view")
 
+    def _scrape_chapters(self, element):
+        return self._scrape_numeric(element, ".fd-infor .fdi-chapter:nth-child(1)")
+
+    def _scrape_volumes(self, element):
+        return self._scrape_numeric(element, ".fd-infor .fdi-chapter:nth-child(2)")
+
+    def _scrape_genres(self, element):
+        genres = element.select(".fd-infor .fdi-cate a")
+        return [genre.text for genre in genres] if genres else None
+
     def scrape_today(self):
         data = []
 
@@ -195,7 +205,10 @@ class MostViewedScraper():
                     "title": self._scrape_title(element),
                     "slug": self._scrape_slug(element),
                     "cover": self._scrape_cover(element),
-                    "views": self._scrape_views(element)
+                    "views": self._scrape_views(element),
+                    "chapters": self._scrape_chapters(element),
+                    "volumes": self._scrape_volumes(element),
+                    "genres": self._scrape_genres(element)
                 }
 
                 data.append(manga_data)
