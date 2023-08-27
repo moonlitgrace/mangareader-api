@@ -23,7 +23,7 @@ async def get_top_ten() -> list[TopTenMangaModel]:
 async def get_most_viewed(local_date: str):
 	if local_date == "today":
 		response = MostViewedScraper().scrape_today()
-		return "Today"
+		return response
 	elif local_date == "week":
 		response = MostViewedScraper().scrape_week()
 		return "Week"

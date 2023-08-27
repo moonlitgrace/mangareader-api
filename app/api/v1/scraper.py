@@ -150,9 +150,56 @@ class TopTenScraper():
 class MostViewedScraper():
     def __init__(self) -> None:
         super().__init__()
+        # Base url
+        self.URL = "https://mangareader.to/home"
+
+    def _scrape_text(self, element, selector):
+        selected_element = element.select_one(selector)
+        return selected_element.text.strip() if selected_element else None
+
+    def _scrape_numeric(self, element, selector):
+        selected_value = self._scrape_text(element, selector)
+        if selected_value:
+            for value in selected_value.split():
+                if isfloat(value) or value.isdigit(): return float(value)
+        return None
+
+    def _scrape_title(self, element):
+        return self._scrape_text(element, ".manga-detail .manga-name a")
+
+    def _scrape_slug(self, element):
+        link = element.select_one(".manga-detail .manga-name a")["href"]
+        slug = link.replace("/", "")
+        return slug if slug else None
+
+    def _scrape_cover(self, element):
+        cover = element.select_one("img.manga-poster-img")["src"]
+        cover_high_res = cover.replace("200x300", "500x800")
+        return cover_high_res if cover_high_res else None
+
+    def _scrape_views(self, element):
+        return self._scrape_numeric(element, ".fd-infor span.fdi-view")
 
     def scrape_today(self):
-        pass
+        data = []
+
+        response = requests.get(self.URL)
+        soup = BeautifulSoup(response.content, "html5lib")
+        container = soup.select_one("#main-sidebar #chart-today")
+
+        if container:
+            element_list = container.select("ul > li")
+            for rank, element in enumerate(element_list, start=1):
+                manga_data = {
+                    "rank": rank,
+                    "title": self._scrape_title(element),
+                    "slug": self._scrape_slug(element),
+                    "cover": self._scrape_cover(element),
+                    "views": self._scrape_views(element)
+                }
+
+                data.append(manga_data)
+        return data
 
     def scrape_week(self):
         pass
