@@ -3,8 +3,8 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 # scrapers
-from .scrapers.popular_mangas import PopularScraper
-from .scrapers.topten_mangas import TopTenScraper
+from .scrapers.popular import PopularScraper
+from .scrapers.topten import TopTenScraper
 # models
 from .models import PopularMangaModel, BaseModel, TopTenMangaModel
 
