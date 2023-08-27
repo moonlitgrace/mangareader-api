@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 from .scrapers.popular_mangas import PopularScraper
+from .models import PopularMangaModel
 
 router = APIRouter()
 
@@ -10,8 +11,8 @@ router = APIRouter()
 async def root():
 	return { "message": "MangaAPI V1 API" }
 
-@router.get("/popular")
-async def get_trending_mangas():
+@router.get("/popular", response_model=list[PopularMangaModel])
+def get_trending_mangas():
 	response =  PopularScraper().parse()
 	return response
 
