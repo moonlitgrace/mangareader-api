@@ -169,7 +169,7 @@ class MostViewedScraper():
         self.SELECTORS = {
             "title": ".manga-detail .manga-name a",
             "image": "img.manga-poster-img",
-            "views": ".fd-infor span.fdi-view",
+            "views": ".fd-infor .fdi-view",
             "chapters": ".fd-infor .fdi-chapter:nth-child(1)",
             "volumes": ".fd-infor .fdi-chapter:nth-child(2)",
             "genres": ".fd-infor .fdi-cate a"
@@ -200,10 +200,14 @@ class MostViewedScraper():
         return cover_high_res if cover_high_res else None
 
     def _scrape_views(self, element):
-        return self._scrape_numeric(element, self.SELECTORS["views"])
+        views = self._scrape_text(element, self.SELECTORS["views"])
+        if views:
+            # Need to do this since res is in this format eg. "10,581 views"
+            views = views.split()[0].replace(",", "")
+        return views if views else None
 
     def _scrape_chapters(self, element):
-        return self._scrape_numeric(element, self.SELECTORS["views"])
+        return self._scrape_numeric(element, self.SELECTORS["chapters"])
 
     def _scrape_volumes(self, element):
         return self._scrape_numeric(element, self.SELECTORS["volumes"])
