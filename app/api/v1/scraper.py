@@ -8,15 +8,19 @@ from app.utils import isfloat
 class PopularScraper:
     def __init__(self):
         super().__init__()
+
+        self.session = requests.Session()
         # Base url to scrape
         self.URL = "https://mangareader.to/home"
         # Selectors
-        self.TITLE_SELECTOR = ".anime-name"
-        self.LINK_SELECTOR = "a.link-mask"
-        self.IMAGE_SELECTOR = "img.manga-poster-img"
-        self.RATING_SELECTOR = ".mp-desc p:nth-of-type(2)"
-        self.CHAPTERS_SELECTOR = ".mp-desc p:nth-of-type(4)"
-        self.VOLUMES_SELECTOR = ".mp-desc p:nth-of-type(5)"
+        self.SELECTORS = {
+            "title": ".anime-name",
+            "link": "a.link-mask",
+            "image": "img.manga-poster-img",
+            "rating": ".mp-desc p:nth-of-type(2)",
+            "chapters": ".mp-desc p:nth-of-type(4)",
+            "volumes": ".mp-desc p:nth-of-type(5)"
+        }
 
     def _scrape_text(self, element, selector):
         selected_element = element.select_one(selector)
@@ -30,31 +34,31 @@ class PopularScraper:
         return None
 
     def _scrape_title(self, element):
-        return self._scrape_text(element, self.TITLE_SELECTOR)
+        return self._scrape_text(element, self.SELECTORS["title"])
 
     def _scrape_link(self, element):
-        link = element.select_one(self.LINK_SELECTOR)["href"]
+        link = element.select_one(self.SELECTORS["link"])["href"]
         slug = link.replace("/", "")
         return slug if slug else None
 
     def _scrape_image(self, element):
-        cover = element.select_one(self.IMAGE_SELECTOR)
+        cover = element.select_one(self.SELECTORS["image"])
         return cover["src"] if cover else None
 
     def _scrape_rating(self, element):
-        rating = self._scrape_text(element, self.RATING_SELECTOR)
+        rating = self._scrape_text(element, self.SELECTORS["rating"])
         return float(rating) if rating else None
 
     def _scrape_chapters(self, element):
-        return self._scrape_numeric(element, self.CHAPTERS_SELECTOR)
+        return self._scrape_numeric(element, self.SELECTORS["chapters"])
 
     def _scrape_volumes(self, element):
-        return self._scrape_numeric(element, self.VOLUMES_SELECTOR)
+        return self._scrape_numeric(element, self.SELECTORS["volumes"])
 
     def scrape(self):
         data = []
 
-        response = requests.get(self.URL)
+        response = self.session.get(self.URL)
         soup = BeautifulSoup(response.content, "html5lib")
         container = soup.select_one("#manga-trending")
 
@@ -79,14 +83,18 @@ class PopularScraper:
 class TopTenScraper():
     def __init__(self):
         super().__init__()
+
+        self.session = requests.Session()
         # Base url to scrape
         self.URL = "https://mangareader.to/home"
         # Selectors
-        self.TITLE_SELECTOR = ".desi-head-title a"
-        self.IMAGE_SELECTOR = "img.manga-poster-img"
-        self.CHAPTER_SELECTOR = ".desi-sub-text"
-        self.SYNOPSIS_SELECTOR = ".sc-detail .scd-item"
-        self.GENRES_SELECTOR = ".sc-detail .scd-genres span"
+        self.SELECTORS = {
+            "title": ".desi-head-title a",
+            "image": "img.manga-poster-img",
+            "chapter": ".desi-sub-text",
+            "synopsis": ".sc-detail .scd-item",
+            "genres": ".sc-detail .scd-genres span"
+        }
 
     def _scrape_text(self, element, selector):
         selected_element = element.select_one(selector)
@@ -100,32 +108,32 @@ class TopTenScraper():
         return None
 
     def _scrape_title(self, element):
-        title = element.select_one(self.TITLE_SELECTOR).text
+        title = element.select_one(self.SELECTORS["title"]).text
         return title if title else None
 
     def _scrape_slug(self, element):
-        link = element.select_one(self.TITLE_SELECTOR)["href"]
+        link = element.select_one(self.SELECTORS["title"])["href"]
         slug = link.replace("/", "")
         return slug if slug else None
 
     def _scrape_cover(self, element):
-        cover = element.select_one(self.IMAGE_SELECTOR)
+        cover = element.select_one(self.SELECTORS["image"])
         return cover["src"] if cover else None
 
     def _scrape_chapter(self, element):
-        return self._scrape_numeric(element, self.CHAPTER_SELECTOR)
+        return self._scrape_numeric(element, self.SELECTORS["chapter"])
 
     def _scrape_synopsis(self, element):
-        return self._scrape_text(element, self.SYNOPSIS_SELECTOR)
+        return self._scrape_text(element, self.SELECTORS["synopsis"])
 
     def _scrape_genres(self, element):
-        genres_list = element.select(self.GENRES_SELECTOR)
+        genres_list = element.select(self.SELECTORS["genres"])
         return [genre.text for genre in genres_list]
 
     def scrape(self):
         data = []
 
-        response = requests.get(self.URL)
+        response = self.session.get(self.URL)
         soup = BeautifulSoup(response.content, "html5lib")
         container = soup.select_one(".deslide-wrap #slider .swiper-wrapper")
 
