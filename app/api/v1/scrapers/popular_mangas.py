@@ -16,74 +16,47 @@ class PopularScraper:
 		return HTMLParser(res.content)
 
 	@staticmethod
-	def __get_ranking(node: Node):
-		ranking = node.css_first(".number span")
-		return ranking.text() if ranking else None
+	def __get_text(node: Node, selector: str):
+		element = node.css_first(selector)
+		return element.text() if element else None
 
 	@staticmethod
-	def __get_title(node: Node):
-		title = node.css_first(".anime-name").text()
-		return title if title else None
+	def __get_attribute(node: Node, selector: str, attribute: str):
+		element = node.css_first(selector)
+		return element.attributes[attribute] if element else None
 
-	@staticmethod
-	def __get_slug(node: Node):
-		slug = node.css_first("a.link-mask").attributes["href"]
+	def __get_slug(self, node: Node):
+		slug = self.__get_attribute(node, "a.link-mask", "href")
 		return slug.replace("/", "") if slug else None
 
-	def __get_cover(self, node: Node):
-		cover_src = node.css_first("img.manga-poster-img").attributes["src"]
-		return cover_src if cover_src else None
+	def __get_langs(self, node: Node):
+		langs = self.__get_text(node, ".mp-desc p:nth-of-type(3)")
+		return langs.split("/") if langs else None
 
-	@staticmethod
-	def __get_rating(node: Node):
-		rating = node.css_first(".mp-desc p:nth-of-type(2)").text()
-		return rating if rating else None
+	def __get_chapters_volumes(self, node: Node, index: int):
+		data = self.__get_text(node, f".mp-desc p:nth-of-type({index})")
+		if data:
+			total = data.split()[1]
+			lang = data.split()[2].translate(str.maketrans("", "", "[]"))
 
-	@staticmethod
-	def __get_langs(node: Node):
-		langs = node.css_first(".mp-desc p:nth-of-type(3)").text().split("/")
-		return langs if langs else None
+			data_dict = {
+				"total": total,
+				"lang": lang
+			}
 
-	@staticmethod
-	def __get_chapters(node: Node):
-		chapters_data = node.css_first(".mp-desc p:nth-of-type(4)").text()
-		total_chapters = chapters_data.split()[1]
-		# remove "[]" from lang
-		translater = str.maketrans("", "", "[]")
-		lang = chapters_data.split()[2].translate(translater)
-
-		chapters_dict = {
-			"total": total_chapters,
-			"lang": lang
-		}
-
-		return chapters_dict
-
-	@staticmethod
-	def __get_volumes(node: Node):
-		chapters_data = node.css_first(".mp-desc p:nth-of-type(5)").text()
-		total_chapters = chapters_data.split()[1]
-		# remove "[]" from lang
-		translater = str.maketrans("", "", "[]")
-		lang = chapters_data.split()[2].translate(translater)
-
-		chapters_dict = {
-			"total": total_chapters,
-			"lang": lang
-		}
-
-		return chapters_dict
+			return data_dict
+		return None
 
 	def __build_dict(self, node):
 		manga_dict = {
-			"rank": self.__get_ranking(node),
-			"title": self.__get_title(node),
+			"rank": self.__get_text(node, ".number span"),
+			"title": self.__get_text(node, ".anime-name"),
 			"slug": self.__get_slug(node),
-			"cover": self.__get_cover(node),
-			"rating": self.__get_rating(node),
+			"cover": self.__get_attribute(node, "img.manga-poster-img", "src"),
+			"rating": self.__get_text(node, ".mp-desc p:nth-of-type(2)"),
 			"langs": self.__get_langs(node),
-			"chapters": self.__get_chapters(node),
-			"volumes": self.__get_volumes(node)
+			"chapters": self.__get_chapters_volumes(node, 4),
+			"volumes": self.__get_chapters_volumes(node, 5)
 		}
 
 		return manga_dict
