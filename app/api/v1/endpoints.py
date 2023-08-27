@@ -19,14 +19,11 @@ async def get_top_ten() -> list[TopTenMangaModel]:
 	response = TopTenScraper().scrape()
 	return response
 
-@router.get("/most-viewed/{local_date}")
-async def get_most_viewed(local_date: str):
-	if local_date == "today":
-		response = MostViewedScraper().scrape_today()
-		return response
-	elif local_date == "week":
-		response = MostViewedScraper().scrape_week()
-		return "Week"
-	elif local_date == "month":
-		response = MostViewedScraper().scrape_month()
-		return "Month"
+@router.get("/most-viewed/{chart}")
+async def get_most_viewed(chart: str | None = None):
+	most_viewed_scraper = MostViewedScraper()
+	
+	if chart in most_viewed_scraper.CHARTS:
+		return most_viewed_scraper.scrape_chart(chart)
+	else:
+		return {"error": "Invalid time period specified."}
