@@ -40,13 +40,45 @@ class PopularScraper:
 		rating = node.css_first(".mp-desc p:nth-of-type(2)").text()
 		return rating if rating else None
 
+	@staticmethod
+	def __get_chapters(node: Node):
+		chapters_data = node.css_first(".mp-desc p:nth-of-type(4)").text()
+		total_chapters = chapters_data.split()[1]
+		# remove "[]" from lang
+		translater = str.maketrans("", "", "[]")
+		lang = chapters_data.split()[2].translate(translater)
+
+		chapters_dict = {
+			"total": total_chapters,
+			"lang": lang
+		}
+
+		return chapters_dict
+
+	@staticmethod
+	def __get_volumes(node: Node):
+		chapters_data = node.css_first(".mp-desc p:nth-of-type(5)").text()
+		total_chapters = chapters_data.split()[1]
+		# remove "[]" from lang
+		translater = str.maketrans("", "", "[]")
+		lang = chapters_data.split()[2].translate(translater)
+
+		chapters_dict = {
+			"total": total_chapters,
+			"lang": lang
+		}
+
+		return chapters_dict
+
 	def __build_dict(self, node):
 		manga_dict = {
 			"rank": self.__get_ranking(node),
 			"title": self.__get_title(node),
 			"slug": self.__get_slug(node),
 			"cover": self.__get_cover(node),
-			"rating": self.__get_rating(node)
+			"rating": self.__get_rating(node),
+			"chapters": self.__get_chapters(node),
+			"volumes": self.__get_volumes(node)
 		}
 
 		return manga_dict
