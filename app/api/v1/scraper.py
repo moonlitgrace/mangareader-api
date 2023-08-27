@@ -178,18 +178,31 @@ class MostViewedScraper():
                 if isfloat(value) or value.isdigit(): return float(value)
         return None
 
-    def _scrape_data(self, element):
-        manga_data = {
-            "title": self._scrape_text(element, self.SELECTORS["title"]),
-            "slug": element.select_one(self.SELECTORS["title"])["href"].replace("/", ""),
-            "cover": element.select_one(self.SELECTORS["image"])["src"].replace("200x300", "500x800"),
-            "views": self._scrape_numeric(element, self.SELECTORS["views"]),
-            "chapters": self._scrape_numeric(element, self.SELECTORS["chapters"]),
-            "volumes": self._scrape_numeric(element, self.SELECTORS["volumes"]),
-            "genres": [genre.text for genre in element.select(self.SELECTORS["genres"])]
-        }
+    def _scrape_title(self, element):
+        return self._scrape_text(element, self.SELECTORS["title"])
 
-        return manga_data
+    def _scrape_slug(self, element):
+        link = element.select_one(self.SELECTORS["title"])["href"]
+        slug = link.replace("/", "")
+        return slug if slug else None
+
+    def _scrape_cover(self, element):
+        cover = element.select_one(self.SELECTORS["image"])["src"]
+        cover_high_res = cover.replace("200x300", "500x800")
+        return cover_high_res if cover_high_res else None
+
+    def _scrape_views(self, element):
+        return self._scrape_numeric(element, self.SELECTORS["views"])
+
+    def _scrape_chapters(self, element):
+        return self._scrape_numeric(element, self.SELECTORS["views"])
+
+    def _scrape_volumes(self, element):
+        return self._scrape_numeric(element, self.SELECTORS["volumes"])
+
+    def _scrape_genres(self, element):
+        genres = element.select(self.SELECTORS["genres"])
+        return [genre.text for genre in genres] if genres else None
 
     def scrape_chart(self, chart):
         data = []
@@ -203,7 +216,13 @@ class MostViewedScraper():
             for rank, element in enumerate(element_list, start=1):
                 manga_data = {
                     "rank": rank,
-                    **self._scrape_data(element)
+                    "title": self._scrape_title(element),
+                    "slug": self._scrape_slug(element),
+                    "cover": self._scrape_cover(element),
+                    "views": self._scrape_views(element),
+                    "chapters": self._scrape_chapters(element),
+                    "volumes": self._scrape_volumes(element),
+                    "genres": self._scrape_genres(element)
                 }
 
                 data.append(manga_data)
