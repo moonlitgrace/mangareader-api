@@ -1,3 +1,4 @@
+from typing import List, Optional
 from pydantic import BaseModel
 
 # Response model for "/popular/" endpoint
@@ -26,7 +27,7 @@ class MostViewedMangaModel(BaseModel):
 	title: str
 	slug: str
 	cover: str
-	views: int
-	chapters: float
-	volumes: float
-	genres: list[str]
+	views: Optional[int]
+	chapters: Optional[float]
+	volumes: Optional[float]
+	genres: Optional[List[str]]

@@ -1,4 +1,6 @@
-from fastapi import APIRouter, responses
+from typing import List
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 
 from .scraper import PopularScraper, TopTenScraper, MostViewedScraper
 from .models import PopularMangaModel, TopTenMangaModel, MostViewedMangaModel
@@ -19,11 +21,13 @@ async def get_top_ten() -> list[TopTenMangaModel]:
 	response = TopTenScraper().scrape()
 	return response
 
-@router.get("/most-viewed/{chart}", response_model=list[MostViewedMangaModel])
-async def get_most_viewed(chart: str | None = None):
+@router.get("/most-viewed/{chart}", response_model=List[MostViewedMangaModel])
+async def get_most_viewed(chart: str):
 	most_viewed_scraper = MostViewedScraper()
 	
 	if chart in most_viewed_scraper.CHARTS:
-		return most_viewed_scraper.scrape_chart(chart)
+		data = most_viewed_scraper.scrape_chart(chart)
+		return data
 	else:
-		return {"error": "Invalid time period specified."}
+		message = {"message": "Invalid time period specified."}
+		return JSONResponse(content=message, status_code=400)
