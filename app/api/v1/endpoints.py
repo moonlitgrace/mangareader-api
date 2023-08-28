@@ -1,3 +1,4 @@
+from dataclasses import astuple
 from typing import List
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
@@ -6,6 +7,7 @@ from fastapi.responses import JSONResponse
 from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
+from .scrapers.manga import MangaScraper
 # models
 from .models import PopularMangaModel, BaseModel, TopTenMangaModel, MostViewedMangaModel
 
@@ -16,7 +18,7 @@ async def root():
 	return { "message": "MangaAPI V1 API" }
 
 @router.get("/popular", response_model=list[PopularMangaModel])
-def get_trending_mangas():
+async def get_trending_mangas():
 	response =  PopularScraper().parse()
 	return response
 
@@ -35,3 +37,8 @@ async def get_most_viewed(chart: str):
 	else:
 		message = "Parameter not acceptable."
 		return JSONResponse(message, status_code=400)
+
+@router.get("/manga/{slug}")
+async def get_manga(slug: str):
+	response = MangaScraper(slug).parse()
+	return response
