@@ -9,7 +9,7 @@ from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
 from .scrapers.manga import MangaScraper
 # models
-from .models import PopularMangaModel, BaseModel, TopTenMangaModel, MostViewedMangaModel
+from .models import PopularMangaModel, BaseModel, TopTenMangaModel, MostViewedMangaModel, MangaModel
 
 router = APIRouter()
 
@@ -38,7 +38,7 @@ async def get_most_viewed(chart: str):
 		message = "Parameter not acceptable."
 		return JSONResponse(message, status_code=400)
 
-@router.get("/manga/{slug}")
+@router.get("/manga/{slug}", response_model=MangaModel)
 async def get_manga(slug: str):
 	response = MangaScraper(slug).parse()
 	return response
