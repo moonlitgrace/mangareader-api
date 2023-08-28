@@ -1,3 +1,4 @@
+from fastapi.responses import JSONResponse
 from selectolax.parser import HTMLParser, Node
 import requests
 
@@ -64,25 +65,30 @@ class MangaScraper():
 		return item_list
 
 	def parse(self):
-		node = self.parser.css_first("#ani_detail")
+		try:
+			node = self.parser.css_first("#ani_detail")
 
-		manga_dict = {
-			"id": self.slug.split("-")[-1],
-			"title": self.__get_text(node, ".anisc-detail .manga-name"),
-			"alt_title": self.__get_text(node, ".anisc-detail .manga-name-or"),
-			"slug": self.slug,
-			"type": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(1) a"),
-			"status": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(2) .name"),
-			"published": self.__get_published(node),
-			"score": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(6) .name"),
-			"views": self.__get_views(node),
-			"cover": self.__get_attribute(node, ".anisc-poster .manga-poster-img", "src"),
-			"synopsis": self.__get_text(node, ".anisc-detail .sort-desc .description"),
-			"genres": self.__get_genres(node),
-			"authers": self.__get_authers(node),
-			"mangazines": self.__get_magazines(node),
-			"chapters": self.__get_chapters_volumes("chapter"),
-			"volumes": self.__get_chapters_volumes("vol")
-		}
+			manga_dict = {
+				"id": self.slug.split("-")[-1],
+				"title": self.__get_text(node, ".anisc-detail .manga-name"),
+				"alt_title": self.__get_text(node, ".anisc-detail .manga-name-or"),
+				"slug": self.slug,
+				"type": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(1) a"),
+				"status": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(2) .name"),
+				"published": self.__get_published(node),
+				"score": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(6) .name"),
+				"views": self.__get_views(node),
+				"cover": self.__get_attribute(node, ".anisc-poster .manga-poster-img", "src"),
+				"synopsis": self.__get_text(node, ".anisc-detail .sort-desc .description"),
+				"genres": self.__get_genres(node),
+				"authers": self.__get_authers(node),
+				"mangazines": self.__get_magazines(node),
+				"chapters": self.__get_chapters_volumes("chapter"),
+				"volumes": self.__get_chapters_volumes("vol")
+			}
 
-		return manga_dict
+			return manga_dict
+		
+		except:
+			message = {"message": "Manga not found."}
+			return JSONResponse(message, status_code=200)
