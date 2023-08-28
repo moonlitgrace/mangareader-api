@@ -68,19 +68,19 @@ class MangaScraper():
 
 		manga_dict = {
 			"id": self.slug.split("-")[-1],
-			"slug": self.slug,
 			"title": self.__get_text(node, ".anisc-detail .manga-name"),
 			"alt_title": self.__get_text(node, ".anisc-detail .manga-name-or"),
-			"cover": self.__get_attribute(node, ".anisc-poster .manga-poster-img", "src"),
-			"synopsis": self.__get_text(node, ".anisc-detail .sort-desc .description"),
-			"genres": self.__get_genres(node),
+			"slug": self.slug,
 			"type": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(1) a"),
 			"status": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(2) .name"),
-			"authers": self.__get_authers(node),
-			"mangazines": self.__get_magazines(node),
 			"published": self.__get_published(node),
 			"score": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(6) .name"),
 			"views": self.__get_views(node),
+			"cover": self.__get_attribute(node, ".anisc-poster .manga-poster-img", "src"),
+			"synopsis": self.__get_text(node, ".anisc-detail .sort-desc .description"),
+			"genres": self.__get_genres(node),
+			"authers": self.__get_authers(node),
+			"mangazines": self.__get_magazines(node),
 			"chapters": self.__get_chapters_volumes("chapter"),
 			"volumes": self.__get_chapters_volumes("vol")
 		}
