@@ -37,12 +37,25 @@ class MostViewedScraper:
 		cover = self.__get_attribute(node, "img.manga-poster-img", "src")
 		return cover.replace("200x300", "500x800") if cover else None
 
+	def __get_views(self, node: Node):
+		views_string = self.__get_text(node, ".fd-infor .fdi-view")
+		if views_string:
+			views = views_string.split()[0].replace(",", "")
+			return views
+		return None
+
+	def __get_langs(self, node: Node):
+		langs_string = self.__get_text(node, ".fd-infor > span:nth-child(1)")
+		return [lang for lang in langs_string.split("/")] if langs_string else None
+
 	def __build_dict(self, node: Node):
 		manga_dict = {
 			"rank":	self.__get_text(node, ".ranking-number span"),
 			"title": self.__get_text(node, ".manga-detail .manga-name a"),
 			"slug": self.__get_slug(node),
-			"cover": self.__get_cover(node)
+			"cover": self.__get_cover(node),
+			"views": self.__get_views(node),
+			"langs": self.__get_langs(node)
 		}
 
 		return manga_dict
