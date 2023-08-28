@@ -5,39 +5,6 @@
 MangaAPI is a Python-based web scraping tool built with FastAPI that provides easy access to manga content from the MangaReader.to website. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.
 </p>
 
-<h2>Api reference</h2>
-<p>
-    All endpoints aren't implemented yet, working on that. Take a look at the working endpoints. <br>
-    Also more detailed documentation will be added later. <br>
-    Check FastAPI docs: https://manga-api-70c3.onrender.com/docs
-</p>
-
-<p><b>GET Manga details</b>: <br> Get information of specific Manga</p>
-
-```url
-    GET https://manga-api-70c3.onrender.com/v1/manga/{manga_slug}
-```
-`manga_slug`: Slug of manga, provided from other endpoints, eg: [`one-piece-3`](https://manga-api-70c3.onrender.com/v1/manga/one-piece-3)
-
-<p><b>GET Most Viewed mangas</b>: <br> Get information of most viewed managas</p>
-
-```url
-    GET https://manga-api-70c3.onrender.com/v1/most-viewed/{chart}
-```
-`chart`: Possible values: `today` `week`, `month`, eg: [`today`](https://manga-api-70c3.onrender.com/v1/most-viewed/today)
-
-<p><b>GET Popular Manga's</b>: <br> Get information of Popular managas</p>
-
-```url
-    GET https://manga-api-70c3.onrender.com/v1/popular
-```
-
-<p><b>GET Top 10 Manga's</b>: <br> Get information of Top 10 managas</p>
-
-```url
-    GET https://manga-api-70c3.onrender.com/v1/top-10
-```
-
 <h2>Features</h2>
 <ul>
     <li><b>Effortless Scraping</b>: Harness the power of web scraping to extract manga data from <a href="mangareader.to">mangareader.to</a> effortlessly.</li>
