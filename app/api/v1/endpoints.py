@@ -7,7 +7,7 @@ from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
 # models
-from .models import PopularMangaModel, BaseModel, TopTenMangaModel
+from .models import PopularMangaModel, BaseModel, TopTenMangaModel, MostViewedMangaModel
 
 router = APIRouter()
 
@@ -25,7 +25,7 @@ async def get_top_ten():
 	response = TopTenScraper().parse()
 	return response
 
-@router.get("/most-viewed/{chart}")
+@router.get("/most-viewed/{chart}", response_model=list[MostViewedMangaModel])
 async def get_most_viewed(chart: str):
 	most_viewed_scraper = MostViewedScraper()
 
