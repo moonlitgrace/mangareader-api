@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 # scrapers
 from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
+from .scrapers.most_viewed import MostViewedScraper
 # models
 from .models import PopularMangaModel, BaseModel, TopTenMangaModel
 
@@ -26,4 +27,11 @@ async def get_top_ten():
 
 @router.get("/most-viewed/{chart}")
 async def get_most_viewed(chart: str):
-	return None
+	most_viewed_scraper = MostViewedScraper()
+
+	if chart in most_viewed_scraper.CHARTS:
+		response = most_viewed_scraper.parse(chart)
+		return response
+	else:
+		message = "Parameter not acceptable."
+		return JSONResponse(message, status_code=400)
