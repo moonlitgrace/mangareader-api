@@ -48,6 +48,14 @@ class MostViewedScraper:
 		langs_string = self.__get_text(node, ".fd-infor > span:nth-child(1)")
 		return [lang for lang in langs_string.split("/")] if langs_string else None
 
+	def __get_chapters_volumes(self, node: Node, index: int):
+		data_string = self.__get_text(node, f".d-block span:nth-child({index})")
+		return data_string.split()[1] if data_string else None
+
+	def __get_genres(self, node: Node):
+		genres = node.css(".fd-infor .fdi-cate a")
+		return [genre.text() for genre in genres] if genres else None
+
 	def __build_dict(self, node: Node):
 		manga_dict = {
 			"rank":	self.__get_text(node, ".ranking-number span"),
@@ -55,7 +63,10 @@ class MostViewedScraper:
 			"slug": self.__get_slug(node),
 			"cover": self.__get_cover(node),
 			"views": self.__get_views(node),
-			"langs": self.__get_langs(node)
+			"langs": self.__get_langs(node),
+			"chapters": self.__get_chapters_volumes(node, 1),
+			"volumes": self.__get_chapters_volumes(node, 2),
+			"genres": self.__get_genres(node)
 		}
 
 		return manga_dict
