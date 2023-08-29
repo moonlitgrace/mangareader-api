@@ -13,12 +13,12 @@ from .models import PopularMangaModel, BaseModel, TopTenMangaModel, MostViewedMa
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", include_in_schema=False)
 async def root():
 	return { "message": "MangaAPI V1 API" }
 
 @router.get("/popular", response_model=list[PopularMangaModel])
-async def get_trending_mangas():
+async def get_popular():
 	response =  PopularScraper().parse()
 	return response
 
