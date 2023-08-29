@@ -1,6 +1,9 @@
 <img src="https://github.com/tokitou-san/MangaAPI/assets/114811070/963b64c2-76e0-47d9-b25e-993786cb795d" />
 <br>
 <br>
+<p align="center">
+    <b>API documentation</b>: https://manga-api-70c3.onrender.com/
+</p>
 <p>
 MangaAPI is a Python-based web scraping tool built with FastAPI that provides easy access to manga content from the MangaReader.to website. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.
 </p>
