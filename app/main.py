@@ -32,9 +32,13 @@ def custom_openapi():
         description=description,
         servers=[
             {
-                "url": "https://manga-api-70c3.onrender.com/v1",
-                "description": "v1 API"
-            }
+              "url": "https://manga-api-70c3.onrender.com/",
+              "description": "BASE API URL"
+            },
+            {
+              "url": "https://manga-api-70c3.onrender.com/v1/",
+              "description": "v1 API URL"
+            },
         ],
         license_info={
             "name": "MIT",
