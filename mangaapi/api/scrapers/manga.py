@@ -1,4 +1,3 @@
-from fastapi.responses import JSONResponse
 from selectolax.parser import HTMLParser, Node
 import requests
 
@@ -91,4 +90,4 @@ class MangaScraper():
 		
 		except:
 			message = {"message": "Manga not found."}
-			return JSONResponse(message, status_code=200)
+			return message
