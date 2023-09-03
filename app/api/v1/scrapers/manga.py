@@ -86,9 +86,20 @@ class MangaScraper():
 				"chapters": self.__get_chapters_volumes("chapter"),
 				"volumes": self.__get_chapters_volumes("vol")
 			}
-
 			return manga_dict
 		
-		except:
-			message = {"message": "Manga not found."}
-			return JSONResponse(message, status_code=200)
+		except Exception as e:
+			error = "Manga not found!"
+			message = f"Couldn't find a manga with slug - '{self.slug}'. Try another one!"
+			status_code = 404
+
+			return JSONResponse(
+				content = {
+					"detail": {
+						"error": error,
+						"message": message,
+						"status_code": status_code
+					}
+				},
+				status_code=status_code
+			)
