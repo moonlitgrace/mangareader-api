@@ -35,8 +35,20 @@ async def get_most_viewed(chart: str):
 		response = most_viewed_scraper.parse(chart)
 		return response
 	else:
-		message = "Parameter not acceptable."
-		return JSONResponse(message, status_code=400)
+		error = f"{chart} not in {', '.join(most_viewed_scraper.CHARTS)}"
+		message = f"Passed query ({chart}) is invalid. Valid queries {' | '.join(most_viewed_scraper.CHARTS)}"
+		status_code = 400
+
+		return JSONResponse(
+			content = {
+				"detail": {
+					"error": error,
+					"message": message,
+					"status_code": status_code
+				}
+			},
+			status_code=status_code
+		)
 
 @router.get("/manga/{slug}", response_model=MangaModel)
 async def get_manga(slug: str):
