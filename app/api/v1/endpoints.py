@@ -19,16 +19,17 @@ from .models import (
 # router
 router = APIRouter()
 
+# get popular/trending mangas list
 @router.get("/popular", response_model=list[PopularMangaModel])
 async def get_popular():
-	response =  PopularScraper().parse()
-	return response
+	return PopularScraper().parse()
 
+# get top 10 mangas list
 @router.get("/top-10", response_model=list[TopTenMangaModel])
 async def get_top_ten():
-	response = TopTenScraper().parse()
-	return response
+	return TopTenScraper().parse()
 
+# get most viewed mangas list by chart (dynamic)
 @router.get("/most-viewed/{chart}", response_model=list[MostViewedMangaModel])
 async def get_most_viewed(chart: str):
 	most_viewed_scraper = MostViewedScraper()
@@ -51,6 +52,7 @@ async def get_most_viewed(chart: str):
 			status_code=status_code
 		)
 
+# get details about specific manga
 @router.get("/manga/{slug}", response_model=MangaModel)
 async def get_manga(slug: str):
 	return MangaScraper(slug).parse()
