@@ -1,17 +1,12 @@
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
-from fastapi.responses import FileResponse
 # v1 api
-from app.api.v1 import endpoints
+from app.api.v1.endpoints import router as v1_router
 
 app = FastAPI()
 
-@app.get("/", response_class=FileResponse, include_in_schema=False)
-async def root():
-	return FileResponse("docs/index.html", status_code=200)
-
 # v1 api routes
-app.include_router(endpoints.router, prefix="/v1")
+app.include_router(v1_router, prefix="/v1")
 
 # overrite "openapi.json"
 def custom_openapi():
