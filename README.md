@@ -2,7 +2,7 @@
 <br>
 <br>
 <p align="center">
-    <b>API documentation</b>: https://manga-api-70c3.onrender.com/
+    <b>API documentation</b>: https://manga-api-70c3.onrender.com/docs
 </p>
 <p>
 MangaAPI is a Python-based web scraping tool built with FastAPI that provides easy access to manga content from the MangaReader.to website. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.
