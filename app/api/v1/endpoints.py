@@ -110,6 +110,7 @@ async def search(keyword: str, offset: int = 0, limit: int = Query(10, le=10)):
 		)
 
 @router.get("/random")
+@handle_exceptions("Something went wrong, please try again!", 503)
 async def random():
 	response = RandomScraper().parse()
 	return response
