@@ -4,8 +4,6 @@ from ..utils import get_attribute, get_text
 
 class MangaScraper():
 	def __init__(self, slug: str):
-		super().__init__()
-
 		# get parser
 		self.slug = slug
 		self.parser = self.__get_parser()

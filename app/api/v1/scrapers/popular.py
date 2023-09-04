@@ -4,8 +4,6 @@ from ..utils import get_attribute, get_text
 
 class PopularScraper:
 	def __init__(self) -> None:
-		super().__init__()
-
 		# get parser
 		self.parser = self.__get_parser()
 

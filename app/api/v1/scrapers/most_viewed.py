@@ -7,8 +7,6 @@ class MostViewedScraper:
 	# eg. "today" | "week" | "month"
 	CHARTS = ["today", "week", "month"]
 	def __init__(self):
-		super().__init__()
-
 		# get parser
 		self.parser = self.__get_parser()
 

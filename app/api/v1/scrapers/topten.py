@@ -4,8 +4,6 @@ from ..utils import get_text, get_attribute
 
 class TopTenScraper():
     def __init__(self):
-        super().__init__()
-
         # get parser
         self.parser = self.__get_parser()
     
