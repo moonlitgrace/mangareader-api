@@ -16,7 +16,8 @@ from .models import (
 	BaseModel,
 	TopTenMangaModel,
 	MostViewedMangaModel,
-	MangaModel
+	MangaModel,
+	SearchMangaModel
 )
 
 # router
@@ -64,7 +65,7 @@ async def get_manga(slug: str):
 	return response
 
 # search mangas
-@router.get("/search")
+@router.get("/search", response_model=list[SearchMangaModel])
 async def search(keyword: str):
 	response = SearchScraper(keyword).parse()
 	return response
