@@ -24,21 +24,36 @@ from .models import (
 router = APIRouter()
 
 # get popular/trending mangas list
-@router.get("/popular", response_model=list[PopularMangaModel])
+@router.get(
+	"/popular",
+	response_model=list[PopularMangaModel],
+	summary="Popular Mangas",
+	description="Get a list of Mangas which is popular/trending this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
+)
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def get_popular(offset: int = 0, limit: int = Query(10, lt=10)):
 	response = PopularScraper().parse()
 	return response[offset: offset+limit]
 
 # get top 10 mangas list
-@router.get("/top-10", response_model=list[TopTenMangaModel])
+@router.get(
+	"/top-10",
+	response_model=list[TopTenMangaModel],
+	summary="Top 10 Mangas",
+	description="Get a list of Mangas which is top 10 this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
+)
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def get_top_ten(offset: int = 0, limit: int = Query(10, lt=10)):
 	response = TopTenScraper().parse()
 	return response[offset: offset+limit]
 
 # get most viewed mangas list by chart (dynamic)
-@router.get("/most-viewed/{chart}", response_model=list[MostViewedMangaModel])
+@router.get(
+	"/most-viewed/{chart}",
+	response_model=list[MostViewedMangaModel],
+	summary="Most Viewd Mangas",
+	description="Get a list of Mangas which is most viewed by chart - `today` `week` `month`. Returns basic details of mangas, use its `slug` to get more details of Manga."
+)
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def get_most_viewed(chart: str):
 	most_viewed_scraper = MostViewedScraper()
@@ -58,14 +73,24 @@ async def get_most_viewed(chart: str):
 		)
 
 # get details about specific manga
-@router.get("/manga/{slug}", response_model=MangaModel)
+@router.get(
+	"/manga/{slug}",
+	response_model=MangaModel,
+	summary="Manga",
+	description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga."
+)
 @handle_exceptions("Manga not found, try another!", 404)
 async def get_manga(slug: str):
 	response = MangaScraper(slug).parse()
 	return response
 
 # search mangas
-@router.get("/search", response_model=list[SearchMangaModel])
+@router.get(
+	"/search",
+	response_model=list[SearchMangaModel],
+	summary="Most Viewd Mangas",
+	description="Search Manga with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
+)
 async def search(keyword: str, offset: int = 0, limit: int = Query(10, le=10)):
 	response = SearchScraper(keyword).parse()
 	if response:
