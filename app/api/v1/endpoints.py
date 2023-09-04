@@ -10,6 +10,7 @@ from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
 from .scrapers.manga import MangaScraper
 from .scrapers.search import SearchScraper
+from .scrapers.random import RandomScraper
 # models
 from .models import (
 	PopularMangaModel,
@@ -107,3 +108,8 @@ async def search(keyword: str, offset: int = 0, limit: int = Query(10, le=10)):
 			},
 			status_code=status_code
 		)
+
+@router.get("/random")
+async def random():
+	response = RandomScraper().parse()
+	return response

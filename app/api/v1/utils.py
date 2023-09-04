@@ -5,7 +5,7 @@ from selectolax.parser import Node
 def get_text(node: Node, selector: str):
 	""" get text from a node according to css selector """
 	element = node.css_first(selector)
-	return element.text() if element else None
+	return element.text().strip() if element else None
 
 def get_attribute(node: Node, selector: str, attribute: str):
 	""" get content from a node according to css selector and attribute """
