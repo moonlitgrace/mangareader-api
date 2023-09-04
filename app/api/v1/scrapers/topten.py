@@ -1,4 +1,3 @@
-from fastapi.responses import JSONResponse
 from selectolax.parser import HTMLParser, Node
 import requests
 
@@ -61,32 +60,16 @@ class TopTenScraper():
         return manga_dict
 
     def parse(self):
-        try:
-            managas_list = []
+        managas_list = []
 
-            container = self.parser.css_first(".deslide-wrap #slider .swiper-wrapper")
-            node_list = container.css("div.swiper-slide")
+        container = self.parser.css_first(".deslide-wrap #slider .swiper-wrapper")
+        node_list = container.css("div.swiper-slide")
 
-            for index, node in enumerate(node_list, start=1):
-                manga_dict = {
-                    "id": index,
-                    **self.__build_dict(node)
-                }
+        for index, node in enumerate(node_list, start=1):
+            manga_dict = {
+                "id": index,
+                **self.__build_dict(node)
+            }
 
-                managas_list.append(manga_dict)
-            return managas_list
-        except Exception as e:
-            error = "Couldn't connect to website"
-            message = "Something went wrong while trying to scrape, please try again later!"
-            status_code = 503
-
-            return JSONResponse(
-                content = {
-                    "detail": {
-                        "error": error,
-                        "message": message,
-                        "status_code": status_code
-                    }
-                },
-                status_code=status_code
-            )
+            managas_list.append(manga_dict)
+        return managas_list

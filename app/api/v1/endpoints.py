@@ -1,7 +1,9 @@
 from dataclasses import astuple
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import JSONResponse
 
+# decorators
+from .decorators import handle_exceptions
 # scrapers
 from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
@@ -21,38 +23,41 @@ router = APIRouter()
 
 # get popular/trending mangas list
 @router.get("/popular", response_model=list[PopularMangaModel])
-async def get_popular():
-	return PopularScraper().parse()
+@handle_exceptions("Something went wrong, please try again!", 503)
+async def get_popular(offset: int = 0, limit: int = Query(10, lt=10)):
+	response = PopularScraper().parse()
+	return response[offset: offset+limit]
 
 # get top 10 mangas list
 @router.get("/top-10", response_model=list[TopTenMangaModel])
-async def get_top_ten():
-	return TopTenScraper().parse()
+@handle_exceptions("Something went wrong, please try again!", 503)
+async def get_top_ten(offset: int = 0, limit: int = Query(10, lt=10)):
+	response = TopTenScraper().parse()
+	return response[offset: offset+limit]
 
 # get most viewed mangas list by chart (dynamic)
 @router.get("/most-viewed/{chart}", response_model=list[MostViewedMangaModel])
+@handle_exceptions("Something went wrong, please try again!", 503)
 async def get_most_viewed(chart: str):
 	most_viewed_scraper = MostViewedScraper()
 
 	if chart in most_viewed_scraper.CHARTS:
 		return most_viewed_scraper.parse(chart)
 	else:
-		error = f"{chart} not in {', '.join(most_viewed_scraper.CHARTS)}"
 		message = f"Passed query ({chart}) is invalid. Valid queries {' | '.join(most_viewed_scraper.CHARTS)}"
 		status_code = 400
 
-		return JSONResponse(
-			content = {
-				"detail": {
-					"error": error,
-					"message": message,
-					"status_code": status_code
-				}
+		raise HTTPException(
+			detail = {
+				"message": message,
+				"status_code": status_code
 			},
 			status_code=status_code
 		)
 
 # get details about specific manga
 @router.get("/manga/{slug}", response_model=MangaModel)
+@handle_exceptions("Manga not found, try another!", 404)
 async def get_manga(slug: str):
-	return MangaScraper(slug).parse()
+	response = MangaScraper(slug).parse()
+	return response
