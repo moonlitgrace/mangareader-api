@@ -31,7 +31,7 @@ router = APIRouter()
 	description="Get a list of Mangas which is popular/trending this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
-async def get_popular(offset: int = 0, limit: int = Query(10, lt=10)):
+async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
 	response = PopularScraper().parse()
 	return response[offset: offset+limit]
 
@@ -43,7 +43,7 @@ async def get_popular(offset: int = 0, limit: int = Query(10, lt=10)):
 	description="Get a list of Mangas which is top 10 this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
-async def get_top_ten(offset: int = 0, limit: int = Query(10, lt=10)):
+async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
 	response = TopTenScraper().parse()
 	return response[offset: offset+limit]
 
@@ -51,15 +51,16 @@ async def get_top_ten(offset: int = 0, limit: int = Query(10, lt=10)):
 @router.get(
 	"/most-viewed/{chart}",
 	response_model=list[MostViewedMangaModel],
-	summary="Most Viewd Mangas",
+	summary="Most Viewed Mangas",
 	description="Get a list of Mangas which is most viewed by chart - `today` `week` `month`. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
-async def get_most_viewed(chart: str):
+async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le=10)):
 	most_viewed_scraper = MostViewedScraper()
 
 	if chart in most_viewed_scraper.CHARTS:
-		return most_viewed_scraper.parse(chart)
+		response = most_viewed_scraper.parse(chart)
+		return response[offset: offset+limit]
 	else:
 		message = f"Passed query ({chart}) is invalid. Valid queries {' | '.join(most_viewed_scraper.CHARTS)}"
 		status_code = 400
@@ -88,8 +89,8 @@ async def get_manga(slug: str):
 @router.get(
 	"/search",
 	response_model=list[SearchMangaModel],
-	summary="Most Viewd Mangas",
-	description="Search Manga with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
+	summary="Search Mangas",
+	description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
 )
 async def search(keyword: str, offset: int = 0, limit: int = Query(10, le=10)):
 	response = SearchScraper(keyword).parse()
