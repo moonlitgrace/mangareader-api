@@ -19,6 +19,10 @@ class RandomScraper:
         slug_string = get_attribute(node, "#ani_detail .ani_detail-stage .anis-content .anisc-detail .manga-buttons a", "href")
         return slug_string.split("/")[-1] if slug_string else None
 
+    def __get_id(self, node: Node):
+        slug = self.__get_slug(node)
+        return slug.split("-")[-1] if slug else None
+
     def __get_genres(self, node: Node):
         genres = node.css(".anisc-detail .sort-desc .genres a")
         return [genre.text() for genre in genres] if genres else None
@@ -60,7 +64,7 @@ class RandomScraper:
     def parse(self):
         node = self.parser.css_first("#ani_detail")
         manga_dict = {
-            "id": self.__get_slug(node),
+            "id": self.__get_id(node),
             "title": get_text(node, ".anisc-detail .manga-name"),
             "alt_title": get_text(node, ".anisc-detail .manga-name-or"),
             "slug": self.__get_slug(node),
