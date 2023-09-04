@@ -23,14 +23,14 @@ router = APIRouter()
 
 # get popular/trending mangas list
 @router.get("/popular", response_model=list[PopularMangaModel])
-@handle_exceptions("Something went wrong, please try again later!", 503)
+@handle_exceptions("Something went wrong, please try again!", 503)
 async def get_popular(skip: int = 0, limit: int = 10):
 	response = PopularScraper().parse()
 	return response[skip: skip+limit]
 
 # get top 10 mangas list
 @router.get("/top-10", response_model=list[TopTenMangaModel])
-@handle_exceptions("Something went wrong, please try again later!", 503)
+@handle_exceptions("Something went wrong, please try again!", 503)
 async def get_top_ten(skip: int = 0, limit: int = 10):
 	response = TopTenScraper().parse()
 	return response[skip: skip+limit]
@@ -58,7 +58,7 @@ async def get_most_viewed(chart: str):
 
 # get details about specific manga
 @router.get("/manga/{slug}", response_model=MangaModel)
-@handle_exceptions("Manga not found!", 404)
+@handle_exceptions("Manga not found, try another!", 404)
 async def get_manga(slug: str):
 	response = MangaScraper(slug).parse()
 	return response
