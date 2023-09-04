@@ -16,7 +16,7 @@ class SearchScraper:
 
 		return HTMLParser(res.content)
 
-	def __get_id(self, node):
+	def __get_id(self, node: Node):
 		id = self.__get_slug(node)
 		return id.split("-")[-1] if id else None
 
@@ -46,7 +46,7 @@ class SearchScraper:
 			return data_dict
 		return None
 
-	def parse(self):
+	def parse(self) -> list:
 		manga_list = []
 
 		container = self.parser.css_first(".manga_list-sbs .mls-wrap")
