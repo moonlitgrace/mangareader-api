@@ -1,6 +1,5 @@
-run:
+run: # run uvicorn server
 	poetry run uvicorn app.main:app --reload
 
-setup:
-	source venv/bin/activate
+install: # install deps from poetry
 	poetry install
