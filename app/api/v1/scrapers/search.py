@@ -3,14 +3,15 @@ from selectolax.parser import HTMLParser, Node
 from ..utils import slugify, get_text, get_attribute
 
 class SearchScraper:
-	def __init__(self, keyword):
+	def __init__(self, keyword, page):
 		# slugify keyword
 		self.keyword = slugify(keyword, "+")
+		self.page = page
 		# get parser
 		self.parser = self.__get_parser()
 	
 	def __get_parser(self):
-		url = f"https://mangareader.to/search?keyword={self.keyword}"
+		url = f"https://mangareader.to/search?keyword={self.keyword}&page={self.page}"
 		res = requests.get(url)
 
 		return HTMLParser(res.content)
