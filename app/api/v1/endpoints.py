@@ -61,3 +61,8 @@ async def get_most_viewed(chart: str):
 async def get_manga(slug: str):
 	response = MangaScraper(slug).parse()
 	return response
+
+# search mangas
+@router.get("/search")
+async def search(keyword: str):
+	return keyword.replace(" ", "+")
