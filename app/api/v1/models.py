@@ -53,8 +53,9 @@ class MangaModel(BaseModel):
 
 class SearchMangaModel(BaseModel):
 	id: int
+	manga_id: int
 	title: str
 	slug: str
 	cover: str
 	langs: list[str]
-	chapters: dict[str, str]
+	chapters: Optional[dict[str, str]]

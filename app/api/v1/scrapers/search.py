@@ -53,7 +53,8 @@ class SearchScraper:
 
 		for index, node in enumerate(node_list, start=1):
 			manga_dict = {
-				"id": self.__get_id(node),
+				"id": index,
+				"manga_id": self.__get_id(node),
 				"title": get_text(node, ".manga-detail .manga-name a"),
 				"slug": self.__get_slug(node),
 				"cover": get_attribute(node, ".manga-poster img", "src"),

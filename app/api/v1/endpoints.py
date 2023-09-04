@@ -66,10 +66,10 @@ async def get_manga(slug: str):
 
 # search mangas
 @router.get("/search", response_model=list[SearchMangaModel])
-async def search(keyword: str):
+async def search(keyword: str, offset: int = 0, limit: int = Query(10, le=10)):
 	response = SearchScraper(keyword).parse()
 	if response:
-		return response
+		return response[offset: offset+limit]
 	else:
 		message = f"Manga not found with query ({keyword}), try another!"
 		status_code = 404
