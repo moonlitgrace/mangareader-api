@@ -14,15 +14,18 @@ class PopularScraper:
 
 		return HTMLParser(res.content)
 
-	def __get_slug(self, node: Node):
+	@staticmethod
+	def __get_slug(node: Node):
 		slug = get_attribute(node, "a.link-mask", "href")
 		return slug.replace("/", "") if slug else None
 
-	def __get_langs(self, node: Node):
+	@staticmethod
+	def __get_langs(node: Node):
 		langs = get_text(node, ".mp-desc p:nth-of-type(3)")
 		return langs.split("/") if langs else None
 
-	def __get_chapters_volumes(self, node: Node, index: int):
+	@staticmethod
+	def __get_chapters_volumes(node: Node, index: int):
 		data = get_text(node, f".mp-desc p:nth-of-type({index})")
 		if data:
 			total = data.split()[1]
