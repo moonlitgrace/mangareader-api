@@ -9,6 +9,7 @@ from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
 from .scrapers.manga import MangaScraper
+from .scrapers.search import SearchScraper
 # models
 from .models import (
 	PopularMangaModel,
@@ -65,4 +66,5 @@ async def get_manga(slug: str):
 # search mangas
 @router.get("/search")
 async def search(keyword: str):
-	return keyword.replace(" ", "+")
+	response = SearchScraper(keyword).parse()
+	return response
