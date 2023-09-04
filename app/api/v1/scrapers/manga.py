@@ -1,5 +1,6 @@
-from selectolax.parser import HTMLParser, Node
 import requests
+from selectolax.parser import HTMLParser, Node
+from ..utils import get_attribute, get_text
 
 class MangaScraper():
 	def __init__(self, slug: str):
@@ -15,16 +16,6 @@ class MangaScraper():
 
 		return HTMLParser(res.content)
 
-	@staticmethod
-	def __get_text(node: Node, selector: str):
-		element = node.css_first(selector)
-		return element.text().strip() if element else None
-
-	@staticmethod
-	def __get_attribute(node: Node, selector: str, attribute: str):
-		element = node.css_first(selector)
-		return element.attributes[attribute] if element else None
-
 	def __get_genres(self, node: Node):
 		genres = node.css(".anisc-detail .sort-desc .genres a")
 		return [genre.text() for genre in genres] if genres else None
@@ -38,14 +29,14 @@ class MangaScraper():
 		return [magazine.text() for magazine in magazines] if magazines else None
 
 	def __get_published(self, node: Node):
-		published_string = self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(5) .name")
+		published_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(5) .name")
 		if published_string:
 			date = published_string.split(" to ")[0]
 			return date
 		return None
 
 	def __get_views(self, node: Node):
-		views_string = self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(7) .name")
+		views_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(7) .name")
 		return views_string.replace(",", "") if views_string else None
 
 	def __get_chapters_volumes(self, type: str):
@@ -67,16 +58,16 @@ class MangaScraper():
 		node = self.parser.css_first("#ani_detail")
 		manga_dict = {
 			"id": self.slug.split("-")[-1],
-			"title": self.__get_text(node, ".anisc-detail .manga-name"),
-			"alt_title": self.__get_text(node, ".anisc-detail .manga-name-or"),
+			"title": get_text(node, ".anisc-detail .manga-name"),
+			"alt_title": get_text(node, ".anisc-detail .manga-name-or"),
 			"slug": self.slug,
-			"type": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(1) a"),
-			"status": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(2) .name"),
+			"type": get_text(node, ".anisc-detail .anisc-info .item:nth-child(1) a"),
+			"status": get_text(node, ".anisc-detail .anisc-info .item:nth-child(2) .name"),
 			"published": self.__get_published(node),
-			"score": self.__get_text(node, ".anisc-detail .anisc-info .item:nth-child(6) .name"),
+			"score": get_text(node, ".anisc-detail .anisc-info .item:nth-child(6) .name"),
 			"views": self.__get_views(node),
-			"cover": self.__get_attribute(node, ".anisc-poster .manga-poster-img", "src"),
-			"synopsis": self.__get_text(node, ".anisc-detail .sort-desc .description"),
+			"cover": get_attribute(node, ".anisc-poster .manga-poster-img", "src"),
+			"synopsis": get_text(node, ".anisc-detail .sort-desc .description"),
 			"genres": self.__get_genres(node),
 			"authers": self.__get_authers(node),
 			"mangazines": self.__get_magazines(node),

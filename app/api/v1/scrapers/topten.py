@@ -1,5 +1,6 @@
-from selectolax.parser import HTMLParser, Node
 import requests
+from selectolax.parser import HTMLParser, Node
+from ..utils import get_text, get_attribute
 
 class TopTenScraper():
     def __init__(self):
@@ -15,22 +16,12 @@ class TopTenScraper():
 
         return HTMLParser(res.content)
 
-    @staticmethod
-    def __get_text(node: Node, selector: str):
-        element = node.css_first(selector)
-        return element.text() if element else None
-
-    @staticmethod
-    def __get_attribute(node: Node, selector: str, attribute: str):
-        element = node.css_first(selector)
-        return element.attributes[attribute] if element else None
-
     def __get_slug(self, node: Node):
-        slug = self.__get_attribute(node, ".desi-head-title a", "href")
+        slug = get_attribute(node, ".desi-head-title a", "href")
         return slug.replace("/", "") if slug else None
 
     def __get_chapters(self, node: Node):
-        chapters_string = self.__get_text(node, ".desi-sub-text")
+        chapters_string = get_text(node, ".desi-sub-text")
         if chapters_string:
             total = chapters_string.split()[1]
             lang = chapters_string.split()[2].translate(str.maketrans("", "", "[]"))
@@ -49,10 +40,10 @@ class TopTenScraper():
 
     def __build_dict(self, node: Node):
         manga_dict = {
-            "title": self.__get_text(node, ".desi-head-title a"),
+            "title": get_text(node, ".desi-head-title a"),
             "slug": self.__get_slug(node),
-            "cover": self.__get_attribute(node, "img.manga-poster-img", "src"),
-            "synopsis": self.__get_text(node, ".sc-detail .scd-item"),
+            "cover": get_attribute(node, "img.manga-poster-img", "src"),
+            "synopsis": get_text(node, ".sc-detail .scd-item"),
             "chapters": self.__get_chapters(node),
             "genres": self.__get_genres(node)
         }

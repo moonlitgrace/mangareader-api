@@ -1,11 +1,11 @@
-from selectolax.parser import HTMLParser, Node
 import requests
+from selectolax.parser import HTMLParser, Node
+from ..utils import get_text, get_attribute
 
 class MostViewedScraper:
 	# Charts
 	# eg. "today" | "week" | "month"
 	CHARTS = ["today", "week", "month"]
-
 	def __init__(self):
 		super().__init__()
 
@@ -19,37 +19,27 @@ class MostViewedScraper:
 
 		return HTMLParser(res.content)
 
-	@staticmethod
-	def __get_text(node: Node, selector: str):
-		element = node.css_first(selector)
-		return element.text() if element else None
-
-	@staticmethod
-	def __get_attribute(node: Node, selector: str, attribute: str):
-		element = node.css_first(selector)
-		return element.attributes[attribute] if element else None
-
 	def __get_slug(self, node: Node):
-		slug = self.__get_attribute(node, ".manga-detail .manga-name a", "href")
+		slug = get_attribute(node, ".manga-detail .manga-name a", "href")
 		return slug.replace("/", "") if slug else None
 
 	def __get_cover(self, node: Node):
-		cover = self.__get_attribute(node, "img.manga-poster-img", "src")
+		cover = get_attribute(node, "img.manga-poster-img", "src")
 		return cover.replace("200x300", "500x800") if cover else None
 
 	def __get_views(self, node: Node):
-		views_string = self.__get_text(node, ".fd-infor .fdi-view")
+		views_string = get_text(node, ".fd-infor .fdi-view")
 		if views_string:
 			views = views_string.split()[0].replace(",", "")
 			return views
 		return None
 
 	def __get_langs(self, node: Node):
-		langs_string = self.__get_text(node, ".fd-infor > span:nth-child(1)")
+		langs_string = get_text(node, ".fd-infor > span:nth-child(1)")
 		return [lang for lang in langs_string.split("/")] if langs_string else None
 
 	def __get_chapters_volumes(self, node: Node, index: int):
-		data_string = self.__get_text(node, f".d-block span:nth-child({index})")
+		data_string = get_text(node, f".d-block span:nth-child({index})")
 		return data_string.split()[1] if data_string else None
 
 	def __get_genres(self, node: Node):
@@ -58,8 +48,8 @@ class MostViewedScraper:
 
 	def __build_dict(self, node: Node):
 		manga_dict = {
-			"rank":	self.__get_text(node, ".ranking-number span"),
-			"title": self.__get_text(node, ".manga-detail .manga-name a"),
+			"rank":	get_text(node, ".ranking-number span"),
+			"title": get_text(node, ".manga-detail .manga-name a"),
 			"slug": self.__get_slug(node),
 			"cover": self.__get_cover(node),
 			"views": self.__get_views(node),

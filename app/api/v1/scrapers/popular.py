@@ -1,5 +1,6 @@
 import requests
 from selectolax.parser import HTMLParser, Node
+from ..utils import get_attribute, get_text
 
 class PopularScraper:
 	def __init__(self) -> None:
@@ -15,26 +16,16 @@ class PopularScraper:
 
 		return HTMLParser(res.content)
 
-	@staticmethod
-	def __get_text(node: Node, selector: str):
-		element = node.css_first(selector)
-		return element.text() if element else None
-
-	@staticmethod
-	def __get_attribute(node: Node, selector: str, attribute: str):
-		element = node.css_first(selector)
-		return element.attributes[attribute] if element else None
-
 	def __get_slug(self, node: Node):
-		slug = self.__get_attribute(node, "a.link-mask", "href")
+		slug = get_attribute(node, "a.link-mask", "href")
 		return slug.replace("/", "") if slug else None
 
 	def __get_langs(self, node: Node):
-		langs = self.__get_text(node, ".mp-desc p:nth-of-type(3)")
+		langs = get_text(node, ".mp-desc p:nth-of-type(3)")
 		return langs.split("/") if langs else None
 
 	def __get_chapters_volumes(self, node: Node, index: int):
-		data = self.__get_text(node, f".mp-desc p:nth-of-type({index})")
+		data = get_text(node, f".mp-desc p:nth-of-type({index})")
 		if data:
 			total = data.split()[1]
 			lang = data.split()[2].translate(str.maketrans("", "", "[]"))
@@ -49,11 +40,11 @@ class PopularScraper:
 
 	def __build_dict(self, node):
 		manga_dict = {
-			"rank": self.__get_text(node, ".number span"),
-			"title": self.__get_text(node, ".anime-name"),
+			"rank": get_text(node, ".number span"),
+			"title": get_text(node, ".anime-name"),
 			"slug": self.__get_slug(node),
-			"cover": self.__get_attribute(node, "img.manga-poster-img", "src"),
-			"rating": self.__get_text(node, ".mp-desc p:nth-of-type(2)"),
+			"cover": get_attribute(node, "img.manga-poster-img", "src"),
+			"rating": get_text(node, ".mp-desc p:nth-of-type(2)"),
 			"langs": self.__get_langs(node),
 			"chapters": self.__get_chapters_volumes(node, 4),
 			"volumes": self.__get_chapters_volumes(node, 5)
