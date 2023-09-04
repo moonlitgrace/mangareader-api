@@ -50,3 +50,12 @@ class MangaModel(BaseModel):
 	mangazines: list[str]
 	chapters: list[dict[str, str]]
 	volumes: list[dict[str, str]]
+
+class SearchMangaModel(BaseModel):
+	id: int
+	manga_id: int
+	title: str
+	slug: str
+	cover: str
+	langs: list[str]
+	chapters: Optional[dict[str, str]]
