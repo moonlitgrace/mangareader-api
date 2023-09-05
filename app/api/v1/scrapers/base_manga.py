@@ -1,5 +1,6 @@
 import requests
 from selectolax.parser import HTMLParser, Node
+
 from ..utils import get_attribute, get_text
 from ..decorators import return_on_error
 from ..utilities.string import StringHelper
@@ -8,7 +9,6 @@ class BaseMangaScraper:
     def __init__(self, url: str) -> None:
         self.url = url
         self.parser = self.__get_parser()
-
         self.string_helper = StringHelper()
 
     def __get_parser(self) -> HTMLParser:
@@ -16,14 +16,15 @@ class BaseMangaScraper:
         return HTMLParser(res.content)
 
     @property
-    def get_manga_id(self) -> str:
+    @return_on_error(0)
+    def get_manga_id(self):
         node = self.parser.css_first("meta[property='og:url']")
         slug = node.attributes["content"]
-        return slug.split("-")[-1] if slug else ""
+        return slug.split("-")[-1] if slug and not self.string_helper.is_url(slug) else 0
 
     @property
     @return_on_error("")
-    def get_title(self) -> str:
+    def get_title(self):
         node = self.parser.css_first(".anisc-detail .manga-name")
         return node.text(strip=True)
 
@@ -34,7 +35,8 @@ class BaseMangaScraper:
         return node.text(strip=True)
 
     @property
-    def get_slug(self) -> str:
+    @return_on_error("")
+    def get_slug(self):
         node = self.parser.css_first("#ani_detail .ani_detail-stage .anis-content .anisc-detail .manga-buttons a")
         slug = node.attributes["href"]
         return slug.split("/")[-1] if slug else ""
@@ -53,37 +55,37 @@ class BaseMangaScraper:
 
     @property
     @return_on_error([])
-    def get_genres(self) -> list:
+    def get_genres(self):
         genres = self.parser.css(".anisc-detail .sort-desc .genres a")
         return [genre.text(strip=True) for genre in genres]
 
     @property
     @return_on_error([])
-    def get_authers(self) -> list:
+    def get_authers(self):
         authers = self.parser.css(".anisc-detail .anisc-info .item:nth-child(3) a")
         return [auther.text(strip=True) for auther in authers]
 
     @property
     @return_on_error([])
-    def get_magazines(self) -> list:
+    def get_magazines(self):
         magazines = self.parser.css(".anisc-detail .anisc-info .item:nth-child(4) a")
         return [magazine.text() for magazine in magazines]
 
     @property
     @return_on_error("")
-    def get_published(self) -> str:
+    def get_published(self):
         published_string = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(5) .name")
         return published_string.text(strip=True).split(" to ")[0]
 
     @property
-    @return_on_error("")
+    @return_on_error(0)
     def get_score(self):
         node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(6) .name")
         return node.text(strip=True)
 
     @property
-    @return_on_error("")
-    def get_views(self) -> str:
+    @return_on_error(0)
+    def get_views(self):
         views_string = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(7) .name")
         return views_string.text(strip=True).replace(",", "")
 
@@ -102,7 +104,7 @@ class BaseMangaScraper:
 
     @property
     @return_on_error([])
-    def get_chapters(self) -> list:
+    def get_chapters(self):
         items = self.parser.css(f"#main-content #list-chapter .dropdown-menu a")
 
         item_list = []
@@ -119,7 +121,7 @@ class BaseMangaScraper:
 
     @property
     @return_on_error([])
-    def get_volumes(self) -> list:
+    def get_volumes(self):
         items = self.parser.css(f"#main-content #list-vol .dropdown-menu a")
 
         item_list = []
@@ -134,7 +136,7 @@ class BaseMangaScraper:
             item_list.append(item_dict)
         return item_list
 
-    def build_dict(self) -> dict:
+    def build_dict(self):
         manga_dict = {
             "manga_id": self.get_manga_id,
             "title": self.get_title,

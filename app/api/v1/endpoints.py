@@ -66,6 +66,7 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 
 @router.get(
 	"/manga/{slug}",
+	response_model=MangaModel,
 	summary="Manga",
 	description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga."
 )

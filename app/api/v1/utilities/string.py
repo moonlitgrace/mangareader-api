@@ -1,5 +1,6 @@
 import re
 import html
+from urllib.parse import urlparse
 
 class StringHelper:
     def clean(self, string: str) -> str:
@@ -20,3 +21,11 @@ class StringHelper:
         string = string.replace("\\", "")
 
         return string
+
+    def is_url(self, string: str) -> bool:
+        # Try to parse string as url
+        try:
+            url = urlparse(string)
+            return all([url.scheme, url.netloc])
+        except ValueError:
+            return False
