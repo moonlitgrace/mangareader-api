@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, Query
-from fastapi.responses import JSONResponse
 
 # decorators
 from .decorators import handle_exceptions
@@ -105,6 +104,7 @@ async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Quer
 
 @router.get(
 	"/random",
+	response_model=MangaModel,
 	summary="Random",
 	description="Get details about random Manga. Returns a `dict` of randomly picked Manga. Note: some fields might be `null` because all animes are not registered properly in database."
 )
