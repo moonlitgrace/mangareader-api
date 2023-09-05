@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException, Query
-from .utils import slugify
 
+from .utils import slugify
 # scrapers
 from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
-from .scrapers.manga import MangaScraper
 from .scrapers.random import RandomScraper
 from .scrapers.base_search import BaseSearchScraper
+from .scrapers.base_manga import BaseMangaScraper
 # models
 from .models import (
 	PopularMangaModel,
@@ -71,7 +71,7 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 	description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga."
 )
 async def get_manga(slug: str):
-	response = MangaScraper(slug).scrape()
+	response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").build_dict()
 	return response
 
 @router.get(
@@ -92,7 +92,7 @@ async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Quer
 	description="Get details about random Manga. Returns a `dict` of randomly picked Manga. Note: some fields might be `null` because all animes are not registered properly in database."
 )
 async def random():
-	response = RandomScraper().scrape()
+	response = BaseMangaScraper(url="https://mangareader.to/random/").build_dict()
 	return response
 
 @router.get("/completed")
