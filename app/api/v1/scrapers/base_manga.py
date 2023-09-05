@@ -8,42 +8,42 @@ class BaseMangaScraper:
         # get parser
         self.parser = self.__get_parser()
 
-    def __get_parser(self):
+    def __get_parser(self) -> HTMLParser:
         res = requests.get(self.url)
         return HTMLParser(res.content)
 
-    def __get_slug(self, node: Node):
+    def __get_slug(self, node: Node) -> str | None:
         slug_string = get_attribute(node, "#ani_detail .ani_detail-stage .anis-content .anisc-detail .manga-buttons a", "href")
         return slug_string.split("/")[-1] if slug_string else None
 
-    def __get_id(self, node: Node):
+    def __get_id(self, node: Node) -> str | None:
         slug = self.__get_slug(node)
         return slug.split("-")[-1] if slug else None
 
-    def __get_genres(self, node: Node):
+    def __get_genres(self, node: Node) -> list | None:
         genres = node.css(".anisc-detail .sort-desc .genres a")
         return [genre.text() for genre in genres] if genres else None
 
-    def __get_authers(self, node: Node):
+    def __get_authers(self, node: Node) -> list | None:
         authers = node.css(".anisc-detail .anisc-info .item:nth-child(3) a")
         return [auther.text() for auther in authers] if authers else None
 
-    def __get_magazines(self, node: Node):
+    def __get_magazines(self, node: Node) -> list | None:
         magazines = node.css(".anisc-detail .anisc-info .item:nth-child(4) a")
         return [magazine.text() for magazine in magazines] if magazines else None
 
-    def __get_published(self, node: Node):
+    def __get_published(self, node: Node) -> str | None:
         published_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(5) .name")
         if published_string:
             date = published_string.split(" to ")[0]
             return date
         return None
 
-    def __get_views(self, node: Node):
+    def __get_views(self, node: Node) -> str | None:
         views_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(7) .name")
         return views_string.replace(",", "") if views_string else None
 
-    def __get_chapters_volumes(self, type: str):
+    def __get_chapters_volumes(self, type: str) -> list | None:
         items = self.parser.css(f"#main-content #list-{type} .dropdown-menu a")
 
         item_list = []
@@ -58,7 +58,7 @@ class BaseMangaScraper:
             item_list.append(item_dict)
         return item_list
 
-    def build_dict(self, node):
+    def build_dict(self, node: Node) -> dict:
         manga_dict = {
             "manga_id": self.__get_id(node),
             "title": get_text(node, ".anisc-detail .manga-name"),
