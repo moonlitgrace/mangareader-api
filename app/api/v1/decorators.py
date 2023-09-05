@@ -1,16 +1,19 @@
-from functools import wraps
-from fastapi import HTTPException
+import functools
+from collections.abc import Callable
+from typing import Any, TypeVar
 
-def handle_exceptions(error: str, status_code: int):
-	def decorator(func):
-		@wraps(func)
-		async def wrapper(*args, **kwargs):
-			try:
-				return await func(*args, **kwargs)
-			except Exception as e:
-				raise HTTPException(
-					detail=error,
-					status_code=status_code
-				)
-		return wrapper
-	return decorator
+T = TypeVar("T")
+
+def return_on_error(
+    return_type: T,
+) -> Callable[[Callable[..., Any]], Callable[..., T]]:
+    def decorator(func: Callable[..., Any]) -> Callable[..., T]:
+        @functools.wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> T:
+            try:
+                return func(*args, **kwargs)
+
+            except AttributeError:
+                return return_type
+        return wrapper
+    return decorator

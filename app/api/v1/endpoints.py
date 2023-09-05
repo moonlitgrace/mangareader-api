@@ -1,14 +1,11 @@
 from fastapi import APIRouter, HTTPException, Query
 from .utils import slugify
 
-# decorators
-from .decorators import handle_exceptions
 # scrapers
 from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
 from .scrapers.manga import MangaScraper
-from .scrapers.search import SearchScraper
 from .scrapers.random import RandomScraper
 from .scrapers.base_search import BaseSearchScraper
 # models
@@ -29,7 +26,6 @@ router = APIRouter()
 	summary="Popular Mangas",
 	description="Get a list of Mangas which is popular/trending this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
-@handle_exceptions("Something went wrong, please try again!", 503)
 async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
 	response = PopularScraper().scrape()
 	return response[offset: offset+limit]
@@ -40,7 +36,6 @@ async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
 	summary="Top 10 Mangas",
 	description="Get a list of Mangas which is top 10 this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
-@handle_exceptions("Something went wrong, please try again!", 503)
 async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
 	response = TopTenScraper().scrape()
 	return response[offset: offset+limit]
@@ -51,7 +46,6 @@ async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
 	summary="Most Viewed Mangas",
 	description="Get a list of Mangas which is most viewed by chart - `today` `week` `month`. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
-@handle_exceptions("Something went wrong, please try again!", 503)
 async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le=10)):
 	most_viewed_scraper = MostViewedScraper()
 
@@ -76,7 +70,6 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 	summary="Manga",
 	description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga."
 )
-@handle_exceptions("Manga not found, try another!", 404)
 async def get_manga(slug: str):
 	response = MangaScraper(slug).scrape()
 	return response
@@ -87,9 +80,9 @@ async def get_manga(slug: str):
 	summary="Search Mangas",
 	description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
 )
-@handle_exceptions("Something went wrong, please try again!", 503)
 async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)):
-	response = SearchScraper(keyword, page).scrape()
+	url = f"https://mangareader.to/search?keyword={keyword}&page={page}"
+	response = BaseSearchScraper(url).scrape()
 	if response:
 		return response[offset: offset+limit]
 	else:
@@ -110,15 +103,12 @@ async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Quer
 	summary="Random",
 	description="Get details about random Manga. Returns a `dict` of randomly picked Manga. Note: some fields might be `null` because all animes are not registered properly in database."
 )
-@handle_exceptions("Something went wrong, please try again!", 503)
 async def random():
 	response = RandomScraper().scrape()
 	return response
 
 @router.get("/completed")
-@handle_exceptions("Something went wrong, please try again!", 503)
 async def completed(page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)):
-	
 	slugified_sort = slugify(sort, "-")
 	url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
 	response = BaseSearchScraper(url).scrape()
