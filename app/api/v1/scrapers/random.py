@@ -1,4 +1,4 @@
-from .base_manga import BaseMangaScraper
+from .base import BaseMangaScraper
 
 class RandomScraper(BaseMangaScraper):
     def __init__(self) -> None:
