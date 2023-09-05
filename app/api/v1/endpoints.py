@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Query
+from .utils import slugify
 
 # decorators
 from .decorators import handle_exceptions
@@ -9,6 +10,7 @@ from .scrapers.most_viewed import MostViewedScraper
 from .scrapers.manga import MangaScraper
 from .scrapers.search import SearchScraper
 from .scrapers.random import RandomScraper
+from .scrapers.base_search import BaseSearchScraper
 # models
 from .models import (
 	PopularMangaModel,
@@ -112,3 +114,24 @@ async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Quer
 async def random():
 	response = RandomScraper().scrape()
 	return response
+
+@router.get("/completed")
+@handle_exceptions("Something went wrong, please try again!", 503)
+async def completed(page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)):
+	
+	slugified_sort = slugify(sort, "-")
+	url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
+	response = BaseSearchScraper(url).scrape()
+	if response:
+		return response[offset: offset+limit]
+	else:
+		message = f"Manga not found with sort ({sort}), try another!"
+		status_code = 404
+
+		raise HTTPException(
+			detail = {
+				"message": message,
+				"status_code": status_code
+			},
+			status_code=status_code
+		)
