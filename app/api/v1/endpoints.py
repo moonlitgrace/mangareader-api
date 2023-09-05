@@ -93,6 +93,7 @@ async def get_manga(slug: str):
 	summary="Search Mangas",
 	description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
 )
+@handle_exceptions("Something went wrong, please try again!", 503)
 async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)):
 	response = SearchScraper(keyword, page).parse()
 	if response:

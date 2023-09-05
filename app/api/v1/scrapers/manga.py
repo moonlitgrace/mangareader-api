@@ -1,6 +1,6 @@
-from .base import BaseScraper
+from .base_manga import BaseMangaScraper
 
-class MangaScraper(BaseScraper):
+class MangaScraper(BaseMangaScraper):
 	def __init__(self, slug: str) -> None:
 		self.slug = slug
 		super().__init__(url=f"https://mangareader.to/{self.slug}")
