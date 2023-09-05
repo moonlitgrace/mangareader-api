@@ -1,6 +1,7 @@
 import requests
 from selectolax.parser import HTMLParser, Node
 from ..utils import get_attribute, get_text
+from ..decorators import return_on_error
 
 class BaseMangaScraper:
     def __init__(self, url: str) -> None:
@@ -12,36 +13,95 @@ class BaseMangaScraper:
         res = requests.get(self.url)
         return HTMLParser(res.content)
 
-    def __get_slug(self, node: Node) -> str | None:
-        slug_string = get_attribute(node, "#ani_detail .ani_detail-stage .anis-content .anisc-detail .manga-buttons a", "href")
-        return slug_string.split("/")[-1] if slug_string else None
+    @property
+    def get_manga_id(self) -> str:
+        node = self.parser.css_first("meta[property='og:url']")
+        slug = node.attributes["content"]
+        return slug.split("-")[-1] if slug else ""
 
-    def __get_id(self, node: Node) -> str | None:
-        slug = self.__get_slug(node)
-        return slug.split("-")[-1] if slug else None
+    @property
+    @return_on_error("")
+    def get_title(self) -> str:
+        node = self.parser.css_first(".anisc-detail .manga-name")
+        return node.text(strip=True)
 
-    def __get_genres(self, node: Node) -> list | None:
-        genres = node.css(".anisc-detail .sort-desc .genres a")
-        return [genre.text() for genre in genres] if genres else None
+    @property
+    @return_on_error("")
+    def get_alt_title(self):
+        node = self.parser.css_first(".anisc-detail .manga-name-or")
+        return node.text(strip=True)
 
-    def __get_authers(self, node: Node) -> list | None:
-        authers = node.css(".anisc-detail .anisc-info .item:nth-child(3) a")
-        return [auther.text() for auther in authers] if authers else None
+    @property
+    def get_slug(self) -> str:
+        node = self.parser.css_first("#ani_detail .ani_detail-stage .anis-content .anisc-detail .manga-buttons a")
+        slug = node.attributes["href"]
+        return slug.split("/")[-1] if slug else ""
 
-    def __get_magazines(self, node: Node) -> list | None:
-        magazines = node.css(".anisc-detail .anisc-info .item:nth-child(4) a")
-        return [magazine.text() for magazine in magazines] if magazines else None
+    @property
+    @return_on_error("")
+    def get_manga_type(self):
+        node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(1) a")
+        return node.text(strip=True).lower()
 
-    def __get_published(self, node: Node) -> str | None:
-        published_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(5) .name")
-        return published_string.split(" to ")[0] if published_string else None
+    @property
+    @return_on_error("")
+    def get_status(self):
+        node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(2) .name")
+        return node.text(strip=True).lower()
 
-    def __get_views(self, node: Node) -> str | None:
-        views_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(7) .name")
-        return views_string.replace(",", "") if views_string else None
+    @property
+    @return_on_error([])
+    def get_genres(self) -> list:
+        genres = self.parser.css(".anisc-detail .sort-desc .genres a")
+        return [genre.text(strip=True) for genre in genres]
 
-    def __get_chapters_volumes(self, type: str) -> list | None:
-        items = self.parser.css(f"#main-content #list-{type} .dropdown-menu a")
+    @property
+    @return_on_error([])
+    def get_authers(self) -> list:
+        authers = self.parser.css(".anisc-detail .anisc-info .item:nth-child(3) a")
+        return [auther.text(strip=True) for auther in authers]
+
+    @property
+    @return_on_error([])
+    def get_magazines(self) -> list:
+        magazines = self.parser.css(".anisc-detail .anisc-info .item:nth-child(4) a")
+        return [magazine.text() for magazine in magazines]
+
+    @property
+    @return_on_error("")
+    def get_published(self) -> str:
+        published_string = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(5) .name")
+        return published_string.text(strip=True).split(" to ")[0]
+
+    @property
+    @return_on_error("")
+    def get_score(self):
+        node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(6) .name")
+        return node.text(strip=True)
+
+    @property
+    @return_on_error("")
+    def get_views(self) -> str:
+        views_string = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(7) .name")
+        return views_string.text(strip=True).replace(",", "")
+
+    @property
+    @return_on_error("")
+    def get_manga_cover(self):
+        node = self.parser.css_first(".anisc-poster .manga-poster-img")
+        image = node.attributes["src"]
+        return image
+
+    @property
+    @return_on_error("")
+    def get_synopsis(self):
+        node = self.parser.css_first(".anisc-detail .sort-desc .description")
+        return node.text(strip=True)
+
+    @property
+    @return_on_error([])
+    def get_chapters(self) -> list:
+        items = self.parser.css(f"#main-content #list-chapter .dropdown-menu a")
 
         item_list = []
         for item in items:
@@ -53,26 +113,43 @@ class BaseMangaScraper:
             }
 
             item_list.append(item_dict)
-        return item_list if item_list else None
+        return item_list
 
-    def build_dict(self, node: Node) -> dict:
+    @property
+    @return_on_error([])
+    def get_volumes(self) -> list:
+        items = self.parser.css(f"#main-content #list-vol .dropdown-menu a")
+
+        item_list = []
+        for item in items:
+            text = item.text().translate(str.maketrans("", "", "[]()"))
+
+            item_dict = {
+                "total": text.split()[2],
+                "lang": text.split()[0]
+            }
+
+            item_list.append(item_dict)
+        return item_list
+
+    def build_dict(self) -> dict:
         manga_dict = {
-            "manga_id": self.__get_id(node),
-            "title": get_text(node, ".anisc-detail .manga-name"),
-            "alt_title": get_text(node, ".anisc-detail .manga-name-or"),
-            "slug": self.__get_slug(node),
-            "type": get_text(node, ".anisc-detail .anisc-info .item:nth-child(1) a"),
-            "status": get_text(node, ".anisc-detail .anisc-info .item:nth-child(2) .name"),
-            "published": self.__get_published(node),
-            "score": get_text(node, ".anisc-detail .anisc-info .item:nth-child(6) .name"),
-            "views": self.__get_views(node),
-            "cover": get_attribute(node, ".anisc-poster .manga-poster-img", "src"),
-            "synopsis": get_text(node, ".anisc-detail .sort-desc .description"),
-            "genres": self.__get_genres(node),
-            "authers": self.__get_authers(node),
-            "mangazines": self.__get_magazines(node),
-            "chapters": self.__get_chapters_volumes("chapter"),
-            "volumes": self.__get_chapters_volumes("vol")
+            "manga_id": self.get_manga_id,
+            "title": self.get_title,
+            "alt_title": self.get_alt_title,
+            "slug": self.get_slug,
+            "type": self.get_manga_type,
+            "status": self.get_status,
+            "published": self.get_published,
+            "score": self.get_score,
+            "views": self.get_views,
+            "cover": self.get_manga_cover,
+            "synopsis": self.get_synopsis,
+            "genres": self.get_genres,
+            "authers": self.get_authers,
+            "mangazines": self.get_magazines,
+            "chapters": self.get_chapters,
+            "volumes": self.get_volumes
         }
 
         return manga_dict

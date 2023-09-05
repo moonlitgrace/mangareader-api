@@ -6,5 +6,4 @@ class MangaScraper(BaseMangaScraper):
 		super().__init__(url=f"https://mangareader.to/{self.slug}")
 
 	def scrape(self) -> dict:
-		node = self.parser.css_first("#ani_detail")
-		return self.build_dict(node)
+		return self.build_dict()
