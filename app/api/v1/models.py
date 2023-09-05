@@ -34,7 +34,7 @@ class MostViewedMangaModel(BaseModel):
 	genres: list[str]
 
 class MangaModel(BaseModel):
-	id: int
+	manga_id: int
 	title: str
 	alt_title: str
 	slug: str
