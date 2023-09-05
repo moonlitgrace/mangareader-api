@@ -26,10 +26,7 @@ class MostViewedScraper:
 
 	def __get_views(self, node: Node) -> str | None:
 		views_string = get_text(node, ".fd-infor .fdi-view")
-		if views_string:
-			views = views_string.split()[0].replace(",", "")
-			return views
-		return None
+		return views_string.split()[0].replace(",", "") if views_string else None
 
 	def __get_langs(self, node: Node) -> list | None:
 		langs_string = get_text(node, ".fd-infor > span:nth-child(1)")
@@ -43,7 +40,7 @@ class MostViewedScraper:
 		genres = node.css(".fd-infor .fdi-cate a")
 		return [genre.text() for genre in genres] if genres else None
 
-	def __build_dict(self, node: Node):
+	def __build_dict(self, node: Node) -> dict:
 		manga_dict = {
 			"rank":	get_text(node, ".ranking-number span"),
 			"title": get_text(node, ".manga-detail .manga-name a"),

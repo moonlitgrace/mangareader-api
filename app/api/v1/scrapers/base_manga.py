@@ -34,10 +34,7 @@ class BaseMangaScraper:
 
     def __get_published(self, node: Node) -> str | None:
         published_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(5) .name")
-        if published_string:
-            date = published_string.split(" to ")[0]
-            return date
-        return None
+        return published_string.split(" to ")[0] if published_string else None
 
     def __get_views(self, node: Node) -> str | None:
         views_string = get_text(node, ".anisc-detail .anisc-info .item:nth-child(7) .name")
