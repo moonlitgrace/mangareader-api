@@ -46,9 +46,8 @@ class SearchScraper:
 			return data_dict
 		return None
 
-	def parse(self) -> list:
+	def scrape(self) -> list:
 		manga_list = []
-
 		container = self.parser.css_first(".manga_list-sbs .mls-wrap")
 		node_list = container.css("div.item.item-spc")
 

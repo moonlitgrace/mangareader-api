@@ -56,7 +56,7 @@ class BaseMangaScraper:
             }
 
             item_list.append(item_dict)
-        return item_list
+        return item_list if item_list else None
 
     def build_dict(self, node: Node) -> dict:
         manga_dict = {
