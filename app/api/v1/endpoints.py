@@ -83,7 +83,7 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 )
 @handle_exceptions("Manga not found, try another!", 404)
 async def get_manga(slug: str):
-	response = MangaScraper(slug).parse()
+	response = MangaScraper(slug).scrape()
 	return response
 
 # search mangas
