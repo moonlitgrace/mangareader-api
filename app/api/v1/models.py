@@ -41,15 +41,15 @@ class MangaModel(BaseModel):
 	type: str
 	status: str
 	published: str
-	score: float
-	views: int
+	score: Optional[float]
+	views: Optional[int]
 	cover: str
 	synopsis: str
 	genres: list[str]
-	authers: list[str]
-	mangazines: list[str]
-	chapters: list[dict[str, str]]
-	volumes: list[dict[str, str]]
+	authers: Optional[list[str]]
+	mangazines: Optional[list[str]]
+	chapters: Optional[list[dict[str, str]]]
+	volumes: Optional[list[dict[str, str]]]
 
 class SearchMangaModel(BaseModel):
 	id: int
