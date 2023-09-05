@@ -8,7 +8,6 @@ from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
 from .scrapers.manga import MangaScraper
-from .scrapers.search import SearchScraper
 from .scrapers.random import RandomScraper
 from .scrapers.base_search import BaseSearchScraper
 # models
@@ -89,7 +88,8 @@ async def get_manga(slug: str):
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)):
-	response = SearchScraper(keyword, page).scrape()
+	url = f"https://mangareader.to/search?keyword={keyword}&page={page}"
+	response = BaseSearchScraper(url).scrape()
 	if response:
 		return response[offset: offset+limit]
 	else:
@@ -118,7 +118,6 @@ async def random():
 @router.get("/completed")
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def completed(page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)):
-	
 	slugified_sort = slugify(sort, "-")
 	url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
 	response = BaseSearchScraper(url).scrape()
