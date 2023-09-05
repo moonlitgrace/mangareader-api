@@ -2,7 +2,7 @@ import requests
 from selectolax.parser import HTMLParser, Node
 from ..utils import get_attribute, get_text
 
-class BaseMangaScraper:
+class BaseScraper:
     def __init__(self, url: str) -> None:
         self.url = url
         # get parser

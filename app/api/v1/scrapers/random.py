@@ -1,6 +1,6 @@
-from .base import BaseMangaScraper
+from .base import BaseScraper
 
-class RandomScraper(BaseMangaScraper):
+class RandomScraper(BaseScraper):
     def __init__(self) -> None:
         super().__init__(url="https://mangareader.to/random/")
 
