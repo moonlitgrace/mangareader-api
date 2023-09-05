@@ -1,7 +1,6 @@
 import requests
-from selectolax.parser import HTMLParser, Node
+from selectolax.parser import HTMLParser
 
-from ..utils import get_attribute, get_text
 from ..decorators import return_on_error
 from ..utilities.string import StringHelper
 
@@ -20,7 +19,13 @@ class BaseMangaScraper:
     def get_manga_id(self):
         node = self.parser.css_first("meta[property='og:url']")
         slug = node.attributes["content"]
-        return slug.split("-")[-1] if slug and not self.string_helper.is_url(slug) else 0
+        if slug:
+            try:
+                manga_id = slug.split("-")[-1]
+                int(manga_id)
+                return manga_id
+            except ValueError:
+                return 0
 
     @property
     @return_on_error("")
