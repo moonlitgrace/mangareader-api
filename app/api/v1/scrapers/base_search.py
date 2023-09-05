@@ -1,6 +1,7 @@
 import requests
 from selectolax.parser import HTMLParser, Node
-from ..utils import slugify, get_text, get_attribute
+
+from ..decorators import return_on_error
 
 class BaseSearchScraper:
 	def __init__(self, url: str):
@@ -11,36 +12,60 @@ class BaseSearchScraper:
 		res = requests.get(self.url)
 		return HTMLParser(res.content)
 
-	def __get_id(self, node: Node):
-		id = self.__get_slug(node)
-		return id.split("-")[-1] if id else None
+	def get_manga_id(self, node: Node):
+		id = self.get_slug(node)
+		return int(id.split("-")[-1]) if id else 0
 
-	def __get_slug(self, node: Node):
-		slug = get_attribute(node, ".manga-detail .manga-name a", "href")
-		return slug.replace("/", "") if slug else None
+	@staticmethod
+	@return_on_error("")
+	def get_cover(node: Node):
+		image_node = node.css_first(".manga-poster img")
+		src = image_node.attributes["src"]
+		return src if src else ""
 
-	def __get_langs(self, node: Node):
-		langs_string = get_text(node, ".manga-poster .tick-lang")
-		return langs_string.split("/") if langs_string else None
+	@staticmethod
+	@return_on_error("")
+	def get_manga_title(node: Node):
+		title_node = node.css_first(".manga-detail .manga-name a")
+		return title_node.text(strip=True)
 
-	def __get_genres(self, node: Node):
+	@staticmethod
+	@return_on_error("")
+	def get_slug(node: Node):
+		slug_node = node.css_first(".manga-detail .manga-name a")
+		slug = slug_node.attributes["href"]
+		return slug.replace("/", "") if slug else ""
+
+	@staticmethod
+	@return_on_error([])
+	def get_langs(node: Node):
+		langs_string = node.css_first(".manga-poster .tick-lang").text(strip=True)
+		return langs_string.split("/") if langs_string else []
+
+	@staticmethod
+	@return_on_error([])
+	def get_genres(node: Node):
 		genres = node.css(".manga-detail .fd-infor a")
-		return [genre.text() for genre in genres] if genres else None
+		return [genre.text() for genre in genres] if genres else []
 
-	def __get_chapters(self, node: Node):
-		data = get_text(node, ".manga-detail .fd-list:nth-child(1) .chapter a")
-		if data:
-			total = data.split()[1]
-			lang = data.split()[2].translate(str.maketrans("", "", "[]"))
+	@staticmethod
+	@return_on_error({})
+	def get_chapters(node: Node):
+		chapters_node = node.css_first(".manga-detail .fd-list:nth-child(1) .chapter a")
+		if chapters_node:
+			chapters = chapters_node.text(strip=True)
+			total = chapters.split()[1]
+			lang = chapters.split()[2].translate(str.maketrans("", "", "[]"))
 
-			data_dict = {
+			chapters = {
 				"total": total,
 				"lang": lang
 			}
 
-			return data_dict
-		return None
+			return chapters
+		return {}
 
+	@return_on_error([])
 	def scrape(self) -> list:
 		manga_list = []
 		container = self.parser.css_first(".manga_list-sbs")
@@ -49,13 +74,13 @@ class BaseSearchScraper:
 		for index, node in enumerate(node_list, start=1):
 			manga_dict = {
 				"id": index,
-				"manga_id": self.__get_id(node),
-				"title": get_text(node, ".manga-detail .manga-name a"),
-				"slug": self.__get_slug(node),
-				"cover": get_attribute(node, ".manga-poster img", "src"),
-				"langs": self.__get_langs(node),
-				"genres": self.__get_genres(node),
-				"chapters": self.__get_chapters(node)
+				"manga_id": self.get_manga_id(node),
+				"title": self.get_manga_title(node),
+				"slug": self.get_slug(node),
+				"cover": self.get_cover(node),
+				"langs": self.get_langs(node),
+				"genres": self.get_genres(node),
+				"chapters": self.get_chapters(node)
 			}
 
 			manga_list.append(manga_dict)

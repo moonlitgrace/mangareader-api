@@ -51,7 +51,7 @@ class MangaModel(BaseModel):
 	chapters: list[dict[str, str]]
 	volumes: list[dict[str, str]]
 
-class SearchMangaModel(BaseModel):
+class BaseSearchModel(BaseModel):
 	id: int
 	manga_id: int
 	title: str

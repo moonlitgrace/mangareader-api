@@ -5,7 +5,6 @@ from .utils import slugify
 from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
-from .scrapers.random import RandomScraper
 from .scrapers.base_search import BaseSearchScraper
 from .scrapers.base_manga import BaseMangaScraper
 # models
@@ -14,7 +13,7 @@ from .models import (
 	TopTenMangaModel,
 	MostViewedMangaModel,
 	MangaModel,
-	SearchMangaModel
+	BaseSearchModel
 )
 
 # router
@@ -76,7 +75,7 @@ async def get_manga(slug: str):
 
 @router.get(
 	"/search",
-	response_model=list[SearchMangaModel],
+	response_model=list[BaseSearchModel],
 	summary="Search Mangas",
 	description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
 )
@@ -95,21 +94,14 @@ async def random():
 	response = BaseMangaScraper(url="https://mangareader.to/random/").build_dict()
 	return response
 
-@router.get("/completed")
+@router.get(
+	"/completed",
+	response_model=list[BaseSearchModel],
+	summary="Completed Mangas",
+	description="Get list of completed airing Mangas. eg: `/completed/` - returns a list of Mangas which is completed airing lately. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`."
+)
 async def completed(page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)):
 	slugified_sort = slugify(sort, "-")
 	url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
 	response = BaseSearchScraper(url).scrape()
-	if response:
-		return response[offset: offset+limit]
-	else:
-		message = f"Manga not found with sort ({sort}), try another!"
-		status_code = 404
-
-		raise HTTPException(
-			detail = {
-				"message": message,
-				"status_code": status_code
-			},
-			status_code=status_code
-		)
+	return response[offset: offset+limit]
