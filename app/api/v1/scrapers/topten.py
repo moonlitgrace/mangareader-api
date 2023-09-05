@@ -3,22 +3,21 @@ from selectolax.parser import HTMLParser, Node
 from ..utils import get_text, get_attribute
 
 class TopTenScraper():
-    def __init__(self):
-        # get parser
+    def __init__(self) -> None:
         self.parser = self.__get_parser()
     
     @staticmethod
-    def __get_parser():
+    def __get_parser() -> HTMLParser:
         url = "https://mangareader.to/home"
         res = requests.get(url)
 
         return HTMLParser(res.content)
 
-    def __get_slug(self, node: Node):
+    def __get_slug(self, node: Node) -> str | None:
         slug = get_attribute(node, ".desi-head-title a", "href")
         return slug.replace("/", "") if slug else None
 
-    def __get_chapters(self, node: Node):
+    def __get_chapters(self, node: Node) -> dict | None:
         chapters_string = get_text(node, ".desi-sub-text")
         if chapters_string:
             total = chapters_string.split()[1]
@@ -32,11 +31,11 @@ class TopTenScraper():
             return data_dict
         return None
 
-    def __get_genres(self, node: Node):
+    def __get_genres(self, node: Node) -> list | None:
         genres = node.css(".sc-detail .scd-genres span")
         return [genre.text() for genre in genres] if genres else None
 
-    def __build_dict(self, node: Node):
+    def __build_dict(self, node: Node) -> dict:
         manga_dict = {
             "title": get_text(node, ".desi-head-title a"),
             "slug": self.__get_slug(node),
@@ -48,9 +47,8 @@ class TopTenScraper():
 
         return manga_dict
 
-    def parse(self):
+    def scrape(self) -> list:
         managas_list = []
-
         container = self.parser.css_first(".deslide-wrap #slider .swiper-wrapper")
         node_list = container.css("div.swiper-slide")
 

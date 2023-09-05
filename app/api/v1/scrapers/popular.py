@@ -8,24 +8,23 @@ class PopularScraper:
 		self.parser = self.__get_parser()
 
 	@staticmethod
-	def __get_parser():
+	def __get_parser() -> HTMLParser:
 		url = "https://mangareader.to/home"
 		res = requests.get(url)
-
 		return HTMLParser(res.content)
 
 	@staticmethod
-	def __get_slug(node: Node):
+	def __get_slug(node: Node) -> str | None:
 		slug = get_attribute(node, "a.link-mask", "href")
 		return slug.replace("/", "") if slug else None
 
 	@staticmethod
-	def __get_langs(node: Node):
+	def __get_langs(node: Node) -> list | None:
 		langs = get_text(node, ".mp-desc p:nth-of-type(3)")
 		return langs.split("/") if langs else None
 
 	@staticmethod
-	def __get_chapters_volumes(node: Node, index: int):
+	def __get_chapters_volumes(node: Node, index: int) -> dict | None:
 		data = get_text(node, f".mp-desc p:nth-of-type({index})")
 		if data:
 			total = data.split()[1]
@@ -39,7 +38,7 @@ class PopularScraper:
 			return data_dict
 		return None
 
-	def __build_dict(self, node):
+	def __build_dict(self, node) -> dict:
 		manga_dict = {
 			"rank": get_text(node, ".number span"),
 			"title": get_text(node, ".anime-name"),
@@ -53,9 +52,8 @@ class PopularScraper:
 
 		return manga_dict
 
-	def parse(self):
+	def scrape(self) -> list:
 		mangas_list = []
-
 		container = self.parser.css_first("div#manga-trending")
 		nodes_list = container.css("div.swiper-slide")
 

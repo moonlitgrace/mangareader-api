@@ -1,6 +1,4 @@
-from dataclasses import astuple
 from fastapi import APIRouter, HTTPException, Query
-from fastapi.responses import JSONResponse
 
 # decorators
 from .decorators import handle_exceptions
@@ -14,7 +12,6 @@ from .scrapers.random import RandomScraper
 # models
 from .models import (
 	PopularMangaModel,
-	BaseModel,
 	TopTenMangaModel,
 	MostViewedMangaModel,
 	MangaModel,
@@ -24,7 +21,6 @@ from .models import (
 # router
 router = APIRouter()
 
-# get popular/trending mangas list
 @router.get(
 	"/popular",
 	response_model=list[PopularMangaModel],
@@ -33,10 +29,9 @@ router = APIRouter()
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
-	response = PopularScraper().parse()
+	response = PopularScraper().scrape()
 	return response[offset: offset+limit]
 
-# get top 10 mangas list
 @router.get(
 	"/top-10",
 	response_model=list[TopTenMangaModel],
@@ -45,10 +40,9 @@ async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
-	response = TopTenScraper().parse()
+	response = TopTenScraper().scrape()
 	return response[offset: offset+limit]
 
-# get most viewed mangas list by chart (dynamic)
 @router.get(
 	"/most-viewed/{chart}",
 	response_model=list[MostViewedMangaModel],
@@ -60,7 +54,7 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 	most_viewed_scraper = MostViewedScraper()
 
 	if chart in most_viewed_scraper.CHARTS:
-		response = most_viewed_scraper.parse(chart)
+		response = most_viewed_scraper.scrape(chart)
 		return response[offset: offset+limit]
 	else:
 		message = f"Passed query ({chart}) is invalid. Valid queries {' | '.join(most_viewed_scraper.CHARTS)}"
@@ -74,7 +68,6 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 			status_code=status_code
 		)
 
-# get details about specific manga
 @router.get(
 	"/manga/{slug}",
 	response_model=MangaModel,
@@ -83,18 +76,18 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 )
 @handle_exceptions("Manga not found, try another!", 404)
 async def get_manga(slug: str):
-	response = MangaScraper(slug).parse()
+	response = MangaScraper(slug).scrape()
 	return response
 
-# search mangas
 @router.get(
 	"/search",
 	response_model=list[SearchMangaModel],
 	summary="Search Mangas",
 	description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
 )
+@handle_exceptions("Something went wrong, please try again!", 503)
 async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)):
-	response = SearchScraper(keyword, page).parse()
+	response = SearchScraper(keyword, page).scrape()
 	if response:
 		return response[offset: offset+limit]
 	else:
@@ -117,5 +110,5 @@ async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Quer
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def random():
-	response = RandomScraper().parse()
+	response = RandomScraper().scrape()
 	return response
