@@ -2,7 +2,7 @@ import requests
 from selectolax.parser import HTMLParser, Node
 from ..utils import slugify, get_text, get_attribute
 
-class BaseGenreScraper:
+class BaseSearchScraper:
 	def __init__(self, url: str):
 		self.url = url
 		self.parser = self.__get_parser()
