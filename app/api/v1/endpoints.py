@@ -83,19 +83,7 @@ async def get_manga(slug: str):
 async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)):
 	url = f"https://mangareader.to/search?keyword={keyword}&page={page}"
 	response = BaseSearchScraper(url).scrape()
-	if response:
-		return response[offset: offset+limit]
-	else:
-		message = f"Manga not found with query ({keyword}), try another!"
-		status_code = 404
-
-		raise HTTPException(
-			detail = {
-				"message": message,
-				"status_code": status_code
-			},
-			status_code=status_code
-		)
+	return response[offset: offset+limit]
 
 @router.get(
 	"/random",

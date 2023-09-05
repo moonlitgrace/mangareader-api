@@ -22,8 +22,7 @@ class BaseMangaScraper:
         if slug:
             try:
                 manga_id = slug.split("-")[-1]
-                int(manga_id)
-                return manga_id
+                return int(manga_id)
             except ValueError:
                 return 0
 
