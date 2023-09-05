@@ -111,11 +111,10 @@ async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Quer
 
 @router.get(
 	"/random",
-	response_model=MangaModel,
 	summary="Random",
 	description="Get details about random Manga. Returns a `dict` of randomly picked Manga. Note: some fields might be `null` because all animes are not registered properly in database."
 )
 @handle_exceptions("Something went wrong, please try again!", 503)
 async def random():
-	response = RandomScraper().parse()
+	response = RandomScraper().scrape()
 	return response

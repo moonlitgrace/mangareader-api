@@ -60,7 +60,7 @@ class BaseMangaScraper:
 
     def build_dict(self, node):
         manga_dict = {
-            "id": self.__get_id(node),
+            "manga_id": self.__get_id(node),
             "title": get_text(node, ".anisc-detail .manga-name"),
             "alt_title": get_text(node, ".anisc-detail .manga-name-or"),
             "slug": self.__get_slug(node),
