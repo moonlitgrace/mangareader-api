@@ -2,12 +2,14 @@ import requests
 from selectolax.parser import HTMLParser, Node
 from ..utils import get_attribute, get_text
 from ..decorators import return_on_error
+from ..utilities.string import StringHelper
 
 class BaseMangaScraper:
     def __init__(self, url: str) -> None:
         self.url = url
-        # get parser
         self.parser = self.__get_parser()
+
+        self.string_helper = StringHelper()
 
     def __get_parser(self) -> HTMLParser:
         res = requests.get(self.url)
@@ -96,7 +98,7 @@ class BaseMangaScraper:
     @return_on_error("")
     def get_synopsis(self):
         node = self.parser.css_first(".anisc-detail .sort-desc .description")
-        return node.text(strip=True)
+        return self.string_helper.clean(node.text())
 
     @property
     @return_on_error([])
