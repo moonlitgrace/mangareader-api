@@ -25,7 +25,10 @@ router = APIRouter()
 	summary="Popular Mangas",
 	description="Get a list of Mangas which is popular/trending this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
-async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
+async def get_popular(
+	offset: int = 0,
+	limit: int = Query(10, le=10)
+):
 	response = PopularScraper().scrape()
 	return response[offset: offset+limit]
 
@@ -35,7 +38,10 @@ async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
 	summary="Top 10 Mangas",
 	description="Get a list of Mangas which is top 10 this season. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
-async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
+async def get_top_ten(
+	offset: int = 0,
+	limit: int = Query(10, le=10)
+):
 	response = TopTenScraper().scrape()
 	return response[offset: offset+limit]
 
@@ -45,7 +51,11 @@ async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
 	summary="Most Viewed Mangas",
 	description="Get a list of Mangas which is most viewed by chart - `today` `week` `month`. Returns basic details of mangas, use its `slug` to get more details of Manga."
 )
-async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le=10)):
+async def get_most_viewed(
+	chart: str,
+	offset: int = 0,
+	limit: int = Query(10, le=10)
+):
 	most_viewed_scraper = MostViewedScraper()
 
 	if chart in most_viewed_scraper.CHARTS:
@@ -79,7 +89,12 @@ async def get_manga(slug: str):
 	summary="Search Mangas",
 	description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword."
 )
-async def search(keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)):
+async def search(
+	keyword: str,
+	page: int = 1,
+	offset: int = 0,
+	limit: int = Query(10, le=18)
+):
 	url = f"https://mangareader.to/search?keyword={keyword}&page={page}"
 	response = BaseSearchScraper(url).scrape()
 	return response[offset: offset+limit]
