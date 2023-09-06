@@ -70,6 +70,16 @@ Python-based web scraping tool built with FastAPI that provides easy access to m
             </td>
             <td><code>sort</code> - <code>default</code> <code>last-updated</code> <code>score</code> <code>name-ax</code> <code>release-date</code> <code>most-viewed</code> eg: <code>/completed/?sort=last-updated&page=2</code> (basic queries)</td>
         </tr>
+        <tr>
+            <td><code>/v1/genre/</code></td>
+            <td>
+                <code>genre</code>
+                <code>sort</code>
+                <code>page</code>
+                (basic queries)
+            </td>
+            <td><code>sort</code> - <code>default</code> <code>last-updated</code> <code>score</code> <code>name-ax</code> <code>release-date</code> <code>most-viewed</code> eg: <code>/completed/?sort=last-updated&page=2</code> (basic queries)</td>
+        </tr>
     </tbody>
 </table>
 
