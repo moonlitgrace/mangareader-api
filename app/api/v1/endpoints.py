@@ -105,3 +105,9 @@ async def completed(page: int = 1, sort: str = "default", offset: int = 0, limit
 	url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
 	response = BaseSearchScraper(url).scrape()
 	return response[offset: offset+limit]
+
+@router.get("/genre/{genre}")
+async def genre(genre: str):
+	url = f"https://mangareader.to/genre/{genre}"
+	response = BaseSearchScraper(url).scrape()
+	return response
