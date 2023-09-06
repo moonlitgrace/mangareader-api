@@ -3,6 +3,76 @@
 MangaAPI is a Python-based web scraping tool built with FastAPI that provides easy access to manga content from the MangaReader.to website. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.
 </p>
 
+<h2>Api reference</h2>
+<table>
+    <thead>
+        <tr>
+            <td><b>Endpoint</b></td>
+            <td><b>Queries</b></td>
+            <td><b>Description</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>/popular/</code></td>
+            <td>
+                <code>offset</code>
+                <code>limit</code>
+            </td>
+            <td>Get a list of Mangas which is popular/trending this season</td>
+        </tr>
+        <tr>
+            <td><code>/top-10/</code></td>
+            <td>
+                <code>offset</code>
+                <code>limit</code>
+            </td>
+            <td>Get a list of Mangas which is top 10 this season</td>
+        </tr>
+        <tr>
+            <td><code>/most-viewed/</code></td>
+            <td>
+                <code>chart</code>
+                <code>offset</code>
+                <code>limit</code>
+            </td>
+            <td>Get a list of Mangas which is most viewed by chart - <code>today</code> <code>week</code> <code>month</code></td>
+        </tr>
+        <tr>
+            <td><code>/manga/</code></td>
+            <td>
+                <code>slug</code>
+            </td>
+            <td>Get more details about a specific Manga by <code>slug</code>, eg: <code>/manga/one-piece-3/</code></td>
+        </tr>
+        <tr>
+            <td><code>/search/</code></td>
+            <td>
+                <code>keyword</code>
+                <code>page</code>
+                <code>offset</code>
+                <code>limit</code>
+            </td>
+            <td>Search Mangas with a <code>keyword</code> as query. eg: <code>/search/?keyword=one piece/</code></td>
+        </tr>
+        <tr>
+            <td><code>/random/</code></td>
+            <td></td>
+            <td>Get details about Manga which is randomly picked</td>
+        </tr>
+        <tr>
+            <td><code>/completed/</code></td>
+            <td>
+                <code>sort</code>
+                <code>page</code>
+                <code>offset</code>
+                <code>limit</code>
+            </td>
+            <td>Get list of completed airing Mangas. valid <code>sort</code> queries - <code>default</code> <code>last-updated</code> <code>score</code> <code>name-ax</code> <code>release-date</code> <code>most-viewed</code></td>
+        </tr>
+    </tbody>
+</table>
+
 <h2>Features</h2>
 <ul>
     <li><b>Effortless Scraping</b>: Harness the power of web scraping to extract manga data from <a href="mangareader.to">mangareader.to</a> effortlessly.</li>
