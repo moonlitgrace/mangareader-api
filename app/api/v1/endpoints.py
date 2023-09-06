@@ -113,7 +113,9 @@ async def completed(
 
 @router.get(
 	"/genre/{genre}",
-	response_model=list[BaseSearchModel]
+	response_model=list[BaseSearchModel],
+	summary="Genre",
+	description="Search Mangas with genres. eg: `/genre/action/` - returns a list of Mangas with genre `action`. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`."
 )
 async def genre(
 	genre: str,
