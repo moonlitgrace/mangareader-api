@@ -33,7 +33,7 @@ MangaAPI is a Python-based web scraping tool built with FastAPI that provides ea
                 <code>chart</code>
                 (basic queries)
             </td>
-            <td><code>chart</code> - <code>today</code> <code>week</code> <code>month</code> (basic queries)</td>
+            <td><code>chart</code> - <code>today</code> <code>week</code> <code>month</code> eg: <code>/most-viewed/today/</code> (basic queries)</td>
         </tr>
         <tr>
             <td><code>/v1/manga/</code></td>
@@ -68,7 +68,7 @@ MangaAPI is a Python-based web scraping tool built with FastAPI that provides ea
                 <code>page</code>
                 (basic queries)
             </td>
-            <td><code>sort</code> - <code>default</code> <code>last-updated</code> <code>score</code> <code>name-ax</code> <code>release-date</code> <code>most-viewed</code> (basic queries)</td>
+            <td><code>sort</code> - <code>default</code> <code>last-updated</code> <code>score</code> <code>name-ax</code> <code>release-date</code> <code>most-viewed</code> eg: <code>/completed/?sort=last-updated&page=2</code> (basic queries)</td>
         </tr>
     </tbody>
 </table>
