@@ -4,6 +4,7 @@ from selectolax.parser import HTMLParser
 from ..decorators import return_on_error
 from ..utilities.string import StringHelper
 
+
 class BaseMangaScraper:
     def __init__(self, url: str) -> None:
         self.url = url
@@ -41,7 +42,9 @@ class BaseMangaScraper:
     @property
     @return_on_error("")
     def get_slug(self):
-        node = self.parser.css_first("#ani_detail .ani_detail-stage .anis-content .anisc-detail .manga-buttons a")
+        node = self.parser.css_first(
+            "#ani_detail .ani_detail-stage .anis-content .anisc-detail .manga-buttons a"
+        )
         slug = node.attributes["href"]
         return slug.split("/")[-1] if slug else ""
 
@@ -54,7 +57,9 @@ class BaseMangaScraper:
     @property
     @return_on_error("")
     def get_status(self):
-        node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(2) .name")
+        node = self.parser.css_first(
+            ".anisc-detail .anisc-info .item:nth-child(2) .name"
+        )
         return node.text(strip=True).lower()
 
     @property
@@ -78,19 +83,25 @@ class BaseMangaScraper:
     @property
     @return_on_error("")
     def get_published(self):
-        published_string = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(5) .name")
+        published_string = self.parser.css_first(
+            ".anisc-detail .anisc-info .item:nth-child(5) .name"
+        )
         return published_string.text(strip=True).split(" to ")[0]
 
     @property
     @return_on_error(0)
     def get_score(self):
-        node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(6) .name")
+        node = self.parser.css_first(
+            ".anisc-detail .anisc-info .item:nth-child(6) .name"
+        )
         return node.text(strip=True)
 
     @property
     @return_on_error(0)
     def get_views(self):
-        views_string = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(7) .name")
+        views_string = self.parser.css_first(
+            ".anisc-detail .anisc-info .item:nth-child(7) .name"
+        )
         return views_string.text(strip=True).replace(",", "")
 
     @property
@@ -115,10 +126,7 @@ class BaseMangaScraper:
         for item in items:
             text = item.text().translate(str.maketrans("", "", "[]()"))
 
-            item_dict = {
-                "total": text.split()[2],
-                "lang": text.split()[0]
-            }
+            item_dict = {"total": text.split()[2], "lang": text.split()[0]}
 
             item_list.append(item_dict)
         return item_list
@@ -132,14 +140,11 @@ class BaseMangaScraper:
         for item in items:
             text = item.text().translate(str.maketrans("", "", "[]()"))
 
-            item_dict = {
-                "total": text.split()[2],
-                "lang": text.split()[0]
-            }
+            item_dict = {"total": text.split()[2], "lang": text.split()[0]}
 
             item_list.append(item_dict)
         return item_list
-    
+
     @return_on_error({})
     def build_dict(self) -> dict:
         manga_dict = {
@@ -158,7 +163,7 @@ class BaseMangaScraper:
             "authers": self.get_authers,
             "mangazines": self.get_magazines,
             "chapters": self.get_chapters,
-            "volumes": self.get_volumes
+            "volumes": self.get_volumes,
         }
 
         return manga_dict

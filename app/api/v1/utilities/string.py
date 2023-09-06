@@ -2,6 +2,7 @@ import re
 import html
 from urllib.parse import urlparse
 
+
 class StringHelper:
     def clean(self, string: str) -> str:
         # Convert any HTML line breaks to newlines
