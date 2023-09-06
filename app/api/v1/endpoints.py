@@ -111,7 +111,10 @@ async def completed(
 	response = BaseSearchScraper(url).scrape()
 	return response[offset: offset+limit]
 
-@router.get("/genre/{genre}")
+@router.get(
+	"/genre/{genre}",
+	response_model=list[BaseSearchModel]
+)
 async def genre(
 	genre: str,
 	page: int = 1,
