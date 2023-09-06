@@ -4,6 +4,7 @@ from typing import Any, TypeVar
 
 T = TypeVar("T")
 
+
 def return_on_error(
     return_type: T,
 ) -> Callable[[Callable[..., Any]], Callable[..., T]]:
@@ -15,5 +16,7 @@ def return_on_error(
 
             except AttributeError:
                 return return_type
+
         return wrapper
+
     return decorator

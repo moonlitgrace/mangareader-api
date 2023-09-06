@@ -2,10 +2,11 @@ import requests
 from selectolax.parser import HTMLParser, Node
 from ..utils import get_text, get_attribute
 
-class TopTenScraper():
+
+class TopTenScraper:
     def __init__(self) -> None:
         self.parser = self.__get_parser()
-    
+
     @staticmethod
     def __get_parser() -> HTMLParser:
         url = "https://mangareader.to/home"
@@ -23,10 +24,7 @@ class TopTenScraper():
             total = chapters_string.split()[1]
             lang = chapters_string.split()[2].translate(str.maketrans("", "", "[]"))
 
-            data_dict = {
-                "total": total,
-                "lang": lang
-            }
+            data_dict = {"total": total, "lang": lang}
 
             return data_dict
         return None
@@ -42,7 +40,7 @@ class TopTenScraper():
             "cover": get_attribute(node, "img.manga-poster-img", "src"),
             "synopsis": get_text(node, ".sc-detail .scd-item"),
             "chapters": self.__get_chapters(node),
-            "genres": self.__get_genres(node)
+            "genres": self.__get_genres(node),
         }
 
         return manga_dict
@@ -53,10 +51,7 @@ class TopTenScraper():
         node_list = container.css("div.swiper-slide")
 
         for index, node in enumerate(node_list, start=1):
-            manga_dict = {
-                "id": index,
-                **self.__build_dict(node)
-            }
+            manga_dict = {"id": index, **self.__build_dict(node)}
 
             managas_list.append(manga_dict)
         return managas_list
