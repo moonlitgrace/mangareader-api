@@ -1,4 +1,5 @@
 anyio==4.0.0
+black==23.7.0
 certifi==2023.7.22
 charset-normalizer==3.2.0
 click==8.1.7
@@ -6,6 +7,10 @@ fastapi==0.103.0
 h11==0.14.0
 httptools==0.6.0
 idna==3.4
+mypy-extensions==1.0.0
+packaging==23.1
+pathspec==0.11.2
+platformdirs==3.10.0
 pydantic==1.10.12
 pydantic_core==2.7.0
 python-dotenv==1.0.0
