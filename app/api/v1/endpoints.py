@@ -100,8 +100,31 @@ async def random():
 	summary="Completed Mangas",
 	description="Get list of completed airing Mangas. eg: `/completed/` - returns a list of Mangas which is completed airing lately. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`."
 )
-async def completed(page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)):
+async def completed(
+	page: int = 1,
+	sort: str = "default",
+	offset: int = 0,
+	limit: int = Query(10, le=18)
+):
 	slugified_sort = slugify(sort, "-")
 	url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
+	response = BaseSearchScraper(url).scrape()
+	return response[offset: offset+limit]
+
+@router.get(
+	"/genre/{genre}",
+	response_model=list[BaseSearchModel],
+	summary="Genre",
+	description="Search Mangas with genres. eg: `/genre/action/` - returns a list of Mangas with genre `action`. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`."
+)
+async def genre(
+	genre: str,
+	page: int = 1,
+	sort: str = "default",
+	offset: int = 0,
+	limit: int = Query(10, le=18)
+):
+	slugified_sort = slugify(sort, "-")
+	url = f"https://mangareader.to/genre/{genre}/?sort={slugified_sort}&page={page}"
 	response = BaseSearchScraper(url).scrape()
 	return response[offset: offset+limit]
