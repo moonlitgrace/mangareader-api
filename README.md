@@ -19,51 +19,56 @@ MangaAPI is a Python-based web scraping tool built with FastAPI that provides ea
     <tbody>
         <tr>
             <td><code>/v1/popular/</code></td>
-            <td></td>
-            <td></td>
+            <td>(basic queries)</td>
+            <td>(basic queries)</td>
         </tr>
         <tr>
             <td><code>/v1/top-10/</code></td>
-            <td></td>
-            <td></td>
+            <td>(basic queries)</td>
+            <td>(basic queries)</td>
         </tr>
         <tr>
             <td><code>/v1/most-viewed/</code></td>
             <td>
                 <code>chart</code>
+                (basic queries)
             </td>
-            <td><code>chart</code> - <code>today</code> <code>week</code> <code>month</code></td>
+            <td><code>chart</code> - <code>today</code> <code>week</code> <code>month</code> (basic queries)</td>
         </tr>
         <tr>
             <td><code>/v1/manga/</code></td>
             <td>
                 <code>slug</code>
+                (basic queries)
             </td>
-            <td><code>slug</code> - eg: <code>/manga/one-piece-3/</code></td>
+            <td><code>slug</code> - eg: <code>/manga/one-piece-3/</code> (basic queries)</td>
         </tr>
         <tr>
             <td><code>/v1/search/</code></td>
             <td>
                 <code>keyword</code>
                 <code>page</code>
+                (basic queries)
             </td>
             <td>
                 <code>keyword</code> - eg: <code>/search/?keyword=one piece/</code>
                 <code>page</code> - eg: <code>/search/?page=5/</code>
+                (basic queries)
             </td>
         </tr>
         <tr>
             <td><code>/v1/random/</code></td>
-            <td></td>
-            <td></td>
+            <td>(basic queries)</td>
+            <td>(basic queries)</td>
         </tr>
         <tr>
             <td><code>/v1/completed/</code></td>
             <td>
                 <code>sort</code>
                 <code>page</code>
+                (basic queries)
             </td>
-            <td><code>sort</code> - <code>default</code> <code>last-updated</code> <code>score</code> <code>name-ax</code> <code>release-date</code> <code>most-viewed</code></td>
+            <td><code>sort</code> - <code>default</code> <code>last-updated</code> <code>score</code> <code>name-ax</code> <code>release-date</code> <code>most-viewed</code> (basic queries)</td>
         </tr>
     </tbody>
 </table>
