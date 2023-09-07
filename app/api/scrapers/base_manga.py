@@ -1,7 +1,6 @@
 import requests
 from selectolax.parser import HTMLParser
-
-from ..decorators import return_on_error
+from ..decorators.return_decorator import return_on_error
 from ..utilities.string import StringHelper
 
 

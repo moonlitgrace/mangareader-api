@@ -1,13 +1,10 @@
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 
-# v1 api
-from app.api.v1.endpoints import router as v1_router
+from app.api.endpoints import router
 
 app = FastAPI()
-
-# v1 api routes
-app.include_router(v1_router, prefix="/v1")
+app.include_router(router, prefix="/api")
 
 
 # overrite "openapi.json"

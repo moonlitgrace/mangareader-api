@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 
-from .utils import slugify
+# utilities
+from .utilities.string import StringHelper
 
 # scrapers
 from .scrapers.popular import PopularScraper
@@ -10,18 +11,16 @@ from .scrapers.base_search import BaseSearchScraper
 from .scrapers.base_manga import BaseMangaScraper
 
 # models
-from .models import (
-    PopularMangaModel,
-    TopTenMangaModel,
-    MostViewedMangaModel,
-    MangaModel,
-    BaseSearchModel,
-)
+from .models.popular import PopularMangaModel
+from .models.top_ten import TopTenMangaModel
+from .models.most_viewed import MostViewedMangaModel
+from .models.base_manga import MangaModel
+from .models.base_search import BaseSearchModel
 
-# router
 router = APIRouter()
+string_helper = StringHelper()
 
-
+# router endpoints
 @router.get(
     "/popular",
     response_model=list[PopularMangaModel],
@@ -111,7 +110,7 @@ async def random():
 async def completed(
     page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)
 ):
-    slugified_sort = slugify(sort, "-")
+    slugified_sort = string_helper.slugify(sort, "-")
     url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
     response = BaseSearchScraper(url).scrape()
     return response[offset : offset + limit]
@@ -130,7 +129,7 @@ async def genre(
     offset: int = 0,
     limit: int = Query(10, le=18),
 ):
-    slugified_sort = slugify(sort, "-")
+    slugified_sort = string_helper.slugify(sort, "-")
     url = f"https://mangareader.to/genre/{genre}/?sort={slugified_sort}&page={page}"
     response = BaseSearchScraper(url).scrape()
     return response[offset : offset + limit]
@@ -148,7 +147,7 @@ def type(
     offset: int = 0,
     limit: int = Query(10, le=18),
 ):
-	slugified_sort = slugify(sort, "-")
+	slugified_sort = string_helper.slugify(sort, "-")
 	url = f"https://mangareader.to/type/{type}?sort={slugified_sort}&page={page}"
 	response = BaseSearchScraper(url).scrape()
 	return response[offset : offset + limit]
