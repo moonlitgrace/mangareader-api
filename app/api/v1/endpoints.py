@@ -134,3 +134,16 @@ async def genre(
     url = f"https://mangareader.to/genre/{genre}/?sort={slugified_sort}&page={page}"
     response = BaseSearchScraper(url).scrape()
     return response[offset : offset + limit]
+
+@router.get("/type/{type}")
+def type(
+	type: str,
+    page: int = 1,
+    sort: str = "default",
+    offset: int = 0,
+    limit: int = Query(10, le=18),
+):
+	slugified_sort = slugify(sort, "-")
+	url = f"https://mangareader.to/type/{type}?sort={slugified_sort}&page={page}"
+	response = BaseSearchScraper(url).scrape()
+	return response[offset : offset + limit]
