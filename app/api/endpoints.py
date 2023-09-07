@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 
-# utilities
-from .utilities.string import StringHelper
+# helpers
+from .helpers.string import StringHelper
 
 # scrapers
 from .scrapers.popular import PopularScraper
