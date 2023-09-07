@@ -1,8 +1,7 @@
 import requests
 from selectolax.parser import HTMLParser
-
-from ..decorators import return_on_error
-from ..utilities.string import StringHelper
+from ..decorators.return_decorator import return_on_error
+from ..helpers.string import StringHelper
 
 
 class BaseMangaScraper:

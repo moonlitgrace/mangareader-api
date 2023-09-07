@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 
-from .utils import slugify
+# helpers
+from .helpers.string import StringHelper
 
 # scrapers
 from .scrapers.popular import PopularScraper
@@ -10,18 +11,17 @@ from .scrapers.base_search import BaseSearchScraper
 from .scrapers.base_manga import BaseMangaScraper
 
 # models
-from .models import (
-    PopularMangaModel,
-    TopTenMangaModel,
-    MostViewedMangaModel,
-    MangaModel,
-    BaseSearchModel,
-)
+from .models.popular import PopularMangaModel
+from .models.top_ten import TopTenMangaModel
+from .models.most_viewed import MostViewedMangaModel
+from .models.base_manga import MangaModel
+from .models.base_search import BaseSearchModel
 
-# router
 router = APIRouter()
+string_helper = StringHelper()
 
 
+# router endpoints
 @router.get(
     "/popular",
     response_model=list[PopularMangaModel],
@@ -111,7 +111,7 @@ async def random():
 async def completed(
     page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)
 ):
-    slugified_sort = slugify(sort, "-")
+    slugified_sort = string_helper.slugify(sort, "-")
     url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
     response = BaseSearchScraper(url).scrape()
     return response[offset : offset + limit]
@@ -130,25 +130,26 @@ async def genre(
     offset: int = 0,
     limit: int = Query(10, le=18),
 ):
-    slugified_sort = slugify(sort, "-")
+    slugified_sort = string_helper.slugify(sort, "-")
     url = f"https://mangareader.to/genre/{genre}/?sort={slugified_sort}&page={page}"
     response = BaseSearchScraper(url).scrape()
     return response[offset : offset + limit]
 
+
 @router.get(
-	"/type/{type}",
-	response_model=list[BaseSearchModel],
-	summary="Genre",
+    "/type/{type}",
+    response_model=list[BaseSearchModel],
+    summary="Genre",
     description="Search Mangas with genres. eg: `/type/manga/` - returns a list of Mangas with type `manga`. Also has `page` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `type` queries - `manga` `one-shot` `doujinshi` `ight-novel` `manhwa` `manhua` `comic`.",
 )
 def type(
-	type: str,
+    type: str,
     page: int = 1,
     sort: str = "default",
     offset: int = 0,
     limit: int = Query(10, le=18),
 ):
-	slugified_sort = slugify(sort, "-")
-	url = f"https://mangareader.to/type/{type}?sort={slugified_sort}&page={page}"
-	response = BaseSearchScraper(url).scrape()
-	return response[offset : offset + limit]
+    slugified_sort = string_helper.slugify(sort, "-")
+    url = f"https://mangareader.to/type/{type}?sort={slugified_sort}&page={page}"
+    response = BaseSearchScraper(url).scrape()
+    return response[offset : offset + limit]
