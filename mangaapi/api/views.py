@@ -5,11 +5,14 @@ from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
 from .scrapers.most_viewed import MostViewedScraper
 from .scrapers.manga import MangaScraper
+# serialzers
+from .serializers.popular_manga import PopularMangaSerializer
 
 class PopularMangasView(APIView):
 	def get(self, request):
 		response = PopularScraper().parse()
-		return Response(response)
+		serializer = PopularMangaSerializer(response, many=True)
+		return Response(serializer.data)
 
 class TopTenMangasView(APIView):
 	def get(self, request):

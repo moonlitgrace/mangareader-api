@@ -1,2 +1,2 @@
 run server:
-	poetry run uvicorn app.main:app --reload
+	poetry run python3 mangaapi/manage.py runserver
