@@ -1,7 +1,3 @@
-<blockquote>
-    Note: API is deployed on render.com (base plan) and using cron job to keep this up everytime. Now Ii disabled it for some reason, so if you want this server to keep running everytime please lmk by creating an issue or something. Thanks for visiting :)
-</blockquote>
-
 <img src="https://github.com/tokitou-san/MangaAPI/assets/114811070/235fe1d6-8120-49b1-90d9-3be30bcf25f2" width="250px" />
 <p>
 Python-based web scraping tool built with FastAPI that provides easy access to manga content from the MangaReader.to website. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.
