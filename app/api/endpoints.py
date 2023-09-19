@@ -139,8 +139,8 @@ async def genre(
 @router.get(
     "/type/{type}",
     response_model=list[BaseSearchModel],
-    summary="Genre",
-    description="Search Mangas with genres. eg: `/type/manga/` - returns a list of Mangas with type `manga`. Also has `page` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `type` queries - `manga` `one-shot` `doujinshi` `ight-novel` `manhwa` `manhua` `comic`.",
+    summary="Type",
+    description="Search Mangas with types. eg: `/type/manga/` - returns a list of Mangas with type `manga`. Also has `page` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `type` queries - `Manga`, `One-shot`, `Doujinshi`, `Light`, `Manhwa`, `Manhua`, `Comic`.",
 )
 def type(
     type: str,
