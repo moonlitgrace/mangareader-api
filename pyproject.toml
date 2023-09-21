@@ -15,6 +15,7 @@ selectolax = "^0.3.16"
 pydantic-core = "^2.8.0"
 anyio = "^4.0.0"
 black = "^23.9.1"
+pre-commit = "^3.4.0"
 
 
 [build-system]
