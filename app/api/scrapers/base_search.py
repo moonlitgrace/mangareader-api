@@ -1,16 +1,12 @@
-import requests
-from selectolax.parser import HTMLParser, Node
+from selectolax.parser import Node
 from ..decorators.return_decorator import return_on_error
+from ..helpers.html_helper import HTMLHelper
 
 
 class BaseSearchScraper:
     def __init__(self, url: str):
         self.url = url
-        self.parser = self.__get_parser()
-
-    def __get_parser(self):
-        res = requests.get(self.url)
-        return HTMLParser(res.content)
+        self.parser = HTMLHelper.get_parser(url)
 
     def get_manga_id(self, node: Node):
         id = self.get_slug(node)

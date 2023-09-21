@@ -1,18 +1,12 @@
-import requests
-from selectolax.parser import HTMLParser, Node
+from selectolax.parser import Node
 from ..utils import get_attribute, get_text
+from ..helpers.html_helper import HTMLHelper
 
 
 class PopularScraper:
     def __init__(self) -> None:
         # get parser
-        self.parser = self.__get_parser()
-
-    @staticmethod
-    def __get_parser() -> HTMLParser:
-        url = "https://mangareader.to/home"
-        res = requests.get(url)
-        return HTMLParser(res.content)
+        self.parser = HTMLHelper.get_parser(url="https://mangareader.to/home")
 
     @staticmethod
     def __get_slug(node: Node) -> str | None:

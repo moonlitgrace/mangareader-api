@@ -1,18 +1,11 @@
-import requests
-from selectolax.parser import HTMLParser, Node
+from selectolax.parser import Node
 from ..utils import get_text, get_attribute
+from ..helpers.html_helper import HTMLHelper
 
 
 class TopTenScraper:
     def __init__(self) -> None:
-        self.parser = self.__get_parser()
-
-    @staticmethod
-    def __get_parser() -> HTMLParser:
-        url = "https://mangareader.to/home"
-        res = requests.get(url)
-
-        return HTMLParser(res.content)
+        self.parser = HTMLHelper.get_parser(url="https://mangareader.to/home")
 
     def __get_slug(self, node: Node) -> str | None:
         slug = get_attribute(node, ".desi-head-title a", "href")
