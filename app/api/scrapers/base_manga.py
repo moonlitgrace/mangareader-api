@@ -53,9 +53,7 @@ class BaseMangaScraper:
     @property
     @return_on_error("")
     def get_status(self):
-        node = self.parser.css_first(
-            ".anisc-detail .anisc-info .item:nth-child(2) .name"
-        )
+        node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(2) .name")
         return node.text(strip=True).lower()
 
     @property
@@ -87,9 +85,7 @@ class BaseMangaScraper:
     @property
     @return_on_error(0)
     def get_score(self):
-        node = self.parser.css_first(
-            ".anisc-detail .anisc-info .item:nth-child(6) .name"
-        )
+        node = self.parser.css_first(".anisc-detail .anisc-info .item:nth-child(6) .name")
         return node.text(strip=True)
 
     @property
