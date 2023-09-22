@@ -1,5 +1,3 @@
-import requests
-from selectolax.parser import HTMLParser
 from ..decorators.return_decorator import return_on_error
 from ..helpers.string import StringHelper
 from ..helpers.html_helper import HTMLHelper
@@ -7,7 +5,6 @@ from ..helpers.html_helper import HTMLHelper
 
 class BaseMangaScraper:
     def __init__(self, url: str) -> None:
-        self.url = url
         self.parser = HTMLHelper.get_parser(url)
         self.string_helper = StringHelper()
 

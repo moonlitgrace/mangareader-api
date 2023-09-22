@@ -5,7 +5,6 @@ from ..helpers.html_helper import HTMLHelper
 
 class BaseSearchScraper:
     def __init__(self, url: str):
-        self.url = url
         self.parser = HTMLHelper.get_parser(url)
 
     def get_manga_id(self, node: Node):
