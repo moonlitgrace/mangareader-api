@@ -3,6 +3,9 @@ from fastapi import APIRouter, HTTPException, Query
 # helpers
 from .helpers.string import StringHelper
 
+# decorators
+from .decorators.return_decorator import return_on_404
+
 # scrapers
 from .scrapers.popular import PopularScraper
 from .scrapers.topten import TopTenScraper
@@ -73,20 +76,14 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
     summary="Manga",
     description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga.",
 )
+@return_on_404()
 async def get_manga(slug: str):
-    try:
-        response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").build_dict()
+    response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").build_dict()
 
-        if not response["title"]:
-            raise HTTPException(
-                status_code=404, detail=f"Manga with slug {slug} was not found"
-            )
-
+    if not response["title"]:
+        raise HTTPException(status_code=404, detail=f"Manga with slug {slug} was not found")
+    else:
         return response
-    
-    except Exception as e:
-        # Handle other exceptions as well, such as network issues
-        raise HTTPException(status_code=404, detail=f"Page not found")
 
 
 @router.get(
