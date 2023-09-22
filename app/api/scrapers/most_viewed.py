@@ -9,10 +9,11 @@ class MostViewedScraper:
     CHARTS = ["today", "week", "month"]
 
     def __init__(self) -> None:
+        url = "https://mangareader.to/home"
         # Facades
         self.html_helper = HTMLHelper()
         # Parser
-        self.parser = self.html_helper.get_parser(url="https://mangareader.to/home")
+        self.parser = self.html_helper.get_parser(url)
 
     def __get_slug(self, node: Node) -> str | None:
         slug = get_attribute(node, ".manga-detail .manga-name a", "href")
