@@ -32,6 +32,7 @@ string_helper = StringHelper()
     summary="Popular Mangas",
     description="Get a list of Mangas which is popular/trending this season. Returns basic details of mangas, use its `slug` to get more details of Manga.",
 )
+@return_on_404()
 async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
     response = PopularScraper().scrape()
     return response[offset : offset + limit]
@@ -43,6 +44,7 @@ async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
     summary="Top 10 Mangas",
     description="Get a list of Mangas which is top 10 this season. Returns basic details of mangas, use its `slug` to get more details of Manga.",
 )
+@return_on_404()
 async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
     response = TopTenScraper().scrape()
     return response[offset : offset + limit]
@@ -54,6 +56,7 @@ async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
     summary="Most Viewed Mangas",
     description="Get a list of Mangas which is most viewed by chart - `today` `week` `month`. Returns basic details of mangas, use its `slug` to get more details of Manga.",
 )
+@return_on_404()
 async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le=10)):
     most_viewed_scraper = MostViewedScraper()
 
@@ -61,13 +64,7 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
         response = most_viewed_scraper.scrape(chart)
         return response[offset : offset + limit]
     else:
-        message = f"Passed query ({chart}) is invalid. Valid queries {' | '.join(most_viewed_scraper.CHARTS)}"
-        status_code = 400
-
-        raise HTTPException(
-            detail={"message": message, "status_code": status_code},
-            status_code=status_code,
-        )
+        raise HTTPException(status_code=404, detail=f"Invalid chart {chart}")
 
 
 @router.get(
@@ -82,8 +79,7 @@ async def get_manga(slug: str):
 
     if not response["title"]:
         raise HTTPException(status_code=404, detail=f"Manga with slug {slug} was not found")
-    else:
-        return response
+    return response
 
 
 @router.get(
@@ -92,11 +88,17 @@ async def get_manga(slug: str):
     summary="Search Mangas",
     description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword.",
 )
+@return_on_404()
 async def search(
     keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)
 ):
     url = f"https://mangareader.to/search?keyword={keyword}&page={page}"
     response = BaseSearchScraper(url).scrape()
+
+    if not response:
+        raise HTTPException(
+            status_code=404, detail=f"Manga with keyword {keyword} was not found"
+        )
     return response[offset : offset + limit]
 
 
@@ -106,6 +108,7 @@ async def search(
     summary="Random",
     description="Get details about random Manga. Returns a `dict` of randomly picked Manga. Note: some fields might be `null` because all animes are not registered properly in database.",
 )
+@return_on_404()
 async def random():
     response = BaseMangaScraper(url="https://mangareader.to/random/").build_dict()
     return response
@@ -117,6 +120,7 @@ async def random():
     summary="Completed Mangas",
     description="Get list of completed airing Mangas. eg: `/completed/` - returns a list of Mangas which is completed airing lately. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`.",
 )
+@return_on_404()
 async def completed(
     page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)
 ):
@@ -132,6 +136,7 @@ async def completed(
     summary="Genre",
     description="Search Mangas with genres. eg: `/genre/action/` - returns a list of Mangas with genre `action`. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`.",
 )
+@return_on_404()
 async def genre(
     genre: str,
     page: int = 1,
@@ -142,6 +147,11 @@ async def genre(
     slugified_sort = string_helper.slugify(sort, "-")
     url = f"https://mangareader.to/genre/{genre}/?sort={slugified_sort}&page={page}"
     response = BaseSearchScraper(url).scrape()
+
+    if not response:
+        raise HTTPException(
+            status_code=404, detail=f"Manga with genre {genre} was not found"
+        )
     return response[offset : offset + limit]
 
 
@@ -151,6 +161,7 @@ async def genre(
     summary="Type",
     description="Search Mangas with types. eg: `/type/manga/` - returns a list of Mangas with type `manga`. Also has `page` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `type` queries - `manga`, `one-shot`, `doujinshi`, `light-novel`, `manhwa`, `manhua`, `comic`.",
 )
+@return_on_404()
 def type(
     type: str,
     page: int = 1,
@@ -162,4 +173,7 @@ def type(
     slugified_sort = string_helper.slugify(sort, "-")
     url = f"https://mangareader.to/type/{slugified_type}?sort={slugified_sort}&page={page}"
     response = BaseSearchScraper(url).scrape()
+
+    if not response:
+        raise HTTPException(status_code=404, detail=f"Manga of type {type} was not found")
     return response[offset : offset + limit]
