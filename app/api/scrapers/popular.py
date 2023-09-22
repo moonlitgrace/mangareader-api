@@ -5,8 +5,10 @@ from ..helpers.html_helper import HTMLHelper
 
 class PopularScraper:
     def __init__(self) -> None:
-        # get parser
-        self.parser = HTMLHelper.get_parser(url="https://mangareader.to/home")
+        # Facades
+        self.html_helper = HTMLHelper()
+        # Parser
+        self.parser = self.html_helper.get_parser(url="https://mangareader.to/home")
 
     @staticmethod
     def __get_slug(node: Node) -> str | None:

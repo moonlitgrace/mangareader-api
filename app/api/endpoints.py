@@ -18,6 +18,7 @@ from .models.base_manga import MangaModel
 from .models.base_search import BaseSearchModel
 
 router = APIRouter()
+# Facades
 string_helper = StringHelper()
 
 

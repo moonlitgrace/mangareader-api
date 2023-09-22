@@ -5,7 +5,10 @@ from ..helpers.html_helper import HTMLHelper
 
 class BaseSearchScraper:
     def __init__(self, url: str):
-        self.parser = HTMLHelper.get_parser(url)
+        # Facades
+        self.html_helper = HTMLHelper()
+        # Parser
+        self.parser = self.html_helper.get_parser(url)
 
     def get_manga_id(self, node: Node):
         id = self.get_slug(node)

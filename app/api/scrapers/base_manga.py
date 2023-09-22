@@ -5,8 +5,11 @@ from ..helpers.html_helper import HTMLHelper
 
 class BaseMangaScraper:
     def __init__(self, url: str) -> None:
-        self.parser = HTMLHelper.get_parser(url)
+        # Facades
         self.string_helper = StringHelper()
+        self.html_helper = HTMLHelper()
+        # Parser
+        self.parser = self.html_helper.get_parser(url)
 
     @property
     @return_on_error(0)

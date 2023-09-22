@@ -5,7 +5,10 @@ from ..helpers.html_helper import HTMLHelper
 
 class TopTenScraper:
     def __init__(self) -> None:
-        self.parser = HTMLHelper.get_parser(url="https://mangareader.to/home")
+        # Facades
+        self.html_helper = HTMLHelper()
+        # Parser
+        self.parser = self.html_helper.get_parser(url="https://mangareader.to/home")
 
     def __get_slug(self, node: Node) -> str | None:
         slug = get_attribute(node, ".desi-head-title a", "href")
