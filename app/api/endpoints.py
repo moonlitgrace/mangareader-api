@@ -27,7 +27,7 @@ string_helper = StringHelper()
 
 # router endpoints
 @router.get(
-    "/popular",
+    path="/popular",
     response_model=list[PopularMangaModel],
     summary="Popular Mangas",
     description="Get a list of Mangas which is popular/trending this season. Returns basic details of mangas, use its `slug` to get more details of Manga.",
@@ -39,7 +39,7 @@ async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
 
 
 @router.get(
-    "/top-10",
+    path="/top-10",
     response_model=list[TopTenMangaModel],
     summary="Top 10 Mangas",
     description="Get a list of Mangas which is top 10 this season. Returns basic details of mangas, use its `slug` to get more details of Manga.",
@@ -51,7 +51,7 @@ async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
 
 
 @router.get(
-    "/most-viewed/{chart}",
+    path="/most-viewed/{chart}",
     response_model=list[MostViewedMangaModel],
     summary="Most Viewed Mangas",
     description="Get a list of Mangas which is most viewed by chart - `today` `week` `month`. Returns basic details of mangas, use its `slug` to get more details of Manga.",
@@ -68,14 +68,14 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 
 
 @router.get(
-    "/manga/{slug}",
+    path="/manga/{slug}",
     response_model=MangaModel,
     summary="Manga",
     description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga.",
 )
 @return_on_404()
 async def get_manga(slug: str):
-    response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").build_dict()
+    response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").scrape()
 
     if not response["title"]:
         raise HTTPException(status_code=404, detail=f"Manga with slug {slug} was not found")
@@ -83,7 +83,7 @@ async def get_manga(slug: str):
 
 
 @router.get(
-    "/search",
+    path="/search",
     response_model=list[BaseSearchModel],
     summary="Search Mangas",
     description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword.",
@@ -103,19 +103,19 @@ async def search(
 
 
 @router.get(
-    "/random",
+    path="/random",
     response_model=MangaModel,
     summary="Random",
     description="Get details about random Manga. Returns a `dict` of randomly picked Manga. Note: some fields might be `null` because all animes are not registered properly in database.",
 )
 @return_on_404()
 async def random():
-    response = BaseMangaScraper(url="https://mangareader.to/random/").build_dict()
+    response = BaseMangaScraper(url="https://mangareader.to/random/").scrape()
     return response
 
 
 @router.get(
-    "/completed",
+    path="/completed",
     response_model=list[BaseSearchModel],
     summary="Completed Mangas",
     description="Get list of completed airing Mangas. eg: `/completed/` - returns a list of Mangas which is completed airing lately. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`.",
@@ -131,7 +131,7 @@ async def completed(
 
 
 @router.get(
-    "/genre/{genre}",
+    path="/genre/{genre}",
     response_model=list[BaseSearchModel],
     summary="Genre",
     description="Search Mangas with genres. eg: `/genre/action/` - returns a list of Mangas with genre `action`. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`.",
@@ -156,13 +156,13 @@ async def genre(
 
 
 @router.get(
-    "/type/{type}",
+    path="/type/{type}",
     response_model=list[BaseSearchModel],
     summary="Type",
     description="Search Mangas with types. eg: `/type/manga/` - returns a list of Mangas with type `manga`. Also has `page` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `type` queries - `manga`, `one-shot`, `doujinshi`, `light-novel`, `manhwa`, `manhua`, `comic`.",
 )
 @return_on_404()
-def type(
+async def type(
     type: str,
     page: int = 1,
     sort: str = "default",
