@@ -74,8 +74,19 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
     description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga.",
 )
 async def get_manga(slug: str):
-    response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").build_dict()
-    return response
+    try:
+        response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").build_dict()
+
+        if not response["title"]:
+            raise HTTPException(
+                status_code=404, detail=f"Manga with slug {slug} was not found"
+            )
+
+        return response
+    
+    except Exception as e:
+        # Handle other exceptions as well, such as network issues
+        raise HTTPException(status_code=404, detail=f"Page not found")
 
 
 @router.get(
