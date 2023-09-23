@@ -138,7 +138,7 @@ class BaseMangaScraper:
         return item_list
 
     @return_on_error({})
-    def build_dict(self) -> dict:
+    def scrape(self) -> dict:
         manga_dict = {
             "manga_id": self.get_manga_id,
             "title": self.get_title,
