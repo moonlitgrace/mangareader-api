@@ -58,10 +58,10 @@ async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
 )
 @return_on_404()
 async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le=10)):
-    most_viewed_scraper = MostViewedScraper()
+    most_viewed_scraper = MostViewedScraper(chart)
 
     if chart in most_viewed_scraper.CHARTS:
-        response = most_viewed_scraper.scrape(chart)
+        response = most_viewed_scraper.scrape
         return response[offset : offset + limit]
     else:
         raise HTTPException(status_code=404, detail=f"Invalid chart {chart}")
