@@ -19,19 +19,6 @@ class MostViewedScraper:
         # Parser
         self.parser = self.html_helper.get_parser(url)
 
-    @property
-    @return_on_error([])
-    def scrape(self) -> list:
-        mangas_list = []
-        container = self.parser.css_first(f"#main-sidebar #chart-{self.chart}")
-        node_list = container.css("ul > li")
-
-        for index, node in enumerate(node_list, start=1):
-            manga_dict = {"id": index, **self.__build_dict(node)}
-
-            mangas_list.append(manga_dict)
-        return mangas_list
-
     @return_on_error("")
     def __get_slug(self, node: Node) -> str:
         slug = get_attribute(node, ".manga-detail .manga-name a", "href")
@@ -77,3 +64,16 @@ class MostViewedScraper:
         }
 
         return manga_dict
+
+    @property
+    @return_on_error([])
+    def scrape(self) -> list:
+        mangas_list = []
+        container = self.parser.css_first(f"#main-sidebar #chart-{self.chart}")
+        node_list = container.css("ul > li")
+
+        for index, node in enumerate(node_list, start=1):
+            manga_dict = {"id": index, **self.__build_dict(node)}
+
+            mangas_list.append(manga_dict)
+        return mangas_list
