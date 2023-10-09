@@ -34,7 +34,7 @@ string_helper = StringHelper()
 )
 @return_on_404()
 async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
-    response = PopularScraper().scrape()
+    response = PopularScraper().scrape
     return response[offset : offset + limit]
 
 
@@ -46,7 +46,7 @@ async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
 )
 @return_on_404()
 async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
-    response = TopTenScraper().scrape()
+    response = TopTenScraper().scrape
     return response[offset : offset + limit]
 
 
@@ -75,7 +75,7 @@ async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le
 )
 @return_on_404()
 async def get_manga(slug: str):
-    response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").scrape()
+    response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").scrape
 
     if not response["title"]:
         raise HTTPException(status_code=404, detail=f"Manga with slug {slug} was not found")
@@ -110,7 +110,7 @@ async def search(
 )
 @return_on_404()
 async def random():
-    response = BaseMangaScraper(url="https://mangareader.to/random/").scrape()
+    response = BaseMangaScraper(url="https://mangareader.to/random/").scrape
     return response
 
 

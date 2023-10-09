@@ -1,4 +1,6 @@
 from selectolax.parser import Node
+
+from app.api.decorators.return_decorator import return_on_error
 from ..utils import get_text, get_attribute
 from ..helpers.html_helper import HTMLHelper
 
@@ -11,11 +13,15 @@ class TopTenScraper:
         # Parser
         self.parser = self.html_helper.get_parser(url)
 
-    def __get_slug(self, node: Node) -> str | None:
+    @staticmethod
+    @return_on_error("")
+    def __get_slug(node: Node) -> str:
         slug = get_attribute(node, ".desi-head-title a", "href")
-        return slug.replace("/", "") if slug else None
+        return slug.replace("/", "") if slug else ""
 
-    def __get_chapters(self, node: Node) -> dict | None:
+    @staticmethod
+    @return_on_error({})
+    def __get_chapters(node: Node) -> dict:
         chapters_string = get_text(node, ".desi-sub-text")
         if chapters_string:
             total = chapters_string.split()[1]
@@ -24,12 +30,15 @@ class TopTenScraper:
             data_dict = {"total": total, "lang": lang}
 
             return data_dict
-        return None
+        return {}
 
-    def __get_genres(self, node: Node) -> list | None:
+    @staticmethod
+    @return_on_error([])
+    def __get_genres(node: Node) -> list:
         genres = node.css(".sc-detail .scd-genres span")
-        return [genre.text() for genre in genres] if genres else None
+        return [genre.text() for genre in genres] if genres else []
 
+    @return_on_error({})
     def __build_dict(self, node: Node) -> dict:
         manga_dict = {
             "title": get_text(node, ".desi-head-title a"),
@@ -42,6 +51,8 @@ class TopTenScraper:
 
         return manga_dict
 
+    @property
+    @return_on_error([])
     def scrape(self) -> list:
         managas_list = []
         container = self.parser.css_first(".deslide-wrap #slider .swiper-wrapper")

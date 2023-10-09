@@ -1,4 +1,6 @@
 from selectolax.parser import Node
+
+from app.api.decorators.return_decorator import return_on_error
 from ..utils import get_attribute, get_text
 from ..helpers.html_helper import HTMLHelper
 
@@ -12,17 +14,20 @@ class PopularScraper:
         self.parser = self.html_helper.get_parser(url)
 
     @staticmethod
-    def __get_slug(node: Node) -> str | None:
+    @return_on_error("")
+    def __get_slug(node: Node) -> str:
         slug = get_attribute(node, "a.link-mask", "href")
-        return slug.replace("/", "") if slug else None
+        return slug.replace("/", "") if slug else ""
 
     @staticmethod
-    def __get_langs(node: Node) -> list | None:
+    @return_on_error([])
+    def __get_langs(node: Node) -> list:
         langs = get_text(node, ".mp-desc p:nth-of-type(3)")
-        return langs.split("/") if langs else None
+        return langs.split("/") if langs else []
 
     @staticmethod
-    def __get_chapters_volumes(node: Node, index: int) -> dict | None:
+    @return_on_error({})
+    def __get_chapters_volumes(node: Node, index: int) -> dict:
         data = get_text(node, f".mp-desc p:nth-of-type({index})")
         if data:
             total = data.split()[1]
@@ -31,8 +36,9 @@ class PopularScraper:
             data_dict = {"total": total, "lang": lang}
 
             return data_dict
-        return None
+        return {}
 
+    @return_on_error({})
     def __build_dict(self, node) -> dict:
         manga_dict = {
             "rank": get_text(node, ".number span"),
@@ -47,6 +53,8 @@ class PopularScraper:
 
         return manga_dict
 
+    @property
+    @return_on_error([])
     def scrape(self) -> list:
         mangas_list = []
         container = self.parser.css_first("div#manga-trending")
