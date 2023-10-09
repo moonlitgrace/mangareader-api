@@ -2,7 +2,7 @@ from types import ClassMethodDescriptorType
 from selectolax.parser import Node
 
 from app.api.decorators.return_decorator import return_on_error
-from ..utils import get_text, get_attribute
+from app.api.helpers.scraper import ScrapeHelper
 from ..helpers.html_helper import HTMLHelper
 
 
@@ -16,32 +16,37 @@ class MostViewedScraper:
         self.chart = chart
         # Facades
         self.html_helper = HTMLHelper()
+        self.scraper_helper = ScrapeHelper()
         # Parser
         self.parser = self.html_helper.get_parser(url)
 
     @return_on_error("")
     def __get_slug(self, node: Node) -> str:
-        slug = get_attribute(node, ".manga-detail .manga-name a", "href")
+        slug = self.scraper_helper.get_attribute(
+            node, ".manga-detail .manga-name a", "href"
+        )
         return slug.replace("/", "") if slug else ""
 
     @return_on_error("")
     def __get_cover(self, node: Node) -> str:
-        cover = get_attribute(node, "img.manga-poster-img", "src")
+        cover = self.scraper_helper.get_attribute(node, "img.manga-poster-img", "src")
         return cover.replace("200x300", "500x800") if cover else ""
 
     @return_on_error("")
     def __get_views(self, node: Node) -> str:
-        views_string = get_text(node, ".fd-infor .fdi-view")
+        views_string = self.scraper_helper.get_text(node, ".fd-infor .fdi-view")
         return views_string.split()[0].replace(",", "") if views_string else ""
 
     @return_on_error([])
     def __get_langs(self, node: Node) -> list:
-        langs_string = get_text(node, ".fd-infor > span:nth-child(1)")
+        langs_string = self.scraper_helper.get_text(node, ".fd-infor > span:nth-child(1)")
         return [lang for lang in langs_string.split("/")] if langs_string else []
 
     @return_on_error("")
     def __get_chapters_volumes(self, node: Node, index: int) -> str:
-        data_string = get_text(node, f".d-block span:nth-child({index})")
+        data_string = self.scraper_helper.get_text(
+            node, f".d-block span:nth-child({index})"
+        )
         return data_string.split()[1] if data_string else ""
 
     @return_on_error([])
@@ -52,8 +57,8 @@ class MostViewedScraper:
     @return_on_error({})
     def __build_dict(self, node: Node) -> dict:
         manga_dict = {
-            "rank": get_text(node, ".ranking-number span"),
-            "title": get_text(node, ".manga-detail .manga-name a"),
+            "rank": self.scraper_helper.get_text(node, ".ranking-number span"),
+            "title": self.scraper_helper.get_text(node, ".manga-detail .manga-name a"),
             "slug": self.__get_slug(node),
             "cover": self.__get_cover(node),
             "views": self.__get_views(node),

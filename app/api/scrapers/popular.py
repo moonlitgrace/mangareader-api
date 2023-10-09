@@ -1,7 +1,7 @@
 from selectolax.parser import Node
 
 from app.api.decorators.return_decorator import return_on_error
-from ..utils import get_attribute, get_text
+from app.api.helpers.scraper import ScrapeHelper
 from ..helpers.html_helper import HTMLHelper
 
 
@@ -10,25 +10,23 @@ class PopularScraper:
         url = "https://mangareader.to/home"
         # Facades
         self.html_helper = HTMLHelper()
+        self.scraper_helper = ScrapeHelper()
         # Parser
         self.parser = self.html_helper.get_parser(url)
 
-    @staticmethod
     @return_on_error("")
-    def __get_slug(node: Node) -> str:
-        slug = get_attribute(node, "a.link-mask", "href")
+    def __get_slug(self, node: Node) -> str:
+        slug = self.scraper_helper.get_attribute(node, "a.link-mask", "href")
         return slug.replace("/", "") if slug else ""
 
-    @staticmethod
     @return_on_error([])
-    def __get_langs(node: Node) -> list:
-        langs = get_text(node, ".mp-desc p:nth-of-type(3)")
+    def __get_langs(self, node: Node) -> list:
+        langs = self.scraper_helper.get_text(node, ".mp-desc p:nth-of-type(3)")
         return langs.split("/") if langs else []
 
-    @staticmethod
     @return_on_error({})
-    def __get_chapters_volumes(node: Node, index: int) -> dict:
-        data = get_text(node, f".mp-desc p:nth-of-type({index})")
+    def __get_chapters_volumes(self, node: Node, index: int) -> dict:
+        data = self.scraper_helper.get_text(node, f".mp-desc p:nth-of-type({index})")
         if data:
             total = data.split()[1]
             lang = data.split()[2].translate(str.maketrans("", "", "[]"))
@@ -41,11 +39,11 @@ class PopularScraper:
     @return_on_error({})
     def __build_dict(self, node) -> dict:
         manga_dict = {
-            "rank": get_text(node, ".number span"),
-            "title": get_text(node, ".anime-name"),
+            "rank": self.scraper_helper.get_text(node, ".number span"),
+            "title": self.scraper_helper.get_text(node, ".anime-name"),
             "slug": self.__get_slug(node),
-            "cover": get_attribute(node, "img.manga-poster-img", "src"),
-            "rating": get_text(node, ".mp-desc p:nth-of-type(2)"),
+            "cover": self.scraper_helper.get_attribute(node, "img.manga-poster-img", "src"),
+            "rating": self.scraper_helper.get_text(node, ".mp-desc p:nth-of-type(2)"),
             "langs": self.__get_langs(node),
             "chapters": self.__get_chapters_volumes(node, 4),
             "volumes": self.__get_chapters_volumes(node, 5),

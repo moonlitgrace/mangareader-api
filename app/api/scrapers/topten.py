@@ -1,7 +1,7 @@
 from selectolax.parser import Node
 
 from app.api.decorators.return_decorator import return_on_error
-from ..utils import get_text, get_attribute
+from app.api.helpers.scraper import ScrapeHelper
 from ..helpers.html_helper import HTMLHelper
 
 
@@ -10,19 +10,18 @@ class TopTenScraper:
         url = "https://mangareader.to/home"
         # Facades
         self.html_helper = HTMLHelper()
+        self.scraper_helper = ScrapeHelper()
         # Parser
         self.parser = self.html_helper.get_parser(url)
 
-    @staticmethod
     @return_on_error("")
-    def __get_slug(node: Node) -> str:
-        slug = get_attribute(node, ".desi-head-title a", "href")
+    def __get_slug(self, node: Node) -> str:
+        slug = self.scraper_helper.get_attribute(node, ".desi-head-title a", "href")
         return slug.replace("/", "") if slug else ""
 
-    @staticmethod
     @return_on_error({})
-    def __get_chapters(node: Node) -> dict:
-        chapters_string = get_text(node, ".desi-sub-text")
+    def __get_chapters(self, node: Node) -> dict:
+        chapters_string = self.scraper_helper.get_text(node, ".desi-sub-text")
         if chapters_string:
             total = chapters_string.split()[1]
             lang = chapters_string.split()[2].translate(str.maketrans("", "", "[]"))
@@ -41,10 +40,10 @@ class TopTenScraper:
     @return_on_error({})
     def __build_dict(self, node: Node) -> dict:
         manga_dict = {
-            "title": get_text(node, ".desi-head-title a"),
+            "title": self.scraper_helper.get_text(node, ".desi-head-title a"),
             "slug": self.__get_slug(node),
-            "cover": get_attribute(node, "img.manga-poster-img", "src"),
-            "synopsis": get_text(node, ".sc-detail .scd-item"),
+            "cover": self.scraper_helper.get_attribute(node, "img.manga-poster-img", "src"),
+            "synopsis": self.scraper_helper.get_text(node, ".sc-detail .scd-item"),
             "chapters": self.__get_chapters(node),
             "genres": self.__get_genres(node),
         }
