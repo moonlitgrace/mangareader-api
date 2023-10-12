@@ -1,8 +1,13 @@
 {
+	"version": 2,
+	"devCommand": "python3 main.py",
   	"builds": [
 	    {
 	    	"src": "/server/api.py",
-	    	"use": "@now/python"
+	    	"use": "@vercel/python",
+	    	"config": {
+	    		"runtime": "python3.9"
+	    	}
 	    }
   	],
   	"routes": [
