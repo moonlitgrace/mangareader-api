@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 
-from app.api.endpoints import router
+from .routes import router
 
 app = FastAPI()
 app.include_router(router, prefix="/api")
