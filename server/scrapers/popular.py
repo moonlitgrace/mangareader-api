@@ -1,7 +1,7 @@
 from selectolax.parser import Node
 
-from app.api.decorators.return_decorator import return_on_error
-from app.api.helpers.scraper import ScrapeHelper
+from ..decorators.return_decorator import return_on_error
+from ..helpers.scraper import ScrapeHelper
 from ..helpers.html_helper import HTMLHelper
 
 
