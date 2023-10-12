@@ -5,8 +5,8 @@ Python-based web scraping tool built with FastAPI that provides easy access to m
 
 <h2>Api reference</h2>
 <p>
-    For more detailed documentation: <a href="https://manga-api-70c3.onrender.com/redoc">API ReDoc</a> <br>
-    For interactive documentation: <a href="https://manga-api-70c3.onrender.com/docs">API Doc</a>
+    For more detailed documentation: <a href="https://manga-scrape-api.vercel.app/redoc">API ReDoc</a> <br>
+    For interactive documentation: <a href="https://manga-scrape-api.vercel.app/docs">API Doc</a>
 </p>
 
 <h2>Features</h2>
