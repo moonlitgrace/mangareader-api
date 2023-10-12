@@ -20,12 +20,12 @@ class PopularScraper:
         return slug.replace("/", "") if slug else ""
 
     @return_on_error([])
-    def __get_langs(self, node: Node) -> list:
+    def __get_langs(self, node: Node):
         langs = self.scraper_helper.get_text(node, ".mp-desc p:nth-of-type(3)")
         return langs.split("/") if langs else []
 
     @return_on_error({})
-    def __get_chapters_volumes(self, node: Node, index: int) -> dict:
+    def __get_chapters_volumes(self, node: Node, index: int):
         data = self.scraper_helper.get_text(node, f".mp-desc p:nth-of-type({index})")
         if data:
             total = data.split()[1]
@@ -37,7 +37,7 @@ class PopularScraper:
         return {}
 
     @return_on_error({})
-    def __build_dict(self, node) -> dict:
+    def __build_dict(self, node):
         manga_dict = {
             "rank": self.scraper_helper.get_text(node, ".number span"),
             "title": self.scraper_helper.get_text(node, ".anime-name"),
@@ -53,7 +53,7 @@ class PopularScraper:
 
     @property
     @return_on_error([])
-    def scrape(self) -> list:
+    def scrape(self):
         mangas_list = []
         container = self.parser.css_first("div#manga-trending")
         nodes_list = container.css("div.swiper-slide")

@@ -20,7 +20,7 @@ class TopTenScraper:
         return slug.replace("/", "") if slug else ""
 
     @return_on_error({})
-    def __get_chapters(self, node: Node) -> dict:
+    def __get_chapters(self, node: Node):
         chapters_string = self.scraper_helper.get_text(node, ".desi-sub-text")
         if chapters_string:
             total = chapters_string.split()[1]
@@ -33,12 +33,12 @@ class TopTenScraper:
 
     @staticmethod
     @return_on_error([])
-    def __get_genres(node: Node) -> list:
+    def __get_genres(node: Node):
         genres = node.css(".sc-detail .scd-genres span")
         return [genre.text() for genre in genres] if genres else []
 
     @return_on_error({})
-    def __build_dict(self, node: Node) -> dict:
+    def __build_dict(self, node: Node):
         manga_dict = {
             "title": self.scraper_helper.get_text(node, ".desi-head-title a"),
             "slug": self.__get_slug(node),
@@ -52,7 +52,7 @@ class TopTenScraper:
 
     @property
     @return_on_error([])
-    def scrape(self) -> list:
+    def scrape(self):
         managas_list = []
         container = self.parser.css_first(".deslide-wrap #slider .swiper-wrapper")
         node_list = container.css("div.swiper-slide")

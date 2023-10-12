@@ -1,3 +1,4 @@
+from typing import Dict, List
 from pydantic import BaseModel
 
 
@@ -8,6 +9,6 @@ class PopularMangaModel(BaseModel):
     slug: str
     cover: str
     rating: float
-    langs: list[str]
-    chapters: dict[str, str]
-    volumes: dict[str, str]
+    langs: List[str]
+    chapters: Dict[str, str]
+    volumes: Dict[str, str]

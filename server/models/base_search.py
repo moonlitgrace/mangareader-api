@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, Optional
 from pydantic import BaseModel
 
 
@@ -9,4 +9,4 @@ class BaseSearchModel(BaseModel):
     slug: str
     cover: str
     langs: list[str]
-    chapters: Optional[dict[str, str]]
+    chapters: Optional[Dict[str, str]]

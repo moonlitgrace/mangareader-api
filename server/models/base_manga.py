@@ -1,3 +1,4 @@
+from typing import Dict, List
 from pydantic import BaseModel
 
 
@@ -13,8 +14,8 @@ class MangaModel(BaseModel):
     views: int
     cover: str
     synopsis: str
-    genres: list[str]
-    authers: list[str]
-    mangazines: list[str]
-    chapters: list[dict[str, str]]
-    volumes: list[dict[str, str]]
+    genres: List[str]
+    authers: List[str]
+    mangazines: List[str]
+    chapters: List[Dict[str, str]]
+    volumes: List[Dict[str, str]]

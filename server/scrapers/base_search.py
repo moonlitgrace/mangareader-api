@@ -61,7 +61,7 @@ class BaseSearchScraper:
         return {}
 
     @return_on_error([])
-    def scrape(self) -> list:
+    def scrape(self):
         manga_list = []
         container = self.parser.css_first(".manga_list-sbs")
         node_list = container.css("div.item.item-spc")

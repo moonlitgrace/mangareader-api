@@ -140,7 +140,7 @@ class BaseMangaScraper:
 
     @property
     @return_on_error({})
-    def scrape(self) -> dict:
+    def scrape(self):
         manga_dict = {
             "manga_id": self.__get_manga_id,
             "title": self.__get_title,
