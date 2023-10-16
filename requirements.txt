@@ -29,7 +29,7 @@ starlette==0.27.0
 typing_extensions==4.8.0
 urllib3==2.0.6
 uvicorn==0.23.2
-uvloop==0.17.0
+uvloop==0.18.0
 virtualenv==20.24.5
 watchfiles==0.21.0
 websockets==11.0.3
