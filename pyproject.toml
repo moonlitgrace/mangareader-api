@@ -11,7 +11,7 @@ python = "^3.11"
 fastapi = "^0.103.0"
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
 requests = "^2.31.0"
-selectolax = "^0.3.16"
+selectolax = "^0.3.17"
 pydantic-core = "^2.10.1"
 anyio = "^4.0.0"
 black = "^23.9.1"
