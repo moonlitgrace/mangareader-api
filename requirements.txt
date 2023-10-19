@@ -23,7 +23,7 @@ pydantic_core==2.10.1
 python-dotenv==1.0.0
 PyYAML==6.0.1
 requests==2.31.0
-selectolax==0.3.16
+selectolax==0.3.17
 sniffio==1.3.0
 starlette==0.27.0
 typing_extensions==4.8.0
