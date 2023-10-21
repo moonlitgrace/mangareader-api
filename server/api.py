@@ -1,10 +1,27 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 from .routes import router
 
 app = FastAPI()
 app.include_router(router, prefix="/api")
+
+# https://fastapi.tiangolo.com/advanced/templates/
+templates = Jinja2Templates(directory="client")
+
+
+# homepage route
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    # open README.md file
+    with open("README.md", "r", encoding="utf-8") as readme_file:
+        readme_content = readme_file.read()
+
+    context = {"request": request, "readme_content": readme_content}
+    # return template
+    return templates.TemplateResponse("index.html", context)
 
 
 # overrite "openapi.json"
