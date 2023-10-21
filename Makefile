@@ -1,5 +1,5 @@
-run: # run uvicorn server
-	poetry run uvicorn app.main:app --reload
+dev: # run uvicorn server
+	poetry run python3 main.py
 
-install: # install deps from poetry
+poetry: # install deps from poetry
 	poetry install
