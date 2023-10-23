@@ -34,4 +34,4 @@ uvicorn==0.23.2
 uvloop==0.17.0
 virtualenv==20.24.5
 watchfiles==0.20.0
-websockets==11.0.3
+websockets==12.0
