@@ -10,7 +10,7 @@ fastapi==0.103.0
 filelock==3.12.4
 h11==0.14.0
 httptools==0.6.1
-identify==2.5.30
+identify==2.5.31
 idna==3.4
 Jinja2==3.1.2
 MarkupSafe==2.1.3
