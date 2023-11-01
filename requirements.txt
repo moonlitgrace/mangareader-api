@@ -3,7 +3,7 @@ anyio==4.0.0
 black==23.10.1
 certifi==2023.7.22
 cfgv==3.4.0
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
 click==8.1.7
 distlib==0.3.7
 fastapi==0.103.0
