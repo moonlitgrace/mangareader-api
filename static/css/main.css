@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box !important;
+  text-transform: lowercase;
 }
 
 html, body {
@@ -82,6 +83,9 @@ main .container img {
 main .container .promo {
   margin-top: auto;
   color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* lines animation */
