@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+import markdown
 
 from .routes import router
 
@@ -19,9 +20,13 @@ async def index(request: Request):
     with open("README.md", "r", encoding="utf-8") as readme_file:
         readme_content = readme_file.read()
 
-    context = {"request": request, "readme_content": readme_content}
-    # return template
-    return templates.TemplateResponse("index.html", context)
+    return templates.TemplateResponse(
+        "index.html",
+        context={
+            "request": request,
+            "readme_content": markdown.markdown(readme_content),
+        },
+    )
 
 
 # overrite "openapi.json"
