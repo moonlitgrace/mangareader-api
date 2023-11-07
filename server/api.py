@@ -1,13 +1,22 @@
+import markdown
 from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-import markdown
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 from .routes import router
 
 app = FastAPI()
 app.include_router(router, prefix="/api")
+
+# https://stackoverflow.com/a/61644963/20547892
+app.mount(
+    "/static",
+    StaticFiles(directory=Path(__file__).parent.parent.absolute() / "static"),
+    name="static",
+)
 
 # https://fastapi.tiangolo.com/advanced/templates/
 templates = Jinja2Templates(directory="client")
