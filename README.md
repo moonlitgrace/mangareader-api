@@ -7,6 +7,24 @@ Python-based web scraping tool built with FastAPI that provides easy access to m
 Detailed documentation: [**API ReDoc**](https://manga-apiv1.vercel.app/redoc)  
 Interactive documentation: [**API Doc**](https://manga-apiv1.vercel.app/docs) (try API)
 
+### Local Setup
+
+We use [poetry](https://python-poetry.org/) as our package manager. So make sure you've poetry installed.  
+Also we use [gnu make](https://www.gnu.org/software/make/) (optional)
+
+**Step 1**: Clone this repo and `cd` into root directory.  
+**Step 2**: Setup `poetry`
+```bash
+poetry install
+# or make poetry
+```
+**Step 3**: Activate `poetry shell`  
+**Step 4**: Finally run app
+```bash
+poetry run python3 main.py
+# or make dev
+```
+
 ### Contribution
 
 Contributions to MangaAPI are welcome! If you encounter issues or want to add new features, feel free to open pull requests.  
