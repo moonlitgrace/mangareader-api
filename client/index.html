@@ -6,16 +6,33 @@
     <link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}">
 </head>
 <body>
-    <div style="max-width: 60rem;">
-        {{ readme_content|safe }}
+    <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
     </div>
-    <a
-        href="https://github.com/tokitouq/MangaAPI"
-        target="_blank"
-        style="position: fixed; right: 2rem; top: 1rem;"
-    >
-        Github
-    </a>
+    <main>
+        <div class="container">
+            <h1>
+                manga-api
+                <a href="https://github.com/tokitouq/manga-api" target="_blank">&#128279;</a>
+            </h1>
+            <p>A Python-based web scraping API built with FastAPI that provides easy access to manga contents.</p>
+            <div class="links">
+                <a href="https://github.com/tokitouq/manga-api" target="_blank">
+                    <button style="background: transparent; color: white; text-decoration: underline;">see-github</button>
+                </a>
+                <a href="https://manga-apiv1.vercel.app/redoc" target="_blank">
+                    <button>see-docs</button>
+                </a>
+            </div>
+            <img src="{{ url_for('static', path='/images/code.png') }}">
+            <span class="promo">
+                <span>Give a ⭐️ if you find this project interesting and useful!</span>
+                <span>under <a href="https://github.com/tokitouq/manga-api/blob/main/LICENSE" target="_blank" style="color: white; text-transform: uppercase;">MIT</a> license</span>
+            </span>
+        </div>
+    </main>
 
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
