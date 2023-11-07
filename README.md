@@ -9,6 +9,7 @@ Interactive documentation: [**API Doc**](https://manga-apiv1.vercel.app/docs) (t
 
 ### Local Setup
 
+#### Using Poetry (recommended)
 We use [poetry](https://python-poetry.org/) as our package manager. So make sure you've poetry installed.  
 Also we use [gnu make](https://www.gnu.org/software/make/) (optional)
 
@@ -25,14 +26,27 @@ poetry run python3 main.py
 # or make dev
 ```
 
+#### Using pip
+**Step 1**: Clone this repo and `cd` into root directory.  
+**Step 2**: Create a virtual env (recommended) and activate it ([venv](https://docs.python.org/3/library/venv.html))  
+**Step 3**: Install dependencies  
+```bash
+pip install -r requirements.txt
+```
+**Step 4**: Finally run app with `python3 main.py`
+
+**Done, now you're good to go!**
+
 ### Contribution
 
-Contributions to MangaAPI are welcome! If you encounter issues or want to add new features, feel free to open pull requests.  
+Contributions to MangaAPI are welcome!  
+If you encounter issues or want to add new features, feel free to open pull requests.  
 Give a ⭐️ if you find this project interesting and useful!
 
 ### Disclaimer
 
-This project is developed for educational purposes and convenience in accessing manga content. Respect the website's terms of use and consider the legality of web scraping in your jurisdiction.
+This project is developed for educational purposes and convenience in accessing manga content.  
+Respect the website's terms of use and consider the legality of web scraping in your jurisdiction.
 
 ### License
 ```
