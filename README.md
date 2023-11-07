@@ -1,34 +1,42 @@
-<img src="https://github.com/tokitou-san/MangaAPI/assets/114811070/235fe1d6-8120-49b1-90d9-3be30bcf25f2" width="250px" />
-<p>
+# manga-api
+
 Python-based web scraping tool built with FastAPI that provides easy access to manga content from the mangareader.to website. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.
-</p>
-<blockquote>Under development</blockquote>
 
-<h2>API Guide</h2>
-<p>
-    Detailed documentation: <a href="https://manga-apiv1.vercel.app/redoc"><b>API ReDoc</b></a> <br>
-    Interactive documentation: <a href="https://manga-apiv1.vercel.app/docs"><b>API Doc</b></a> ( try api online )
-</p>
+### API Guide
 
-<h2>Features</h2>
-<ul>
-    <li><b>Effortless Scraping</b>: Harness the power of web scraping to extract manga data from <a href="mangareader.to">mangareader.to</a> effortlessly.</li>
-    <li><b>FastAPI Framework</b>: Built using FastAPI, a modern, fast, web framework for building APIs.</li>
-    <li><b>User-Friendly Endpoints</b>: Intuitive API endpoints for querying manga titles, chapters, and pages.</li>
-    <li><b>Structured Data</b>: Get well-structured JSON responses that make it easy to integrate the scraped data into your applications.</li>
-    <li><b>Real-time Updates</b>: Access the latest manga content by fetching data directly from MangaReader.to.</li>
-    <li><b>Customizable</b>: The modular architecture allows for easy expansion and customization.</li>
-    <li><b>Self-Hostable</b>: Deploy the API on your own server and enjoy full control over your manga data access.</li>
-</ul>
+Detailed documentation: [**API ReDoc**](https://manga-apiv1.vercel.app/redoc)  
+Interactive documentation: [**API Doc**](https://manga-apiv1.vercel.app/docs) (try API)
 
-<h2>Contribution</h2>
-<p>
-    Contributions to MangaAPI are welcome! If you encounter issues or want to add new features, feel free to open pull requests. <br>
-    Give a ⭐️ if you find this project interesting and useful!
-</p>
+### Contribution
 
-<h2>Disclaimer</h2>
-<p>This project is developed for educational purposes and convenience in accessing manga content. Respect the website's terms of use and consider the legality of web scraping in your jurisdiction.</p>
+Contributions to MangaAPI are welcome! If you encounter issues or want to add new features, feel free to open pull requests.  
+Give a ⭐️ if you find this project interesting and useful!
 
-<h2>License</h2>
-<p>MangaAPI is released under the <a href="LICENSE">MIT License</a>.</p>
+### Disclaimer
+
+This project is developed for educational purposes and convenience in accessing manga content. Respect the website's terms of use and consider the legality of web scraping in your jurisdiction.
+
+### License
+```
+MIT License
+
+Copyright (c) 2023 Tokito
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
