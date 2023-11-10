@@ -1,5 +1,5 @@
 anyio==4.0.0
-black==23.10.1
+black==23.11.0
 certifi==2023.7.22
 cfgv==3.4.0
 charset-normalizer==3.3.2
