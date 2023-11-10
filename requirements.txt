@@ -21,7 +21,7 @@ pathspec==0.11.2
 platformdirs==3.11.0
 pre-commit==3.5.0
 pydantic==1.10.13
-pydantic_core==2.12.0
+pydantic_core==2.14.1
 python-dotenv==1.0.0
 PyYAML==6.0.1
 requests==2.31.0
