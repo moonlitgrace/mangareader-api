@@ -23,7 +23,7 @@ templates = Jinja2Templates(directory="client")
 
 
 # homepage route
-@app.get("/", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
 async def index(request: Request):
     # open README.md file
     with open("README.md", "r", encoding="utf-8") as readme_file:
