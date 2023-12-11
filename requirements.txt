@@ -1,3 +1,4 @@
+annotated-types==0.6.0
 anyio==4.1.0
 black==23.11.0
 certifi==2023.11.17
@@ -19,8 +20,8 @@ nodeenv==1.8.0
 packaging==23.2
 pathspec==0.12.1
 platformdirs==4.1.0
-pre-commit==3.5.0
-pydantic==1.10.13
+pre-commit==3.6.0
+pydantic==2.5.2
 pydantic_core==2.14.5
 python-dotenv==1.0.0
 PyYAML==6.0.1
