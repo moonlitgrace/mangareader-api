@@ -1,5 +1,9 @@
 from typing import Dict, Type
-from . import myanimelist
+from . import myanimelist, mangareader
+
+
+class MangaReader:
+    manga = mangareader.manga
 
 
 class MyAnimeList:
@@ -12,7 +16,10 @@ providers_urls: Dict = {
 }
 
 providers_css_selectors: Dict[str, Dict[str, Type[MyAnimeList]]] = {
+    "mangareader": {
+        "manga": MangaReader.manga,
+    },
     "myanimelist": {
         "manga": MyAnimeList.manga,
-    }
+    },
 }
