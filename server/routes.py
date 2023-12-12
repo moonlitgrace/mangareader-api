@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from providers import providers_urls, providers_css_selectors
+from .scrapers import MangaScraper
 
 router = APIRouter()
 
@@ -12,4 +13,6 @@ async def manga(provider: str, id: int, title: str):
 
     manga_url = f"{provider_url}/{id}/{title}/"
     css_selectors = providers_css_selectors.get(provider).get("manga")
-    return css_selectors
+
+    manga_scraper = MangaScraper(url=manga_url, css_selectors=css_selectors)
+    return manga_scraper.scrape()

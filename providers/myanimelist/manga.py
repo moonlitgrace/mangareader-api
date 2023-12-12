@@ -1,5 +1,5 @@
 from typing import Dict
 
 selectors_dict: Dict = {
-    "title": ".title-name > strong:nth-child(1)",
+    "title": ".h1-title > span:nth-child(1)",
 }
