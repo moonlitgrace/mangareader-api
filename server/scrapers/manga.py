@@ -1,5 +1,6 @@
 from typing import Dict
 from server.helpers import ScrapeHelper, HTMLHelper
+from ..models import Manga
 
 
 class MangaScraper:
@@ -39,4 +40,5 @@ class MangaScraper:
             "synopsis": self.__get_item("synopsis"),
         }
 
-        return manga_dict
+        manga_instance = Manga(**manga_dict)
+        return manga_instance
