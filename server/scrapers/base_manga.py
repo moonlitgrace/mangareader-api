@@ -1,4 +1,3 @@
-from ..models.base_manga import MangaModel
 from ..decorators.return_decorator import return_on_error
 from ..helpers.string import StringHelper
 from ..helpers.html_helper import HTMLHelper
