@@ -1,3 +1,5 @@
+from providers.kitsu import manga as kitsu_manga
+from .scrapers.base_manga_scraper import BaseMangaScraper as KitsuMangaScraper
 from fastapi import APIRouter, HTTPException, Query
 
 # helpers
@@ -177,3 +179,14 @@ async def type(
     if not response:
         raise HTTPException(status_code=404, detail=f"Manga of type {type} was not found")
     return response[offset : offset + limit]
+
+
+#############################################
+kitsu_scraper = KitsuMangaScraper(
+    url="https://myanimelist.net/anime/21/One_Piece", css_selectors=kitsu_manga
+)
+
+
+@router.get(path="/kitsu/manga/")
+async def kitsu_manga():
+    return kitsu_scraper.scrape()
