@@ -2,7 +2,7 @@ from typing import Dict
 from server.helpers import ScrapeHelper, HTMLHelper
 
 
-class BaseMangaScraper:
+class MangaScraper:
     def __init__(self, url: str, css_selectors: Dict) -> None:
         # facades
         self.string_helper = ScrapeHelper()
