@@ -25,12 +25,10 @@ class SearchMangaScraper:
             return None
         # if item is a string with int
         try:
-            int(item)
+            return float(item)
         except Exception:
             nums = re.findall(r"\d+", item)
             return float(nums[0])
-        # normal
-        return float(item)
 
     def __get_item_list(self, node_main: Node, property_name: str):
         nodes = node_main.css(self.css_selectors.get(property_name, ""))

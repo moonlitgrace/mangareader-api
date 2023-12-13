@@ -1,7 +1,8 @@
+from typing import List
 from fastapi import APIRouter, HTTPException
 from providers import providers_urls, providers_css_selectors
 from .scrapers import MangaScraper, SearchMangaScraper
-from .models import Manga
+from .models import Manga, Search
 
 router = APIRouter()
 
@@ -20,7 +21,7 @@ async def manga(provider: str, title: str) -> Manga:
     return manga_scraper.scrape()
 
 
-@router.get(path="/{provider}/search/{query}")
+@router.get(path="/{provider}/search/{query}", response_model=List[Search])
 async def search(provider: str, query: str):
     provider_url = providers_urls.get(provider)
     if not provider_url:
