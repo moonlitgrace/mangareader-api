@@ -1,6 +1,6 @@
 from typing import Dict
 
-selectors_dict: Dict = {
+css_selectors: Dict = {
     "title": ".anis-content h2.manga-name",
     "alt_title": ".anis-content div.manga-name-or",
     "type": ".anis-content .anisc-info .item:nth-child(1) a",

@@ -1,1 +1,2 @@
-from .manga import selectors_dict as manga
+from .manga import css_selectors as manga
+from .search import css_selectors as search
