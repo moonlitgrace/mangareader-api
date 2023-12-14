@@ -1,179 +1,50 @@
-from fastapi import APIRouter, HTTPException, Query
-
-# helpers
-from .helpers.string import StringHelper
-
-# decorators
-from .decorators.return_decorator import return_on_404
-
-# scrapers
-from .scrapers.popular import PopularScraper
-from .scrapers.topten import TopTenScraper
-from .scrapers.most_viewed import MostViewedScraper
-from .scrapers.base_search import BaseSearchScraper
-from .scrapers.base_manga import BaseMangaScraper
-
-# models
-from .models.popular import PopularMangaModel
-from .models.top_ten import TopTenMangaModel
-from .models.most_viewed import MostViewedMangaModel
-from .models.base_manga import MangaModel
-from .models.base_search import BaseSearchModel
+from typing import List
+from fastapi import APIRouter, HTTPException
+from providers import providers_urls, providers_css_selectors
+from .scrapers import MangaScraper, SearchMangaScraper
+from .models import Manga, Search
 
 router = APIRouter()
-# Facades
-string_helper = StringHelper()
 
 
-# router endpoints
-@router.get(
-    path="/popular",
-    response_model=list[PopularMangaModel],
-    summary="Popular Mangas",
-    description="Get a list of Mangas which is popular/trending this season. Returns basic details of mangas, use its `slug` to get more details of Manga.",
-)
-@return_on_404()
-async def get_popular(offset: int = 0, limit: int = Query(10, le=10)):
-    response = PopularScraper().scrape
-    return response[offset : offset + limit]
+@router.get(path="/services")
+async def services():
+    providers_list = [
+        {provider: list(providers_css_selectors[provider])}
+        for provider in providers_css_selectors
+    ]
+    return providers_list
 
 
-@router.get(
-    path="/top-10",
-    response_model=list[TopTenMangaModel],
-    summary="Top 10 Mangas",
-    description="Get a list of Mangas which is top 10 this season. Returns basic details of mangas, use its `slug` to get more details of Manga.",
-)
-@return_on_404()
-async def get_top_ten(offset: int = 0, limit: int = Query(10, le=10)):
-    response = TopTenScraper().scrape
-    return response[offset : offset + limit]
+@router.get(path="/{provider}/manga/{query}", response_model=Manga)
+async def manga(provider: str, query: str) -> Manga:
+    provider_url = providers_urls.get(provider)
+    if not provider_url:
+        raise HTTPException(404, detail="Provider not found!")
+
+    provider_manga_url = provider_url.get("manga")
+    if not provider_manga_url:
+        raise HTTPException(404, detail=f"{provider} does't provide 'manga' service")
+
+    manga_url = f"{provider_manga_url}{query}/"
+    css_selectors = providers_css_selectors.get(provider).get("manga")
+
+    manga_scraper = MangaScraper(url=manga_url, css_selectors=css_selectors)
+    return manga_scraper.scrape()
 
 
-@router.get(
-    path="/most-viewed/{chart}",
-    response_model=list[MostViewedMangaModel],
-    summary="Most Viewed Mangas",
-    description="Get a list of Mangas which is most viewed by chart - `today` `week` `month`. Returns basic details of mangas, use its `slug` to get more details of Manga.",
-)
-@return_on_404()
-async def get_most_viewed(chart: str, offset: int = 0, limit: int = Query(10, le=10)):
-    most_viewed_scraper = MostViewedScraper(chart)
+@router.get(path="/{provider}/search/{query}", response_model=List[Search])
+async def search(provider: str, query: str):
+    provider_url = providers_urls.get(provider)
+    if not provider_url:
+        raise HTTPException(404, detail="Provider not found!")
 
-    if chart in most_viewed_scraper.CHARTS:
-        response = most_viewed_scraper.scrape
-        return response[offset : offset + limit]
-    else:
-        raise HTTPException(status_code=404, detail=f"Invalid chart {chart}")
+    provider_search_url = provider_url.get("search")
+    if not provider_search_url:
+        raise HTTPException(404, detail=f"{provider} does't provide 'search' service")
 
+    search_url = f"{provider_search_url}{query}"
+    css_selectors = providers_css_selectors.get(provider).get("search")
 
-@router.get(
-    path="/manga/{slug}",
-    response_model=MangaModel,
-    summary="Manga",
-    description="Get more details about a specific Manga by `slug`, eg: `/manga/one-piece-3/` - returns the full details of that specific Manga.",
-)
-@return_on_404()
-async def get_manga(slug: str):
-    response = BaseMangaScraper(url=f"https://mangareader.to/{slug}").scrape
-
-    if not response["title"]:
-        raise HTTPException(status_code=404, detail=f"Manga with slug {slug} was not found")
-    return response
-
-
-@router.get(
-    path="/search",
-    response_model=list[BaseSearchModel],
-    summary="Search Mangas",
-    description="Search Mangas with a `keyword` as query. eg: `/search/?keyword=one piece/` - returns a list of Mangas according to this keyword.",
-)
-@return_on_404()
-async def search(
-    keyword: str, page: int = 1, offset: int = 0, limit: int = Query(10, le=18)
-):
-    url = f"https://mangareader.to/search?keyword={keyword}&page={page}"
-    response = BaseSearchScraper(url).scrape()
-
-    if not response:
-        raise HTTPException(
-            status_code=404, detail=f"Manga with keyword {keyword} was not found"
-        )
-    return response[offset : offset + limit]
-
-
-@router.get(
-    path="/random",
-    response_model=MangaModel,
-    summary="Random",
-    description="Get details about random Manga. Returns a `dict` of randomly picked Manga. Note: some fields might be `null` because all animes are not registered properly in database.",
-)
-@return_on_404()
-async def random():
-    response = BaseMangaScraper(url="https://mangareader.to/random/").scrape
-    return response
-
-
-@router.get(
-    path="/completed",
-    response_model=list[BaseSearchModel],
-    summary="Completed Mangas",
-    description="Get list of completed airing Mangas. eg: `/completed/` - returns a list of Mangas which is completed airing lately. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`.",
-)
-@return_on_404()
-async def completed(
-    page: int = 1, sort: str = "default", offset: int = 0, limit: int = Query(10, le=18)
-):
-    slugified_sort = string_helper.slugify(sort, "-")
-    url = f"https://mangareader.to/completed/?sort={slugified_sort}&page={page}"
-    response = BaseSearchScraper(url).scrape()
-    return response[offset : offset + limit]
-
-
-@router.get(
-    path="/genre/{genre}",
-    response_model=list[BaseSearchModel],
-    summary="Genre",
-    description="Search Mangas with genres. eg: `/genre/action/` - returns a list of Mangas with genre `action`. Also has `sort` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `sort` queries - `default` `last-updated` `score` `name-az` `release-date` `most-viewed`.",
-)
-@return_on_404()
-async def genre(
-    genre: str,
-    page: int = 1,
-    sort: str = "default",
-    offset: int = 0,
-    limit: int = Query(10, le=18),
-):
-    slugified_sort = string_helper.slugify(sort, "-")
-    url = f"https://mangareader.to/genre/{genre}/?sort={slugified_sort}&page={page}"
-    response = BaseSearchScraper(url).scrape()
-
-    if not response:
-        raise HTTPException(
-            status_code=404, detail=f"Manga with genre {genre} was not found"
-        )
-    return response[offset : offset + limit]
-
-
-@router.get(
-    path="/type/{type}",
-    response_model=list[BaseSearchModel],
-    summary="Type",
-    description="Search Mangas with types. eg: `/type/manga/` - returns a list of Mangas with type `manga`. Also has `page` query which get each pages of Mangas ( 1 page contains 18 Mangas ): valid `type` queries - `manga`, `one-shot`, `doujinshi`, `light-novel`, `manhwa`, `manhua`, `comic`.",
-)
-@return_on_404()
-async def type(
-    type: str,
-    page: int = 1,
-    sort: str = "default",
-    offset: int = 0,
-    limit: int = Query(10, le=18),
-):
-    slugified_type = string_helper.slugify(type, "-")
-    slugified_sort = string_helper.slugify(sort, "-")
-    url = f"https://mangareader.to/type/{slugified_type}?sort={slugified_sort}&page={page}"
-    response = BaseSearchScraper(url).scrape()
-
-    if not response:
-        raise HTTPException(status_code=404, detail=f"Manga of type {type} was not found")
-    return response[offset : offset + limit]
+    search_scraper = SearchMangaScraper(url=search_url, css_selectors=css_selectors)
+    return search_scraper.scrape()
