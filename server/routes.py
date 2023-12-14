@@ -7,8 +7,8 @@ from .models import Manga, Search
 router = APIRouter()
 
 
-@router.get(path="/")
-async def api():
+@router.get(path="/services")
+async def services():
     providers_list = {
         provider: list(providers_css_selectors[provider])
         for provider in providers_css_selectors
