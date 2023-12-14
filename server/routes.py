@@ -9,12 +9,10 @@ router = APIRouter()
 
 @router.get(path="/")
 async def api():
-    providers_list = {}
-    for key in providers_css_selectors:
-        provider_services_list = []
-        for service in providers_css_selectors[key]:
-            provider_services_list.append(service)
-        providers_list[key] = provider_services_list
+    providers_list = {
+        provider: list(providers_css_selectors[provider])
+        for provider in providers_css_selectors
+    }
     return providers_list
 
 
