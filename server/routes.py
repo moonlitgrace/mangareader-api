@@ -7,8 +7,19 @@ from .models import Manga, Search
 router = APIRouter()
 
 
-@router.get(path="/{provider}/manga/{title}", response_model=Manga)
-async def manga(provider: str, title: str) -> Manga:
+@router.get(path="/")
+async def api():
+    providers_list = {}
+    for key in providers_css_selectors:
+        provider_services_list = []
+        for service in providers_css_selectors[key]:
+            provider_services_list.append(service)
+        providers_list[key] = provider_services_list
+    return providers_list
+
+
+@router.get(path="/{provider}/manga/{query}", response_model=Manga)
+async def manga(provider: str, query: str) -> Manga:
     provider_url = providers_urls.get(provider)
     if not provider_url:
         raise HTTPException(404, detail="Provider not found!")
@@ -17,7 +28,7 @@ async def manga(provider: str, title: str) -> Manga:
     if not provider_manga_url:
         raise HTTPException(404, detail=f"{provider} does't provide 'manga' service")
 
-    manga_url = f"{provider_manga_url}{title}/"
+    manga_url = f"{provider_manga_url}{query}/"
     css_selectors = providers_css_selectors.get(provider).get("manga")
 
     manga_scraper = MangaScraper(url=manga_url, css_selectors=css_selectors)
