@@ -14,6 +14,9 @@ async def manga(provider: str, title: str) -> Manga:
         raise HTTPException(404, detail="Provider not found!")
 
     provider_manga_url = provider_url.get("manga")
+    if not provider_manga_url:
+        raise HTTPException(404, detail=f"{provider} does't provide 'manga' service")
+
     manga_url = f"{provider_manga_url}{title}/"
     css_selectors = providers_css_selectors.get(provider).get("manga")
 
@@ -28,6 +31,9 @@ async def search(provider: str, query: str):
         raise HTTPException(404, detail="Provider not found!")
 
     provider_search_url = provider_url.get("search")
+    if not provider_search_url:
+        raise HTTPException(404, detail=f"{provider} does't provide 'search' service")
+
     search_url = f"{provider_search_url}{query}"
     css_selectors = providers_css_selectors.get(provider).get("search")
 
