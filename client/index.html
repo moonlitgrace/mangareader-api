@@ -4,6 +4,10 @@
     <title>MangaAPI - A Python-based web scraping API built with FastAPI</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/images/favicon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}">
+
+    <!-- Vendor js files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='vendor/daisy-ui/daisy-ui.min.css') }}">
+    <script src="{{ url_for('static', path='vendor/tailwind/tailwind.js') }}"></script>
 </head>
 <body>
     <div class="lines">
@@ -22,7 +26,7 @@
                 <a href="https://github.com/tokitouq/manga-api" target="_blank">
                     <button style="background: transparent; color: white; text-decoration: underline;">see-github</button>
                 </a>
-                <a href="https://manga-apiv1.vercel.app/redoc" target="_blank">
+                <a class="btn btn-primary" href="https://manga-apiv1.vercel.app/redoc" target="_blank">
                     <button>see-docs</button>
                 </a>
             </div>
