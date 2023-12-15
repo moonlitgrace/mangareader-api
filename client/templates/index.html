@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MangaAPI - A Python-based web scraping API built with FastAPI</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/images/favicon.png') }}">
+
+    <!-- Vendor js files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='vendor/daisy-ui/daisy-ui.min.css') }}">
+    <script src="{{ url_for('static', path='vendor/tailwind/tailwind.js') }}"></script>
+  </head>
+  <body class="bg-black font-mono">
+    <main class="flex flex-col md:gap-4 w-screen h-screen items-center justify-center">
+      <h1 class="flex items-center md:gap-5 md:text-7xl font-semibold">
+        manga-api
+        <img class="md:w-auto md:h-16" src="{{ url_for('static', path='images/seseren-cute.gif') }}" alt="Gif">
+      </h1>
+      <a
+        target="_blank"
+        class="btn btn-primary md:text-base"
+        href="https://manga-apiv1.vercel.app/docs/"
+      >
+        Swagger Docs
+      </a>
+      <div role="alert" class="alert w-max">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>Hi! API and doc pages are under refactoring...</span>
+      </div>
+    </main>
+
+    <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>
