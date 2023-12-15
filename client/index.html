@@ -1,46 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>MangaAPI - A Python-based web scraping API built with FastAPI</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/images/favicon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}">
 
     <!-- Vendor js files -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='vendor/daisy-ui/daisy-ui.min.css') }}">
     <script src="{{ url_for('static', path='vendor/tailwind/tailwind.js') }}"></script>
-</head>
-<body>
-    <div class="lines">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
-    <main>
-        <div class="container">
-            <h1>
-                manga-api
-                <a href="https://github.com/tokitouq/manga-api" target="_blank">&#128279;</a>
-            </h1>
-            <p>A Python-based web scraping API built with FastAPI that provides easy access to manga contents.</p>
-            <div class="links">
-                <a href="https://github.com/tokitouq/manga-api" target="_blank">
-                    <button style="background: transparent; color: white; text-decoration: underline;">see-github</button>
-                </a>
-                <a class="btn btn-primary" href="https://manga-apiv1.vercel.app/redoc" target="_blank">
-                    <button>see-docs</button>
-                </a>
-            </div>
-            <img src="{{ url_for('static', path='/images/code.png') }}">
-            <span class="promo">
-                <span>Give a ⭐️ if you find this project interesting and useful!</span>
-                <span>under <a href="https://github.com/tokitouq/manga-api/blob/main/LICENSE" target="_blank" style="color: white; text-transform: uppercase;">MIT</a> license</span>
-            </span>
-        </div>
+  </head>
+  <body class="bg-black">
+    <main class="flex flex-col w-screen h-screen items-center justify-center">
+      <h1 class="md:text-[5vw]">manga-api</h1>
+      <a
+        target="_blank"
+        class="btn btn-primary leading-none md:px-[2vw] md:py-[1vw] md:text-[1vw]"
+        href="https://manga-apiv1.vercel.app/docs/"
+      >
+        Swagger Docs
+      </a>
     </main>
 
     <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
-</body>
+  </body>
 </html>
