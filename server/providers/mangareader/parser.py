@@ -1,5 +1,5 @@
-from requests import RequestException
 from ...helpers import HTMLHelper
+from fastapi.exceptions import HTTPException
 
 
 class MangaReader:
@@ -70,5 +70,6 @@ class MangaReader:
             }
 
             return manga_dict
-        except RequestException as err:
-            raise RuntimeError(str(err))
+        except Exception as err:
+            print(err)
+            raise HTTPException(status_code=404, detail="Page not found! Try another query.")
