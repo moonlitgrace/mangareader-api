@@ -1,10 +1,10 @@
 from fastapi import APIRouter
-from .parser import MangaReader
+from .manga import MangaParser
 
 router = APIRouter()
 
 
 @router.get("/manga/{query}")
 async def manga(query: str):
-    manga_reader = MangaReader()
-    return manga_reader.get_manga(query=query)
+    manga_parser = MangaParser(query)
+    return manga_parser.build_dict()
