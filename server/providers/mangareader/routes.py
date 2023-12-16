@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
-from .manga import MangaParser
-from .search import SearchParser
+from .parsers import MangaParser, SearchParser
 from ...decorators import return_on_404
 
 router = APIRouter()

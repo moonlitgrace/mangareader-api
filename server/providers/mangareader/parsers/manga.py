@@ -1,5 +1,5 @@
-from ...helpers import HTMLHelper
-from ...decorators import return_on_error
+from server.helpers import HTMLHelper
+from server.decorators import return_on_error
 
 class MangaParser:
     def __init__(self, query: str):

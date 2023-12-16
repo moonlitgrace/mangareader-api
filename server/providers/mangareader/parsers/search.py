@@ -1,7 +1,7 @@
 import re
 from selectolax.parser import Node
-from ...helpers import HTMLHelper
-from ...decorators import return_on_error
+from server.decorators import return_on_error
+from server.helpers import HTMLHelper
 
 
 class SearchParser:
