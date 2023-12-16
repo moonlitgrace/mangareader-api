@@ -15,7 +15,9 @@ class MangaReader:
             manga_dict = {
                 "title": _.css_first(".anisc-detail .manga-name").text(strip=True),
                 "slug": query,
-                "alt_title": _.css_first(".anisc-detail .manga-name-or").text(strip=True),
+                "alt_title": _.css_first(".anisc-detail .manga-name-or").text(
+                    strip=True
+                ),
                 "type": (
                     _.select("span")
                     .text_contains("Type:")
@@ -48,7 +50,10 @@ class MangaReader:
                     .split("to")[0]
                     .strip()
                 ),
-                "genres": [genre.text(strip=True).lower() for genre in _.css(".anisc-detail .genres a")],
+                "genres": [
+                    genre.text(strip=True).lower()
+                    for genre in _.css(".anisc-detail .genres a")
+                ],
                 "score": (
                     _.select("span")
                     .text_contains("Score:")
@@ -56,8 +61,12 @@ class MangaReader:
                     .parent.css_first(".name")
                     .text(strip=True)
                 ),
-                "cover": _.css_first(".anisc-poster .manga-poster-img").attrs.get("src", ""),
-                "synopsis": _.css_first(".modal-content .description-modal").text(strip=True),
+                "cover": _.css_first(".anisc-poster .manga-poster-img").attrs.get(
+                    "src", ""
+                ),
+                "synopsis": _.css_first(".modal-content .description-modal").text(
+                    strip=True
+                ),
             }
 
             return manga_dict
