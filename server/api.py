@@ -6,10 +6,12 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from .routes import router
+# provider routes
+from .providers.mangareader import mangareader_router
 
 app = FastAPI()
-app.include_router(router, prefix="/api")
+# set routes for each providers
+app.include_router(mangareader_router, prefix="/mangareader")
 
 # https://stackoverflow.com/a/61644963/20547892
 app.mount(
