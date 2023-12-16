@@ -16,6 +16,7 @@ class MangaReader:
         manga_dict["type"] = _.select("span").text_contains("Type:").matches[0].parent.css_first(".name").text(strip=True).lower()
         manga_dict["status"] = _.select("span").text_contains("Status:").matches[0].parent.css_first(".name").text(strip=True).lower()
         manga_dict["authors"] = _.select("span").text_contains("Authors:").matches[0].parent.css_first("a").text(strip=True)
+        manga_dict["published_date"] = _.select("span").text_contains("Published:").matches[0].parent.css_first(".name").text(strip=True).split("to")[0].strip()
         manga_dict["genres"] = [genre.text(strip=True).lower() for genre in _.css(".anisc-detail .genres a")]
         manga_dict["score"] = _.select("span").text_contains("Score:").matches[0].parent.css_first(".name").text(strip=True)
         manga_dict["cover"] = _.css_first(".anisc-poster .manga-poster-img").attrs.get("src", "")
