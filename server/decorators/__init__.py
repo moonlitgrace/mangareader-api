@@ -1,1 +1,2 @@
+from .return_on_404_decorator import return_on_404
 from .return_on_error_decorator import return_on_error
