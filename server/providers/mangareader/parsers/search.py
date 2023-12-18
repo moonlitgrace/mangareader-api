@@ -39,25 +39,27 @@ class SearchParser:
     @return_on_error(None)
     def get_chapters(self, container: Node):
         node = container.select("a").text_contains("Chap").matches[1]
-        return float(re.findall(r'\d+', node.text(strip=True))[0])
+        return float(re.findall(r"\d+", node.text(strip=True))[0])
 
     @return_on_error(None)
     def get_volumes(self, container: Node):
         node = container.select("a").text_contains("Vol").matches[1]
-        return float(re.findall(r'\d+', node.text(strip=True))[0])
+        return float(re.findall(r"\d+", node.text(strip=True))[0])
 
     def build_list(self):
         container_list = self.parser.css(".mls-wrap .item")
         manga_list = []
 
         for container in container_list:
-            manga_list.append({
-                "title": self.get_title(container),
-                "slug": self.get_slug(container),
-                "genres": self.get_genres(container),
-                "cover": self.get_cover(container),
-                "chapters": self.get_chapters(container),
-                "volumes": self.get_volumes(container),
-            })
+            manga_list.append(
+                {
+                    "title": self.get_title(container),
+                    "slug": self.get_slug(container),
+                    "genres": self.get_genres(container),
+                    "cover": self.get_cover(container),
+                    "chapters": self.get_chapters(container),
+                    "volumes": self.get_volumes(container),
+                }
+            )
 
         return manga_list

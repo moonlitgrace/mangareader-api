@@ -6,6 +6,9 @@ from pathlib import Path
 from .providers import mangareader_router
 from .docs import docs_router
 
+# docs routes
+from .docs import docs_router
+
 app = FastAPI()
 
 app.include_router(docs_router, prefix="", tags=["Docs"])
@@ -18,6 +21,7 @@ app.mount(
     StaticFiles(directory=Path(__file__).parent.parent.absolute() / "static"),
     name="static",
 )
+
 
 # overrite "openapi.json"
 def custom_openapi():
