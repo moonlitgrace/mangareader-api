@@ -3,7 +3,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from .providers import mangareader_router
+from .providers import mangareader_router, mangakomi_router
 from .docs import docs_router
 
 # docs routes
@@ -14,6 +14,7 @@ app = FastAPI()
 app.include_router(docs_router, prefix="", tags=["Docs"])
 # set route for each providers
 app.include_router(mangareader_router, prefix="/mangareader", tags=["MangaReader"])
+app.include_router(mangakomi_router, prefix="/mangakomi", tags=["MangaKomi"])
 
 # https://stackoverflow.com/a/61644963/20547892
 app.mount(

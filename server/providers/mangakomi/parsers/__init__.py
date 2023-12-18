@@ -1,0 +1,1 @@
+from .manga import MangaParser
