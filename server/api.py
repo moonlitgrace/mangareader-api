@@ -1,15 +1,19 @@
-import markdown
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from .routes import router
+from .providers import mangareader_router
+from .docs import docs_router
+
+# docs routes
+from .docs import docs_router
 
 app = FastAPI()
-app.include_router(router, prefix="/api")
+
+app.include_router(docs_router, prefix="", tags=["Docs"])
+# set route for each providers
+app.include_router(mangareader_router, prefix="/mangareader", tags=["MangaReader"])
 
 # https://stackoverflow.com/a/61644963/20547892
 app.mount(
@@ -17,25 +21,6 @@ app.mount(
     StaticFiles(directory=Path(__file__).parent.parent.absolute() / "static"),
     name="static",
 )
-
-# https://fastapi.tiangolo.com/advanced/templates/
-templates = Jinja2Templates(directory="client/templates/")
-
-
-# homepage route
-@app.get("/", response_class=HTMLResponse, include_in_schema=False)
-async def index(request: Request):
-    # open README.md file
-    with open("README.md", "r", encoding="utf-8") as readme_file:
-        readme_content = readme_file.read()
-
-    return templates.TemplateResponse(
-        "index.html",
-        context={
-            "request": request,
-            "readme_content": markdown.markdown(readme_content),
-        },
-    )
 
 
 # overrite "openapi.json"

@@ -14,7 +14,7 @@ def return_on_error(
         def wrapper(*args: Any, **kwargs: Any) -> T:
             try:
                 return func(*args, **kwargs)
-            except AttributeError:
+            except (AttributeError, IndexError):
                 return return_type
 
         return wrapper
