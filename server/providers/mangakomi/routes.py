@@ -4,6 +4,7 @@ from .parsers import MangaParser
 
 router = APIRouter()
 
+
 @router.get("/manga/{query}")
 async def manga(query: str):
     manga_parser = MangaParser(query)
