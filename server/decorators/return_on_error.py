@@ -21,6 +21,7 @@ def return_on_error(
 
     return decorator
 
+
 def return_on_404() -> Callable[..., Callable[..., Any]]:
     def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @functools.wraps(func)

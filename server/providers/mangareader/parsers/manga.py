@@ -1,6 +1,7 @@
 from server.helpers import HTMLHelper
 from server.decorators import return_on_error
 
+
 class MangaParser:
     def __init__(self, query: str):
         self.query = query
@@ -28,25 +29,45 @@ class MangaParser:
     @property
     @return_on_error(None)
     def get_type(self):
-        node = self.parser.select("span").text_contains("Type:").matches[0].parent.css_first(".name")
+        node = (
+            self.parser.select("span")
+            .text_contains("Type:")
+            .matches[0]
+            .parent.css_first(".name")
+        )
         return node.text(strip=True).lower()
 
     @property
     @return_on_error(None)
     def get_status(self):
-        node = self.parser.select("span").text_contains("Status:").matches[0].parent.css_first(".name")
+        node = (
+            self.parser.select("span")
+            .text_contains("Status:")
+            .matches[0]
+            .parent.css_first(".name")
+        )
         return node.text(strip=True).lower()
 
     @property
     @return_on_error(None)
     def get_authors(self):
-        node = self.parser.select("span").text_contains("Authors:").matches[0].parent.css_first("a")
+        node = (
+            self.parser.select("span")
+            .text_contains("Authors:")
+            .matches[0]
+            .parent.css_first("a")
+        )
         return node.text(strip=True)
 
     @property
     @return_on_error(None)
     def get_published_date(self):
-        node = self.parser.select("span").text_contains("Published:").matches[0].parent.css_first(".name")
+        node = (
+            self.parser.select("span")
+            .text_contains("Published:")
+            .matches[0]
+            .parent.css_first(".name")
+        )
         # if node is "?"
         if node.text(strip=True) == "?":
             return None
@@ -61,7 +82,12 @@ class MangaParser:
     @property
     @return_on_error(None)
     def get_score(self):
-        node = self.parser.select("span").text_contains("Score:").matches[0].parent.css_first(".name")
+        node = (
+            self.parser.select("span")
+            .text_contains("Score:")
+            .matches[0]
+            .parent.css_first(".name")
+        )
         return node.text(strip=True)
 
     @property
@@ -88,6 +114,6 @@ class MangaParser:
             "genres": self.get_genres,
             "score": self.get_score,
             "cover": self.get_cover,
-            "synopsis": self.get_synopsis
+            "synopsis": self.get_synopsis,
         }
         return manga_dict
