@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.openapi.utils import get_openapi
 
 router = APIRouter()
 
@@ -15,7 +14,7 @@ def get_app():
 # homepage route
 @router.get("/", response_class=HTMLResponse, include_in_schema=False)
 async def index(request: Request):
-    openapi = get_openapi(routes=get_app().routes, title="MangaAPI", version="0.1.0")
+    openapi = get_app().openapi()
     return templates.TemplateResponse(
         "index.html",
         context={
