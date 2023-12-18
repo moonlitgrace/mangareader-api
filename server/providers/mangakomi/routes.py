@@ -11,6 +11,7 @@ async def manga(query: str):
     manga_parser = MangaParser(query)
     return manga_parser.build_dict()
 
+
 @router.get("/search/{query}")
 @return_on_404()
 async def search(query: str):

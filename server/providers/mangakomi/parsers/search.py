@@ -2,6 +2,7 @@ from server.helpers import HTMLHelper
 from server.decorators import return_on_error
 from selectolax.parser import Node
 
+
 class SearchParser:
     def __init__(self, query: str) -> None:
         # TODO: pagination logic
@@ -33,11 +34,13 @@ class SearchParser:
         mangas_list = []
         container_list = self.parser.css(".c-tabs-item .c-tabs-item__content")
         for container in container_list:
-            mangas_list.append({
-                "title": self.get_title(container),
-                "genres": self.get_genres(container),
-                "chapters": self.get_chapters(container),
-                "cover": self.get_cover(container),
-                "provider_url": self.base_url,
-            })
+            mangas_list.append(
+                {
+                    "title": self.get_title(container),
+                    "genres": self.get_genres(container),
+                    "chapters": self.get_chapters(container),
+                    "cover": self.get_cover(container),
+                    "provider_url": self.base_url,
+                }
+            )
         return mangas_list

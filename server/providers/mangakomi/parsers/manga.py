@@ -58,7 +58,7 @@ class MangaParser:
         return node.text(strip=True)
 
     def build_dict(self):
-        manga_dict = { 
+        manga_dict = {
             "title": self.get_title,
             "slug": self.query,
             "alt_title": self.get_alt_title,
