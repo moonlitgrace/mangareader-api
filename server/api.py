@@ -5,6 +5,7 @@ from pathlib import Path
 
 # provider routes
 from .providers.mangareader import mangareader_router
+
 # docs routes
 from .docs import docs_router
 
@@ -21,6 +22,7 @@ app.mount(
     StaticFiles(directory=Path(__file__).parent.parent.absolute() / "static"),
     name="static",
 )
+
 
 # overrite "openapi.json"
 def custom_openapi():
