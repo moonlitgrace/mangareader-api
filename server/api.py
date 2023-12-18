@@ -3,17 +3,14 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-# provider routes
-from .providers.mangareader import mangareader_router
-# docs routes
+from .providers import mangareader_router
 from .docs import docs_router
 
 app = FastAPI()
 
-# routes for docs
-app.include_router(docs_router, prefix="")
-# set routes for each providers
-app.include_router(mangareader_router, prefix="/mangareader")
+app.include_router(docs_router, prefix="", tags=["Docs"])
+# set route for each providers
+app.include_router(mangareader_router, prefix="/mangareader", tags=["MangaReader"])
 
 # https://stackoverflow.com/a/61644963/20547892
 app.mount(
