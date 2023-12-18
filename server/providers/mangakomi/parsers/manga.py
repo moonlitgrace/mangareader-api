@@ -41,6 +41,12 @@ class MangaParser:
 
     @property
     @return_on_error("")
+    def get_score(self):
+        node = self.parser.css_first(".score")
+        return node.text(strip=True)
+
+    @property
+    @return_on_error("")
     def get_cover(self):
         node = self.parser.css_first(".summary_image img")
         return node.attributes.get("data-src")
@@ -52,14 +58,16 @@ class MangaParser:
         return node.text(strip=True)
 
     def build_dict(self):
-        manga_dict = {
+        manga_dict = { 
             "title": self.get_title,
             "slug": self.query,
             "alt_title": self.get_alt_title,
             "status": self.get_status,
             "author": self.get_author,
             "genres": self.get_genres,
+            "score": self.get_score,
             "cover": self.get_cover,
             "synopsis": self.get_synopsis,
+            "provider_url": self.base_url,
         }
         return manga_dict
