@@ -23,6 +23,7 @@ app.mount(
 # https://fastapi.tiangolo.com/advanced/templates/
 templates = Jinja2Templates(directory="client")
 
+
 # homepage route
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 async def index(request: Request):
