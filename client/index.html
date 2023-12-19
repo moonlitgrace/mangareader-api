@@ -9,17 +9,17 @@
     <script src="{{ url_for('static', path='vendor/tailwind/tailwind.js') }}"></script>
   </head>
   <body class="font-mono">
-    <main class="w-[50rem] h-40 mx-auto">
-      <header class="flex items-center justify-between py-2 border-b-[0.1rem] border-neutral">
+    <main class="w-full md:w-[50rem] h-40 mx-auto">
+      <header class="flex items-center justify-between px-2 md:px-0 py-2 border-b-[0.1rem] border-neutral">
         <a href="/" class="btn btn-ghost">
-          <img class="w-7" src="{{ url_for('static', path='/images/favicon.png') }}" >
+          <img class="w-6 md:w-7" src="{{ url_for('static', path='/images/favicon.png') }}" >
         </a>
         <div>
           <a class="btn btn-link" href="https://github.com/tokitouq/manga-api/blob/main/LICENSE" target="_blank">License 📜</a>
           <a class="btn btn-neutral" href="https://github.com/tokitouq/manga-api" target="_blank">Github ⭐</a>
         </div>
       </header>
-      <section class="flex flex-col items-center md:py-10">
+      <section class="flex flex-col items-center py-5 md:py-10">
         <div class="hero">
           <div class="hero-content text-center">
             <div class="max-w-full">
