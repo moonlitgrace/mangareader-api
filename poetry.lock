@@ -13,13 +13,13 @@ files = [
 
 [[package]]
 name = "anyio"
-version = "4.1.0"
+version = "4.2.0"
 description = "High level compatibility layer for multiple asynchronous event loop implementations"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "anyio-4.1.0-py3-none-any.whl", hash = "sha256:56a415fbc462291813a94528a779597226619c8e78af7de0507333f700011e5f"},
-    {file = "anyio-4.1.0.tar.gz", hash = "sha256:5a0bec7085176715be77df87fc66d6c9d70626bd752fcc85f57cdbee5b3760da"},
+    {file = "anyio-4.2.0-py3-none-any.whl", hash = "sha256:745843b39e829e108e518c489b31dc757de7d2131d53fac32bd8df268227bfee"},
+    {file = "anyio-4.2.0.tar.gz", hash = "sha256:e1875bb4b4e2de1669f4bc7869b6d3f54231cdced71605e6e64c9be77e3be50f"},
 ]
 
 [package.dependencies]
@@ -1161,4 +1161,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "83b1e4d622a95c3ee46941ec01af678db4923541990a317dae8106d3c618c6d6"
+content-hash = "501133b6885086c7d8b075bf30c9f432ffd25091e909e553afa6e291a8f5e4c3"
