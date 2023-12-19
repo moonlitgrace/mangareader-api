@@ -6,10 +6,6 @@ from fastapi.responses import HTMLResponse
 from pathlib import Path
 
 from .providers import mangareader_router, mangakomi_router
-from .docs import docs_router
-
-# docs routes
-from .docs import docs_router
 
 app = FastAPI()
 
