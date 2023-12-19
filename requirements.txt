@@ -1,5 +1,5 @@
 annotated-types==0.6.0
-anyio==4.1.0
+anyio==4.2.0
 black==23.12.0
 certifi==2023.11.17
 cfgv==3.4.0
