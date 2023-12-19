@@ -1,17 +1,14 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from pathlib import Path
 
 from .providers import mangareader_router, mangakomi_router
-from .docs import docs_router
-
-# docs routes
-from .docs import docs_router
 
 app = FastAPI()
 
-app.include_router(docs_router, prefix="", tags=["Docs"])
 # set route for each providers
 app.include_router(mangareader_router, prefix="/mangareader", tags=["MangaReader"])
 app.include_router(mangakomi_router, prefix="/mangakomi", tags=["MangaKomi"])
@@ -22,6 +19,20 @@ app.mount(
     StaticFiles(directory=Path(__file__).parent.parent.absolute() / "static"),
     name="static",
 )
+
+# https://fastapi.tiangolo.com/advanced/templates/
+templates = Jinja2Templates(directory="client")
+
+
+# homepage route
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+async def index(request: Request):
+    return templates.TemplateResponse(
+        "index.html",
+        context={
+            "request": request,
+        },
+    )
 
 
 # overrite "openapi.json"
