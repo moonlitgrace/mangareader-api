@@ -107,13 +107,12 @@ class MangaParser:
             "title": self.get_title,
             "slug": self.get_slug,
             "alt_title": self.get_alt_title,
-            "type": self.get_type,
             "status": self.get_status,
-            "authors": self.get_authors,
-            "published_date": self.get_published_date,
+            "author": self.get_authors,
             "genres": self.get_genres,
             "score": self.get_score,
             "cover": self.get_cover,
             "synopsis": self.get_synopsis,
+            "provider_url": self.base_url,
         }
         return manga_dict

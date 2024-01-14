@@ -3,13 +3,13 @@ from fastapi import APIRouter, Request
 
 from .parsers import MangaParser, SearchParser
 from ...decorators import return_on_404
-from server.models import Search
+from server.models import Search, Manga
 from server.functions.url import get_url
 
 router = APIRouter()
 
 
-@router.get("/manga/{query}")
+@router.get("/manga/{query}", response_model=Manga)
 @return_on_404()
 async def manga(query: str):
     manga_parser = MangaParser(query)
