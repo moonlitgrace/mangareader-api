@@ -5,9 +5,12 @@ from server.helpers import HTMLHelper
 
 
 class SearchParser:
-    def __init__(self, query: str) -> None:
+    def __init__(self, query: str, api_url: str) -> None:
         self.query = query
-        self.base_url = f"https://mangareader.to/search?keyword={query}"
+        self.api_url = api_url
+        self.provider_url = "https://mangareader.to"
+        self.base_url = f"{self.provider_url}/search?keyword={query}"
+        # facades
         self.html_helper = HTMLHelper()
         self.parser = self.html_helper.get_parser(self.base_url)
 
@@ -31,11 +34,6 @@ class SearchParser:
         node_list = container.css(".fd-infor .fdi-item a")
         return [node.text(strip=True) for node in node_list]
 
-    @return_on_error([])
-    def get_langs(self, container: Node):
-        node = container.css_first(".tick-lang")
-        return node.text(strip=True).split("/")
-
     @return_on_error(None)
     def get_chapters(self, container: Node):
         node = container.select("a").text_contains("Chap").matches[1]
@@ -45,6 +43,18 @@ class SearchParser:
     def get_volumes(self, container: Node):
         node = container.select("a").text_contains("Vol").matches[1]
         return float(re.findall(r"\d+", node.text(strip=True))[0])
+
+    @return_on_error("")
+    def get_provider_url(self, container: Node):
+        slug = self.get_slug(container)
+        url = f"{self.provider_url}/{slug}"
+        return url
+
+    @return_on_error("")
+    def get_manga_url(self, container: Node):
+        slug = self.get_slug(container)
+        url = f"{self.api_url}mangareader/manga/{slug}"
+        return url
 
     def build_list(self):
         container_list = self.parser.css(".mls-wrap .item")
@@ -59,6 +69,8 @@ class SearchParser:
                     "cover": self.get_cover(container),
                     "chapters": self.get_chapters(container),
                     "volumes": self.get_volumes(container),
+                    "provider_url": self.get_provider_url(container),
+                    "manga_url": self.get_manga_url(container),
                 }
             )
 

@@ -6,7 +6,7 @@ class Search(BaseModel):
     title: str
     slug: str
     genres: List[str]
-    langs: str
-    cover_src: str
+    cover: str
     chapters: Optional[float]
-    volumes: Optional[float]
+    provider_url: str
+    manga_url: str
