@@ -3,10 +3,12 @@ from server.decorators import return_on_error
 
 
 class MangaParser:
-    def __init__(self, query: str):
+    def __init__(self, query: str, api_url: str):
         self.query = query
-        self.html_helper = HTMLHelper()
+        self.api_url = api_url
         self.base_url = f"https://mangareader.to/{self.query}"
+        # facades
+        self.html_helper = HTMLHelper()
         self.parser = self.html_helper.get_parser(self.base_url)
 
     @property
@@ -102,18 +104,24 @@ class MangaParser:
         node = self.parser.css_first(".modal-content .description-modal")
         return node.text(strip=True)
 
+    @property
+    @return_on_error("")
+    def get_manga_url(self):
+        url = f"{self.api_url}mangakomi/manga/{self.query}"
+        return url
+
     def build_dict(self):
         manga_dict = {
             "title": self.get_title,
             "slug": self.get_slug,
             "alt_title": self.get_alt_title,
-            "type": self.get_type,
             "status": self.get_status,
-            "authors": self.get_authors,
-            "published_date": self.get_published_date,
+            "author": self.get_authors,
             "genres": self.get_genres,
             "score": self.get_score,
             "cover": self.get_cover,
             "synopsis": self.get_synopsis,
+            "provider_url": self.base_url,
+            "manga_url": self.get_manga_url,
         }
         return manga_dict

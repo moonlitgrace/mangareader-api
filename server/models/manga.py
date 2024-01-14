@@ -5,9 +5,11 @@ from pydantic import BaseModel
 class Manga(BaseModel):
     title: str
     alt_title: str
-    type: str
-    genres: List[str]
     status: str
+    author: str
     score: float
-    cover_src: str
+    genres: List[str]
+    cover: str
     synopsis: str
+    provider_url: str
+    manga_url: str

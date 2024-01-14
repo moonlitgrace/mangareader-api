@@ -3,9 +3,11 @@ from server.decorators import return_on_error
 
 
 class MangaParser:
-    def __init__(self, query: str) -> None:
+    def __init__(self, query: str, api_url: str) -> None:
         self.query = query
+        self.api_url = api_url
         self.base_url = f"https://mangakomi.io/manga/{query}/"
+        # facades
         self.html_helper = HTMLHelper()
         self.parser = self.html_helper.get_parser(self.base_url)
 
@@ -57,6 +59,12 @@ class MangaParser:
         node = self.parser.css_first(".summary__content p")
         return node.text(strip=True)
 
+    @property
+    @return_on_error("")
+    def get_manga_url(self):
+        url = f"{self.api_url}mangakomi/manga/{self.query}"
+        return url
+
     def build_dict(self):
         manga_dict = {
             "title": self.get_title,
@@ -69,5 +77,6 @@ class MangaParser:
             "cover": self.get_cover,
             "synopsis": self.get_synopsis,
             "provider_url": self.base_url,
+            "manga_url": self.get_manga_url,
         }
         return manga_dict
