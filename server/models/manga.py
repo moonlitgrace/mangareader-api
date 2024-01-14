@@ -12,3 +12,4 @@ class Manga(BaseModel):
     cover: str
     synopsis: str
     provider_url: str
+    manga_url: str

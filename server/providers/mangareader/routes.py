@@ -11,8 +11,8 @@ router = APIRouter()
 
 @router.get("/manga/{query}", response_model=Manga)
 @return_on_404()
-async def manga(query: str):
-    manga_parser = MangaParser(query)
+async def manga(query: str, request: Request):
+    manga_parser = MangaParser(query, api_url=get_url(request))
     return manga_parser.build_dict()
 
 
