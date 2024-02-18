@@ -1,6 +1,6 @@
 # `manga-api`
 
-Python-based web scraping tool built with FastAPI that provides easy access to manga content from different providers.  
+Python-based web scraping tool built with FastAPI that provides easy access to manga content from different providers.
 This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages(under-development), enabling developers to create their own manga-related applications and services.
 
 ## API Guide
