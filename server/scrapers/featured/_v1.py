@@ -8,7 +8,7 @@ from ..base_scraper import BaseScraper
 class FeaturedScraper(BaseScraper):
     def __init__(self):
         super().__init__()
-        url = API_ENDPOINTS.get("topten")
+        url = API_ENDPOINTS.get("home")
 
         self.parser = HTMLParserHelper.get_parser(url)
         self.string_helper = StringHelper()
