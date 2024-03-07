@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 
-from .providers import router_v1
+from .scrapers import router_v1
 
 app = FastAPI()
 
