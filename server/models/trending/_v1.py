@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from ..models.response import BaseResponseModel
+from ..response import BaseResponseModel
 
 class TrendingMangaModel(BaseModel):
     title: str

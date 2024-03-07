@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-from .response import BaseResponseModel
+from ..response import BaseResponseModel
 
 class FeaturedMangaModal(BaseModel):
     title: str
