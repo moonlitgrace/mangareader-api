@@ -15,5 +15,5 @@ async def featured():
 
 @router.get("/trending", response_model=TrendingResModel)
 async def trending():
-    response = TrendintScraper().scrape()
+    response = TrendingScraper().scrape()
     return ResponseHelper.format_response(response)
