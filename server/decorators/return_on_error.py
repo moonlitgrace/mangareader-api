@@ -1,17 +1,10 @@
 from fastapi import HTTPException
 import functools
-from collections.abc import Callable
-from typing import Any, TypeVar
 
-T = TypeVar("T")
-
-
-def return_on_error(
-    return_type: T,
-) -> Callable[[Callable[..., Any]], Callable[..., T]]:
-    def decorator(func: Callable[..., Any]) -> Callable[..., T]:
+def return_on_error(return_type):
+    def decorator(func):
         @functools.wraps(func)
-        def wrapper(*args: Any, **kwargs: Any) -> T:
+        def wrapper(*args, **kwargs):
             try:
                 return func(*args, **kwargs)
             except (AttributeError, IndexError):
@@ -22,10 +15,10 @@ def return_on_error(
     return decorator
 
 
-def return_on_404() -> Callable[..., Callable[..., Any]]:
-    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+def return_on_404():
+    def decorator(func):
         @functools.wraps(func)
-        async def wrapper(*args: Any, **kwargs: Any) -> Any:
+        async def wrapper(*args, **kwargs):
             try:
                 return await func(*args, **kwargs)
             # propagates HTTPException from function
