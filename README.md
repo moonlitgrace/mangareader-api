@@ -19,8 +19,7 @@ Also we use [gnu make](https://www.gnu.org/software/make/) (optional)
 poetry install
 # or make poetry
 ```
-**Step 3**: Activate `poetry shell`\
-**Step 4**: Finally run app
+**Step 3**: Finally run app
 ```bash
 poetry run python3 main.py
 # or make dev
