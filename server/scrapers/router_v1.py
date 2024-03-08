@@ -8,6 +8,7 @@ from ..helpers.response import ResponseHelper
 
 from ..models.featured._v1 import FeaturedResModal
 from ..models.trending._v1 import TrendingResModel
+from ..models.manga._v1 import MangaModel
 
 router = APIRouter()
 
@@ -21,7 +22,7 @@ async def trending():
     response = TrendingScraper().scrape()
     return ResponseHelper.format_response(response)
 
-@router.get("/manga/{query}")
+@router.get("/manga/{query}", response_model=MangaModel)
 async def manga(query: str):
     response = MangaScraper(query).scrape()
     return response
