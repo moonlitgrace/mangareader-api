@@ -5,13 +5,11 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 
-from .providers import mangareader_router, mangakomi_router
+from .scrapers import router_v1
 
 app = FastAPI()
 
-# set route for each providers
-app.include_router(mangareader_router, prefix="/mangareader", tags=["MangaReader"])
-app.include_router(mangakomi_router, prefix="/mangakomi", tags=["MangaKomi"])
+app.include_router(router_v1.router, prefix="/v1", tags=["v1"])
 
 # https://stackoverflow.com/a/61644963/20547892
 app.mount(
