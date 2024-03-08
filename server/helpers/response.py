@@ -1,6 +1,6 @@
-class ResponseHelper():
+class ResponseHelper:
     @staticmethod
-    def format_response(data, next = None, prev = None):
+    def format_response(data, next=None, prev=None):
         response = {
             "count": len(data),
             "next": next,

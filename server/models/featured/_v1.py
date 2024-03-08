@@ -3,6 +3,7 @@ from typing import List
 
 from ..response import BaseResponseModel
 
+
 class FeaturedMangaModal(BaseModel):
     title: str
     slug: str
@@ -10,6 +11,7 @@ class FeaturedMangaModal(BaseModel):
     cover: str
     synopsis: str
     chapter: float
+
 
 class FeaturedResModal(BaseResponseModel):
     data: List[FeaturedMangaModal]

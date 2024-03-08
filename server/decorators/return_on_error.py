@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 import functools
 
+
 def return_on_error(return_type):
     def decorator(func):
         @functools.wraps(func)

@@ -3,6 +3,7 @@ from typing import List
 
 from ..response import BaseResponseModel
 
+
 class TrendingMangaModel(BaseModel):
     title: str
     slug: str
@@ -11,6 +12,7 @@ class TrendingMangaModel(BaseModel):
     langs: List[str]
     chapters: float
     volumes: float
+
 
 class TrendingResModel(BaseResponseModel):
     data: List[TrendingMangaModel]

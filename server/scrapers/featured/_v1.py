@@ -5,6 +5,7 @@ from ...helpers.string import StringHelper
 from ...constants.endpoints import API_ENDPOINTS
 from ..base_scraper import BaseScraper
 
+
 class FeaturedScraper(BaseScraper):
     def __init__(self):
         super().__init__()
@@ -44,13 +45,15 @@ class FeaturedScraper(BaseScraper):
         response_list = []
 
         for node in nodes:
-            response_list.append({
-                "title": self.__get_title__(node),
-                "slug": self.__get_slug__(node),
-                "genres": self.__get_genres__(node),
-                "cover": self.__get_cover__(node),
-                "synopsis": self.__get_synopsis__(node),
-                "chapter": self.__get_chaper__(node),
-            })
+            response_list.append(
+                {
+                    "title": self.__get_title__(node),
+                    "slug": self.__get_slug__(node),
+                    "genres": self.__get_genres__(node),
+                    "cover": self.__get_cover__(node),
+                    "synopsis": self.__get_synopsis__(node),
+                    "chapter": self.__get_chaper__(node),
+                }
+            )
 
         return response_list

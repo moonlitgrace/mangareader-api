@@ -1,3 +1,3 @@
-class BaseScraper():    
+class BaseScraper:
     def scrape(self):
         pass

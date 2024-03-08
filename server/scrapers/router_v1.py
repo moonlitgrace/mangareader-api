@@ -14,20 +14,24 @@ from ..models.search._v1 import SearchMangaResModel
 
 router = APIRouter()
 
+
 @router.get("/featured", response_model=FeaturedResModal)
 async def featured():
     response = FeaturedScraper().scrape()
     return ResponseHelper.format_response(response)
+
 
 @router.get("/trending", response_model=TrendingResModel)
 async def trending():
     response = TrendingScraper().scrape()
     return ResponseHelper.format_response(response)
 
+
 @router.get("/manga/{slug}", response_model=MangaModel)
 async def manga(slug: str):
     response = MangaScraper(slug).scrape()
     return response
+
 
 @router.get("/search/{query}", response_model=SearchMangaResModel)
 async def search(query: str):

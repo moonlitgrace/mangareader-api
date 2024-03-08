@@ -5,6 +5,7 @@ from ...constants.endpoints import API_ENDPOINTS
 from ..base_scraper import BaseScraper
 from ...helpers.string import StringHelper
 
+
 class TrendingScraper(BaseScraper):
     def __init__(self):
         super().__init__()
@@ -49,14 +50,16 @@ class TrendingScraper(BaseScraper):
         response_list = []
 
         for node in nodes:
-            response_list.append({
-                "title": self.__get_title__(node),
-                "slug": self.__get_slug__(node),
-                "cover": self.__get_cover__(node),
-                "rating": self.__get_rating__(node),
-                "langs": self.__get_langs__(node),
-                "chapters": self.__get_chapters__(node),
-                "volumes": self.__get_volumes__(node),
-            })
+            response_list.append(
+                {
+                    "title": self.__get_title__(node),
+                    "slug": self.__get_slug__(node),
+                    "cover": self.__get_cover__(node),
+                    "rating": self.__get_rating__(node),
+                    "langs": self.__get_langs__(node),
+                    "chapters": self.__get_chapters__(node),
+                    "volumes": self.__get_volumes__(node),
+                }
+            )
 
         return response_list

@@ -5,6 +5,7 @@ from ...helpers.parser import HTMLParserHelper
 from ...helpers.string import StringHelper
 from ...constants.endpoints import API_ENDPOINTS
 
+
 class MangaScraper(BaseScraper):
     def __init__(self, slug: str):
         self.slug = slug
@@ -51,12 +52,16 @@ class MangaScraper(BaseScraper):
 
     @property
     def __get_authors__(self):
-        node = self.parser.select("div.item.item-title").text_contains("Authors:").matches[0]
+        node = (
+            self.parser.select("div.item.item-title").text_contains("Authors:").matches[0]
+        )
         return node.text(strip=True).split(":")[1].split("(")[0]
 
     @property
     def __get_published_date__(self):
-        node = self.parser.select("div.item.item-title").text_contains("Published:").matches[0]
+        node = (
+            self.parser.select("div.item.item-title").text_contains("Published:").matches[0]
+        )
         return self.string_helper.clean(node.text(strip=True).split(":")[1].split("to")[0])
 
     def scrape(self):

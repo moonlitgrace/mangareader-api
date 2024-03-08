@@ -6,6 +6,7 @@ from ...constants.endpoints import API_ENDPOINTS
 from ...helpers.string import StringHelper
 from ...decorators.return_on_error import return_on_error
 
+
 class SearchScraper(BaseScraper):
     def __init__(self, query: str):
         super().__init__()
@@ -24,7 +25,7 @@ class SearchScraper(BaseScraper):
     def __get_genres__(self, parent: Node):
         genres = parent.css(".fdi-cate a")
         return [genre.text(strip=True).lower() for genre in genres]
-    
+
     def __get_slug__(self, parent: Node):
         node = parent.css_first("h3.manga-name a")
         return node.attrs.get("href")[1:]
@@ -51,14 +52,16 @@ class SearchScraper(BaseScraper):
         response_list = []
 
         for node in nodes:
-            response_list.append({
-                "title": self.__get_title__(node),
-                "slug": self.__get_slug__(node),
-                "genres": self.__get_genres__(node),
-                "langs": self.__get_langs__(node),
-                "cover": self.__get_cover__(node),
-                "chapters": self.__get_chapters__(node),
-                "volumes": self.__get_volumes__(node),
-            })
-        
+            response_list.append(
+                {
+                    "title": self.__get_title__(node),
+                    "slug": self.__get_slug__(node),
+                    "genres": self.__get_genres__(node),
+                    "langs": self.__get_langs__(node),
+                    "cover": self.__get_cover__(node),
+                    "chapters": self.__get_chapters__(node),
+                    "volumes": self.__get_volumes__(node),
+                }
+            )
+
         return response_list
