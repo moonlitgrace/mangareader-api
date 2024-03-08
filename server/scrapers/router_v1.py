@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from ..scrapers.featured._v1 import FeaturedScraper
 from ..scrapers.trending._v1 import TrendingScraper
 from ..scrapers.manga._v1 import MangaScraper
+from ..scrapers.search._v1 import SearchScraper
 
 from ..helpers.response import ResponseHelper
 
@@ -26,3 +27,8 @@ async def trending():
 async def manga(slug: str):
     response = MangaScraper(slug).scrape()
     return response
+
+@router.get("/search/{query}")
+async def search(query: str):
+    response = SearchScraper(query).scrape()
+    return ResponseHelper.format_response(response)

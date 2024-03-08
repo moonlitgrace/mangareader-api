@@ -4,7 +4,8 @@ from urllib.parse import urlparse
 
 
 class StringHelper:
-    def clean(self, string: str) -> str:
+    @staticmethod
+    def clean(string: str) -> str:
         # Convert any HTML line breaks to newlines
         string = re.sub(r"<br\s*/?>", "\n", string)
         # Convert non-breaking spaces to spaces
@@ -22,7 +23,8 @@ class StringHelper:
         string = string.replace("\\", "")
         return string
 
-    def is_url(self, string: str) -> bool:
+    @staticmethod
+    def is_url(string: str) -> bool:
         # Try to parse string as url
         try:
             url = urlparse(string)
@@ -30,7 +32,8 @@ class StringHelper:
         except ValueError:
             return False
 
-    def slugify(self, string: str, symbol: str) -> str:
+    @staticmethod
+    def slugify(string: str, symbol: str) -> str:
         """Makes lowercase and strip spaces and replace space between words with "+" symbol"""
         string = string.lower().strip()
         string = re.sub(r"[^\w\s-]", "", string)
