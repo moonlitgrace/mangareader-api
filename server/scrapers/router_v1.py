@@ -22,7 +22,7 @@ async def trending():
     response = TrendingScraper().scrape()
     return ResponseHelper.format_response(response)
 
-@router.get("/manga/{query}", response_model=MangaModel)
-async def manga(query: str):
-    response = MangaScraper(query).scrape()
+@router.get("/manga/{slug}", response_model=MangaModel)
+async def manga(slug: str):
+    response = MangaScraper(slug).scrape()
     return response
