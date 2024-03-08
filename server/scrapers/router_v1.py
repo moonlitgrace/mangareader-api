@@ -2,7 +2,10 @@ from fastapi import APIRouter
 
 from ..scrapers.featured._v1 import FeaturedScraper
 from ..scrapers.trending._v1 import TrendingScraper
+from ..scrapers.manga._v1 import MangaScraper
+
 from ..helpers.response import ResponseHelper
+
 from ..models.featured._v1 import FeaturedResModal
 from ..models.trending._v1 import TrendingResModel
 
@@ -17,3 +20,8 @@ async def featured():
 async def trending():
     response = TrendingScraper().scrape()
     return ResponseHelper.format_response(response)
+
+@router.get("/manga/{query}")
+async def manga(query: str):
+    response = MangaScraper(query).scrape()
+    return response
