@@ -7,7 +7,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 distlib==0.3.8
 fastapi==0.103.0
-filelock==3.13.2
+filelock==3.13.3
 h11==0.14.0
 httptools==0.6.1
 identify==2.5.35
