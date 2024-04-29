@@ -1,5 +1,10 @@
-dev: # run uvicorn server
-	poetry run python3 main.py
+helloworld:
+	@echo "hello world"
 
-poetry: # install deps from poetry
+install:
+	@echo "Installing project dependencies using Poetry..."
 	poetry install
+
+server:
+	@echo "Server starting..."
+	poetry run python3 main.py
