@@ -1,6 +1,6 @@
 annotated-types==0.6.0
 anyio==4.3.0
-black==24.4.0
+black==24.4.2
 certifi==2024.2.2
 cfgv==3.4.0
 charset-normalizer==3.3.2
