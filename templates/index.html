@@ -1,47 +1,27 @@
-<!DOCTYPE html>
-<html data-theme="sunset">
+<!doctype html>
+<html>
   <head>
-    <title>MangaAPI - A Python-based web scraping API built with FastAPI</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/images/favicon.png') }}">
-
-    <!-- Vendor js files -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='vendor/daisy-ui/daisy-ui.min.css') }}">
-    <script src="{{ url_for('static', path='vendor/tailwind/tailwind.js') }}"></script>
+    <title>Manga API Reference</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1" />
   </head>
-  <body class="font-mono">
-    <main class="w-full md:w-[50rem] h-40 mx-auto">
-      <header class="flex items-center justify-between px-2 md:px-0 py-2 border-b-[0.1rem] border-neutral">
-        <a href="/" class="btn btn-ghost">
-          <img class="w-6 md:w-7" src="{{ url_for('static', path='/images/favicon.png') }}" >
-        </a>
-        <div>
-          <a class="btn btn-link" href="https://github.com/tokitouq/manga-api/blob/main/LICENSE" target="_blank">License 📜</a>
-          <a class="btn btn-neutral" href="https://github.com/tokitouq/manga-api" target="_blank">Github ⭐</a>
-        </div>
-      </header>
-      <section class="flex flex-col items-center py-5 md:py-10">
-        <div class="hero">
-          <div class="hero-content text-center">
-            <div class="max-w-full">
-              <h1 class="text-5xl font-bold">manga-api</h1>
-              <p class="py-6"><span class="link link-accent">Python</span>-based web scraping tool built with <span class="link link-accent">FastAPI</span> that provides easy access to manga content from a number of providers. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.</p>
-              <div>
-                <a href="/docs" class="btn btn-secondary">Docs</a>
-                <a href="/redoc" class="btn btn-primary btn-wide">API ReDoc</a>
-              </div>
-              <div role="alert" class="alert my-6">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Project is in its <span class="badge badge-accent">beta</span> stage at to moment. Follow us on <a href="https://github.com/tokitouq/manga-api" target="_blank" class="btn btn-link p-0 h-max min-h-max">Github</a>.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
+  <body>
+    <!-- Note: this includes our proxy, you can remove the following line if you do not need it -->
+    <!-- data-proxy-url="https://api.scalar.com/request-proxy" -->
+    <script
+      id="api-reference"
+      type="application/json"
+      data-url="/openapi.json"
+    ></script>
     <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      var configuration = {
+        theme: "default",
+      };
+      var apiReference = document.getElementById("api-reference");
+      apiReference.dataset.configuration = JSON.stringify(configuration);
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
   </body>
 </html>
