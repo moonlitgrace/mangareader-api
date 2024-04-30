@@ -19,7 +19,7 @@ app.mount(
 )
 
 # https://fastapi.tiangolo.com/advanced/templates/
-templates = Jinja2Templates(directory="client")
+templates = Jinja2Templates(directory="templates")
 
 
 # homepage route
