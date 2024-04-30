@@ -5,7 +5,7 @@ https://mangareader-api.vercel.app/
 
 ## Setup Project
 
-> [!NOTE]  
+> [!NOTE]
 > CMake rules and install bash scripts are based on `poetry`.\
 > So please consider using it for better experience.
 
