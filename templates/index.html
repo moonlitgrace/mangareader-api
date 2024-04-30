@@ -22,6 +22,7 @@
       var apiReference = document.getElementById("api-reference");
       apiReference.dataset.configuration = JSON.stringify(configuration);
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+    <script src="{{ url_for('static', path='vendor/scalar.js') }}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script> -->
   </body>
 </html>
