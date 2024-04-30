@@ -19,12 +19,12 @@ app.mount(
 )
 
 # https://fastapi.tiangolo.com/advanced/templates/
-templates = Jinja2Templates(directory="client")
+templates = Jinja2Templates(directory="templates")
 
 
 # homepage route
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
-async def index(request: Request):
+async def root(request: Request):
     return templates.TemplateResponse(
         "index.html",
         context={
