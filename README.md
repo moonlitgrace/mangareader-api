@@ -1,6 +1,7 @@
 # [mangareader-api](https://mangareader-api.vercel.app/)
 
-Python-based web scraping tool built with FastAPI that provides easy access to manga content from the [mangareader.to](https://mangareader.to) website. This API allows users to retrieve up-to-date information. Enabling developers to create their own manga-related applications and services.\
+Python-based web scraping tool built with FastAPI that provides easy access to manga content from the [mangareader.to](https://mangareader.to) website. This API allows users to retrieve up-to-date information. Enabling developers to create their own manga-related applications and services.
+
 https://mangareader-api.vercel.app/
 
 ## Setup Project
@@ -24,9 +25,8 @@ Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
-Finally run app with `python3 main.py`
-
-**Now the server will be running on [0.0.0.0:8000](http://0.0.0.0:8000)**
+Finally run app with `python3 main.py`\
+**And server will be running on [0.0.0.0:8000](http://0.0.0.0:8000)**
 
 ## Contribution
 
