@@ -1,42 +1,36 @@
-# `manga-api`
+# [mangareader-api](https://mangareader-api.vercel.app/)
 
-Python-based web scraping tool built with FastAPI that provides easy access to manga content from the [mangareader.to](https://mangareader.to) website. This API allows users to retrieve up-to-date information about various manga titles, chapters, and pages, enabling developers to create their own manga-related applications and services.
+Python-based web scraping tool built with FastAPI that provides easy access to manga content from the [mangareader.to](https://mangareader.to) website. This API allows users to retrieve up-to-date information. Enabling developers to create their own manga-related applications and services.
 
-## API Guide
+https://mangareader-api.vercel.app/
 
-Detailed documentation: [**API ReDoc**](https://manga-apiv1.vercel.app/redoc)\
-Interactive documentation: [**API Doc**](https://manga-apiv1.vercel.app/docs) (try API)
+## Setup Project
 
-## Local Setup
+> [!NOTE]
+> CMake rules and install bash scripts are based on `poetry`.\
+> So please consider using it for better experience.
 
-### Poetry
-We use [poetry](https://python-poetry.org/) as our package manager. So make sure you've poetry installed.\
-Also we use [gnu make](https://www.gnu.org/software/make/) (optional)
-
-**Step 1**: Clone this repo and `cd` into root directory.\
-**Step 2**: Setup `poetry`
+### Bash Script
 ```bash
-poetry install
-# or make poetry
+bash setup.sh
 ```
-**Step 3**: Finally run app
+### CMake
 ```bash
-poetry run python3 main.py
-# or make dev
+make install
+make serve # run server
 ```
-
 ### Pip
-**Step 1**: Clone this repo and `cd` into root directory.\
-**Step 2**: Create a virtual env (recommended) and activate it ([venv](https://docs.python.org/3/library/venv.html))\
-**Step 3**: Install dependencies
+Create a virtual environment and activate it ([venv](https://docs.python.org/3/library/venv.html))\
+Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
-**Step 4**: Finally run app with `python3 main.py`
+Finally run app with `python3 main.py`\
+**And server will be running on [0.0.0.0:8000](http://0.0.0.0:8000)**
 
 ## Contribution
 
-Contributions to manga api are welcome!\
+Contributions are welcome!\
 If you encounter issues or want to add new features, feel free to open pull requests.\
 Give a ⭐️ if you find this project interesting and useful!
 
