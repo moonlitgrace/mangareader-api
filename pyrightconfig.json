@@ -1,5 +1,4 @@
 {
-  "pythonPath": ".venv/bin/python3",
   "venvPath": ".",
   "venv": ".venv",
 }

@@ -1,14 +1,14 @@
-# [mangareader-api](https://mangareader-api.vercel.app/)
+# mangareader-api
 
 Python-based web scraping tool built with FastAPI that provides easy access to manga content from the [mangareader.to](https://mangareader.to) website. This API allows users to retrieve up-to-date information. Enabling developers to create their own manga-related applications and services.
 
-https://mangareader-api.vercel.app/
+**API URL**: https://mangareader-api.vercel.app/
 
 ## Setup Project
 
-> [!NOTE]
-> CMake rules and install bash scripts are based on `poetry`.\
-> So please consider using it for better experience.
+> [!IMPORTANT]
+> CMake rules and Bash scripts are based on [poetry](https://python-poetry.org/)\
+> So please make sure you've already installed it.
 
 ### Bash Script
 ```bash
@@ -17,16 +17,15 @@ bash setup.sh
 ### CMake
 ```bash
 make install
-make serve # run server
+make serve # run development server
 ```
-### Pip
-Create a virtual environment and activate it ([venv](https://docs.python.org/3/library/venv.html))\
-Install dependencies
+
+### Poetry
 ```bash
-pip install -r requirements.txt
+poetry install
+poetry run dev # run development server
 ```
-Finally run app with `python3 main.py`\
-**And server will be running on [0.0.0.0:8000](http://0.0.0.0:8000)**
+And server will be running on [0.0.0.0:8000](http://0.0.0.0:8000)
 
 ## Contribution
 

@@ -19,7 +19,7 @@ shell: # Enter into venv shell
 
 .PNONY: serve
 serve: # Run application server in development
-	poetry run python3 main.py
+	poetry run dev
 
 .PNONY: format
 black: # Run black
