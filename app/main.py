@@ -33,6 +33,7 @@ async def root(request: Request):
         },
     )
 
+
 app.include_router(root_router)
 app.include_router(api_v1_router, prefix="/v1", tags=["v1"])
 
@@ -52,6 +53,7 @@ def custom_openapi():
 
 
 app.openapi = custom_openapi
+
 
 # Run server
 def start():

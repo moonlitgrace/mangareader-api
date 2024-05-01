@@ -42,6 +42,7 @@ class StringHelper:
         string = re.sub(r"^-+|-+$", "", string)
         return string
 
+
 # Response Helper
 class ResponseHelper:
     @staticmethod

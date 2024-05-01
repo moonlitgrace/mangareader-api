@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 import functools
 
+
 # Return if error happens
 def return_on_error(return_type):
     def decorator(func):
@@ -14,6 +15,7 @@ def return_on_error(return_type):
         return wrapper
 
     return decorator
+
 
 # Return if page not found
 def return_on_404():

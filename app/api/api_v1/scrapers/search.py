@@ -6,7 +6,7 @@ from app.helpers import StringHelper
 from app.decorators import return_on_error
 
 
-class SearchScraper():
+class SearchScraper:
     def __init__(self, query: str):
         super().__init__()
 

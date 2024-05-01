@@ -5,7 +5,7 @@ from ..constants import API_ENDPOINTS
 from app.helpers import StringHelper
 
 
-class FeaturedScraper():
+class FeaturedScraper:
     def __init__(self):
         super().__init__()
         url = API_ENDPOINTS["home"]

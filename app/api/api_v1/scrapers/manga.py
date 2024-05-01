@@ -3,7 +3,7 @@ from app.helpers import StringHelper
 from ..constants import API_ENDPOINTS
 
 
-class MangaScraper():
+class MangaScraper:
     def __init__(self, slug: str):
         self.slug = slug
         endpoint = API_ENDPOINTS.get("manga")

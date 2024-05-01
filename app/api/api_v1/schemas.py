@@ -13,8 +13,10 @@ class FeaturedManga(BaseModel):
     synopsis: str
     chapter: float
 
+
 class FeaturedResponse(BaseResponse):
     data: List[FeaturedManga]
+
 
 # Manga Model
 class Manga(BaseModel):
@@ -29,6 +31,7 @@ class Manga(BaseModel):
     cover: str
     synopsis: str
 
+
 # Search Model
 class SearchManga(BaseModel):
     title: str
@@ -42,6 +45,7 @@ class SearchManga(BaseModel):
 
 class SearchMangaResponse(BaseResponse):
     data: List[SearchManga]
+
 
 # Trending Manga Model
 class TrendingManga(BaseModel):
