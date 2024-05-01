@@ -3,7 +3,7 @@
 	"devCommand": "python3 main.py",
   	"builds": [
 	    {
-	    	"src": "/app/main.py",
+	    	"src": "app/main.py",
 	    	"use": "@vercel/python",
 	    	"config": {
 	    		"maxLambdaSize": "15mb",
