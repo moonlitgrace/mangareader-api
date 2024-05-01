@@ -8,22 +8,18 @@ if [[ $poetry_yn == "y" || $poetry_yn == "Y" ]] then
 	echo "Installing project dependencies using Poetry..."
 	poetry install
 
-	# run server
-	echo "Starting server..."
-	poetry run python3 main.py
-
 	while true; do
 		read -p "Do you want to start server? (y/n)" start_yn
 
 		case $start_yn in
 			[Yy]* )
 				echo "Server starting...";
-				poetry run python3 main.py;;
+				poetry run dev;;
 
 			[Nn]* )
 				echo "Exiting...";
 				echo "you can run server later using the command:";
-				echo "poetry run python3 app/main.py";
+				echo "poetry run dev";
 				exit;;
 			* ) echo "Please answer with Y/y/N/n.";;
 

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 
-from app.helpers import ResponseHelper
-
 from .scrapers.featured import FeaturedScraper
 from .scrapers.trending import TrendingScraper
 from .scrapers.manga import MangaScraper
 from .scrapers.search import SearchScraper
+
+from app.helpers import ResponseHelper
 
 from .schemas import (
     FeaturedResponse,
