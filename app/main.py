@@ -1,5 +1,3 @@
-import uvicorn
-
 from fastapi import APIRouter, FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from fastapi.staticfiles import StaticFiles
@@ -53,8 +51,3 @@ def custom_openapi():
 
 
 app.openapi = custom_openapi
-
-
-# Run server
-def start():
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
