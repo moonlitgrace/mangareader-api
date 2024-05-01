@@ -3,6 +3,7 @@ import html
 from urllib.parse import urlparse
 
 
+# String Helper
 class StringHelper:
     @staticmethod
     def clean(string: str) -> str:
@@ -40,3 +41,16 @@ class StringHelper:
         string = re.sub(r"[\s_-]+", f"{symbol}", string)
         string = re.sub(r"^-+|-+$", "", string)
         return string
+
+# Response Helper
+class ResponseHelper:
+    @staticmethod
+    def format_response(data, next=None, prev=None):
+        response = {
+            "count": len(data),
+            "next": next,
+            "prev": prev,
+            "data": data,
+        }
+
+        return response

@@ -1,15 +1,14 @@
 from selectolax.parser import Node
 
-from ...helpers.parser import HTMLParserHelper
-from ...constants.endpoints import API_ENDPOINTS
-from ..base_scraper import BaseScraper
-from ...helpers.string import StringHelper
+from ..helpers import HTMLParserHelper
+from ..constants import API_ENDPOINTS
+from app.helpers import StringHelper
 
 
-class TrendingScraper(BaseScraper):
+class TrendingScraper():
     def __init__(self):
         super().__init__()
-        url = API_ENDPOINTS.get("home")
+        url = API_ENDPOINTS["home"]
 
         self.parser = HTMLParserHelper.get_parser(url)
         self.string_helper = StringHelper()
@@ -45,7 +44,7 @@ class TrendingScraper(BaseScraper):
         node = parent.css_first(".mp-desc p:nth-child(3)")
         return node.text(strip=True).split("/")
 
-    def scrape(self):
+    def build(self):
         nodes = self.parser.css("#trending-home .swiper-wrapper .swiper-slide")
         response_list = []
 

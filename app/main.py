@@ -1,15 +1,16 @@
-from fastapi import FastAPI, Request
+import uvicorn
+
+from fastapi import APIRouter, FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 
-from .scrapers import router_v1
+from api.api_v1.router import router as api_v1_router
 
+root_router = APIRouter()
 app = FastAPI()
-
-app.include_router(router_v1.router, prefix="/v1", tags=["v1"])
 
 # https://stackoverflow.com/a/61644963/20547892
 app.mount(
@@ -19,18 +20,21 @@ app.mount(
 )
 
 # https://fastapi.tiangolo.com/advanced/templates/
-templates = Jinja2Templates(directory="templates")
+TEMPLATES = Jinja2Templates(directory="templates")
 
 
 # homepage route
-@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+@root_router.get("/", response_class=HTMLResponse, include_in_schema=False)
 async def root(request: Request):
-    return templates.TemplateResponse(
+    return TEMPLATES.TemplateResponse(
         "index.html",
         context={
             "request": request,
         },
     )
+
+app.include_router(root_router)
+app.include_router(api_v1_router, prefix="/v1", tags=["v1"])
 
 
 # overrite "openapi.json"
@@ -48,3 +52,7 @@ def custom_openapi():
 
 
 app.openapi = custom_openapi
+
+# Run server
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

@@ -23,7 +23,7 @@ if [[ $poetry_yn == "y" || $poetry_yn == "Y" ]] then
 			[Nn]* )
 				echo "Exiting...";
 				echo "you can run server later using the command:";
-				echo "poetry run python3 main.py";
+				echo "poetry run python3 app/main.py";
 				exit;;
 			* ) echo "Please answer with Y/y/N/n.";;
 
