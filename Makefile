@@ -24,3 +24,7 @@ dev: # Run application server in development
 .PNONY: format
 black: # Run black
 	poetry run black
+
+.PNONY
+requirements: # Generate requirements.txt file
+	poetry run pip freeze > requirements.txt

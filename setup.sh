@@ -12,22 +12,20 @@ if [[ $poetry_yn == "y" || $poetry_yn == "Y" ]] then
 
 	case $start_yn in
 		[Yy]* )
-			echo "Server starting...";
+			echo "Server starting..."
 			poetry run dev;;
 
 		[Nn]* )
-			echo "Exiting...";
-			echo "you can run server later using the command:";
-			echo "poetry run dev";
+			echo "Exiting..."
+			echo "you can run server later using the command:"
+			echo "poetry run dev"
 			exit;;
-		* ) exit 0;;
+		* ) exit 0
 
 	esac
 
 else
-	echo ""
-	echo "Sorry, this script only works with poetry";
-	echo "Please install it and re-run this script";
-	echo ""
-	exit 0;
+	echo "Sorry, this script only works with poetry"
+	echo "Please install it and re-run this script"
+	exit 0
 fi
