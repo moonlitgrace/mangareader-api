@@ -17,8 +17,8 @@ show: # Show environment details
 shell: # Enter into venv shell
 	poetry shell
 
-.PNONY: serve
-serve: # Run application server in development
+.PNONY: dev
+dev: # Run application server in development
 	poetry run dev
 
 .PNONY: format

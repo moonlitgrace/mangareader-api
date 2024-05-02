@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "app"
+name = "mangareader-api"
 version = "0.1.0"
 description = "A Python-based web scraping API built with FastAPI that provides easy access to manga contents."
 authors = ["tokitou-san <tokitousan2005@gmail.com>"]

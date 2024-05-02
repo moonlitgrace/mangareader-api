@@ -17,9 +17,8 @@ bash setup.sh
 ### CMake
 ```bash
 make install
-make serve # run development server
+make dev # run development server
 ```
-
 ### Poetry
 ```bash
 poetry install
