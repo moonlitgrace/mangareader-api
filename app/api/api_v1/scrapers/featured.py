@@ -1,15 +1,14 @@
 from selectolax.parser import Node
 
-from ...helpers.parser import HTMLParserHelper
-from ...helpers.string import StringHelper
-from ...constants.endpoints import API_ENDPOINTS
-from ..base_scraper import BaseScraper
+from ..helpers import HTMLParserHelper
+from ..constants import API_ENDPOINTS
+from app.helpers import StringHelper
 
 
-class FeaturedScraper(BaseScraper):
+class FeaturedScraper:
     def __init__(self):
         super().__init__()
-        url = API_ENDPOINTS.get("home")
+        url = API_ENDPOINTS["home"]
 
         self.parser = HTMLParserHelper.get_parser(url)
         self.string_helper = StringHelper()
@@ -40,7 +39,7 @@ class FeaturedScraper(BaseScraper):
         chapter = node.text(strip=True).split(" ")[1]
         return self.string_helper.clean(chapter)
 
-    def scrape(self):
+    def build(self):
         nodes = self.parser.css("#slider .swiper-wrapper .swiper-slide")
         response_list = []
 

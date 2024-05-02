@@ -17,9 +17,9 @@ show: # Show environment details
 shell: # Enter into venv shell
 	poetry shell
 
-.PNONY: serve
-serve: # Run application server in development
-	poetry run python3 main.py
+.PNONY: dev
+dev: # Run application server in development
+	poetry run dev
 
 .PNONY: format
 black: # Run black

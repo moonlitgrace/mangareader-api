@@ -1,12 +1,9 @@
-from selectolax.parser import Node
-
-from ..base_scraper import BaseScraper
-from ...helpers.parser import HTMLParserHelper
-from ...helpers.string import StringHelper
-from ...constants.endpoints import API_ENDPOINTS
+from ..helpers import HTMLParserHelper
+from app.helpers import StringHelper
+from ..constants import API_ENDPOINTS
 
 
-class MangaScraper(BaseScraper):
+class MangaScraper:
     def __init__(self, slug: str):
         self.slug = slug
         endpoint = API_ENDPOINTS.get("manga")
@@ -64,7 +61,7 @@ class MangaScraper(BaseScraper):
         )
         return self.string_helper.clean(node.text(strip=True).split(":")[1].split("to")[0])
 
-    def scrape(self):
+    def build(self):
         return {
             "title": self.__get_title__,
             "slug": self.slug,

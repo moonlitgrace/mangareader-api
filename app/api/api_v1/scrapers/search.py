@@ -1,13 +1,12 @@
 from selectolax.parser import Node
 
-from ...helpers.parser import HTMLParserHelper
-from ..base_scraper import BaseScraper
-from ...constants.endpoints import API_ENDPOINTS
-from ...helpers.string import StringHelper
-from ...decorators.return_on_error import return_on_error
+from ..helpers import HTMLParserHelper
+from ..constants import API_ENDPOINTS
+from app.helpers import StringHelper
+from app.decorators import return_on_error
 
 
-class SearchScraper(BaseScraper):
+class SearchScraper:
     def __init__(self, query: str):
         super().__init__()
 
@@ -47,7 +46,7 @@ class SearchScraper(BaseScraper):
         node = parent.css_first(".tick-lang")
         return node.text(strip=True).lower().split("/")
 
-    def scrape(self):
+    def build(self):
         nodes = self.parser.css(".manga_list-sbs .mls-wrap .item")
         response_list = []
 

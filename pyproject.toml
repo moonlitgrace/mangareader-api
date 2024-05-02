@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mangaapi"
+name = "mangareader-api"
 version = "0.1.0"
 description = "A Python-based web scraping API built with FastAPI that provides easy access to manga contents."
 authors = ["tokitou-san <tokitousan2005@gmail.com>"]
@@ -21,6 +21,8 @@ markdown = "^3.6"
 selectolax = "^0.3.21"
 httpx = "^0.27.0"
 
+[tool.poetry.scripts]
+dev = "main:start"
 
 [build-system]
 requires = ["poetry-core"]
