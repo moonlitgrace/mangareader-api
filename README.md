@@ -24,6 +24,9 @@ make dev # run development server
 poetry install
 poetry run dev # run development server
 ```
+
+> You can also create a python virtual environment and active it and install all the dependencies from `requirements.txt` file `pip install -r requirements.txt` and finally run `python3 main.py`
+
 And server will be running on [0.0.0.0:8000](http://0.0.0.0:8000)
 
 ## Contribution
