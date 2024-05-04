@@ -1,5 +1,4 @@
 from fastapi import APIRouter, FastAPI, Request
-from fastapi.openapi.utils import get_openapi
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -7,8 +6,25 @@ from pathlib import Path
 
 from api.api_v1.router import router as api_v1_router
 
+tags_metadata = [
+    {
+        "name": "Version 1",
+        "description": "Endpoints related to version 1 of the MangaReader API. Access manga content, search for specific titles, and retrieve manga information.",
+    },
+]
+
 root_router = APIRouter()
-app = FastAPI()
+app = FastAPI(
+    openapi_tags=tags_metadata,
+    title="MangaReader API",
+    description="""
+            A Python-based web scraping tool built with FastAPI that provides easy access to manga content from the [mangareader.to](https://mangareader.to) website.
+            This API allows users to retrieve up-to-date information.
+            Enabling developers to create their own manga-related applications and services.
+        """,
+    summary="A Python-based web scraping API built with FastAPI that provides easy access to manga contents.",
+    version="0.2.0",
+)
 
 # https://stackoverflow.com/a/61644963/20547892
 app.mount(
@@ -33,21 +49,4 @@ async def root(request: Request):
 
 
 app.include_router(root_router)
-app.include_router(api_v1_router, prefix="/v1", tags=["v1"])
-
-
-# overrite "openapi.json"
-def custom_openapi():
-    if app.openapi_schema:
-        return app.openapi_schema
-    openapi_schema = get_openapi(
-        title="MangaAPI",
-        summary="A Python-based web scraping API built with FastAPI that provides easy access to manga contents.",
-        version="0.1.0",
-        routes=app.routes,
-    )
-    app.openapi_schema = openapi_schema
-    return app.openapi_schema
-
-
-app.openapi = custom_openapi
+app.include_router(api_v1_router, prefix="/api/v1", tags=["Version 1"])

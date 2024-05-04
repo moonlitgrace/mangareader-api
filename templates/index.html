@@ -8,9 +8,7 @@
       content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/images/favicon.png') }}">
   </head>
-  <body>
-    <!-- Note: this includes our proxy, you can remove the following line if you do not need it -->
-    <!-- data-proxy-url="https://api.scalar.com/request-proxy" -->
+  <body style="background: #0f0f0f;">
     <script
       id="api-reference"
       type="application/json"
@@ -24,6 +22,5 @@
       apiReference.dataset.configuration = JSON.stringify(configuration);
     </script>
     <script src="{{ url_for('static', path='vendor/scalar.js') }}"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script> -->
   </body>
 </html>
