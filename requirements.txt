@@ -6,7 +6,7 @@ cfgv==3.4.0
 charset-normalizer==3.3.2
 click==8.1.7
 distlib==0.3.8
-fastapi==0.110.3
+fastapi==0.111.0
 filelock==3.14.0
 h11==0.14.0
 httpcore==1.0.5
