@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+# add parent directory to the system path
+sys.path.append(str(Path(__file__).resolve().parent))
+
 from fastapi import APIRouter, FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
