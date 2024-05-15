@@ -1,7 +1,7 @@
 from ..helpers import HTMLParserHelper
 from ..constants import API_ENDPOINTS
 
-from mangareader_api.helpers import StringHelper
+from app.helpers import StringHelper
 
 
 class MangaScraper:

@@ -3,8 +3,8 @@ from selectolax.parser import Node
 from ..helpers import HTMLParserHelper
 from ..constants import API_ENDPOINTS
 
-from mangareader_api.helpers import StringHelper
-from mangareader_api.decorators import return_on_error
+from app.helpers import StringHelper
+from app.decorators import return_on_error
 
 
 class SearchScraper:

@@ -5,7 +5,7 @@ from .scrapers.trending import TrendingScraper
 from .scrapers.manga import MangaScraper
 from .scrapers.search import SearchScraper
 
-from mangareader_api.helpers import ResponseHelper
+from app.helpers import ResponseHelper
 
 from .schemas import (
     FeaturedResponse,
