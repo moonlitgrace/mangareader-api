@@ -2,6 +2,7 @@
 	"version": 2,
 	"devCommand": "python3 main.py",
 	"env": {
+		"POETRY_VERSION": "1.8.2",
 	    "PYTHONPATH": "app/"
 	},
   	"builds": [
