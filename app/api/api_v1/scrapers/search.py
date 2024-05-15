@@ -2,6 +2,7 @@ from selectolax.parser import Node
 
 from ..helpers import HTMLParserHelper
 from ..constants import API_ENDPOINTS
+
 from app.helpers import StringHelper
 from app.decorators import return_on_error
 
