@@ -1,4 +1,4 @@
-annotated-types==0.6.0
+annotated-types==0.7.0
 anyio==4.3.0
 black==24.4.2
 certifi==2024.2.2
