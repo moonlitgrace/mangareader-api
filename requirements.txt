@@ -35,7 +35,7 @@ Pygments==2.18.0
 python-dotenv==1.0.1
 python-multipart==0.0.9
 PyYAML==6.0.1
-requests==2.31.0
+requests==2.32.2
 rich==13.7.1
 selectolax==0.3.21
 setuptools==70.0.0
