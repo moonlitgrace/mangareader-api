@@ -23,7 +23,7 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 mdurl==0.1.2
 mypy-extensions==1.0.0
-nodeenv==1.8.0
+nodeenv==1.9.0
 orjson==3.10.3
 packaging==24.0
 pathspec==0.12.1
