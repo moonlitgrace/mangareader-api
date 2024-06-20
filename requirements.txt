@@ -7,7 +7,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 distlib==0.3.8
 dnspython==2.6.1
-email_validator==2.1.2
+email_validator==2.2.0
 fastapi==0.111.0
 fastapi-cli==0.0.4
 filelock==3.15.2
