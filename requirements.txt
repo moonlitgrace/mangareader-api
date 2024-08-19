@@ -30,7 +30,7 @@ pathspec==0.12.1
 platformdirs==4.2.2
 pre-commit==3.8.0
 pydantic==2.7.1
-pydantic_core==2.18.2
+pydantic_core==2.22.0
 Pygments==2.18.0
 python-dotenv==1.0.1
 python-multipart==0.0.9
