@@ -36,7 +36,7 @@ python-dotenv==1.0.1
 python-multipart==0.0.9
 PyYAML==6.0.2
 requests==2.32.3
-rich==13.7.1
+rich==13.8.0
 selectolax==0.3.21
 setuptools==74.0.0
 shellingham==1.5.4
