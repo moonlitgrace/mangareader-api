@@ -8,7 +8,7 @@ click==8.1.7
 distlib==0.3.8
 dnspython==2.6.1
 email_validator==2.2.0
-fastapi==0.112.2
+fastapi==0.114.0
 fastapi-cli==0.0.5
 filelock==3.16.0
 h11==0.14.0
