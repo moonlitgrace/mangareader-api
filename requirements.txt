@@ -45,7 +45,7 @@ starlette==0.38.5
 typer==0.12.5
 typing_extensions==4.12.2
 ujson==5.10.0
-urllib3==2.2.2
+urllib3==2.2.3
 uvicorn==0.30.6
 uvloop==0.20.0
 virtualenv==20.26.4
