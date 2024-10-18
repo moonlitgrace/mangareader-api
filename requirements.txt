@@ -46,7 +46,7 @@ typer==0.12.5
 typing_extensions==4.12.2
 ujson==5.10.0
 urllib3==2.2.3
-uvicorn==0.31.1
+uvicorn==0.32.0
 uvloop==0.21.0
 virtualenv==20.27.0
 watchfiles==0.24.0
