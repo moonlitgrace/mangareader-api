@@ -13,7 +13,7 @@ fastapi-cli==0.0.5
 filelock==3.16.1
 h11==0.14.0
 httpcore==1.0.6
-httptools==0.6.2
+httptools==0.6.4
 httpx==0.27.2
 identify==2.6.1
 idna==3.10
