@@ -1,18 +1,14 @@
 from fastapi import APIRouter
 
+from app.shared.helpers import ResponseHelper
+
+from .schemas import FeaturedResponse
+from .schemas import Manga as MangaModel
+from .schemas import SearchMangaResponse, TrendingResponse
 from .scrapers.featured import FeaturedScraper
-from .scrapers.trending import TrendingScraper
 from .scrapers.manga import MangaScraper
 from .scrapers.search import SearchScraper
-
-from app.helpers import ResponseHelper
-
-from .schemas import (
-    FeaturedResponse,
-    TrendingResponse,
-    Manga as MangaModel,
-    SearchMangaResponse,
-)
+from .scrapers.trending import TrendingScraper
 
 router = APIRouter()
 

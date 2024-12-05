@@ -1,10 +1,10 @@
 from selectolax.parser import Node
 
-from ..helpers import HTMLParserHelper
-from ..constants import API_ENDPOINTS
+from app.shared.decorators import return_on_error
+from app.shared.helpers import StringHelper
 
-from app.helpers import StringHelper
-from app.decorators import return_on_error
+from ..constants import API_ENDPOINTS
+from ..helpers import HTMLParserHelper
 
 
 class SearchScraper:

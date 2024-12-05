@@ -1,8 +1,9 @@
 from selectolax.parser import Node
 
-from ..helpers import HTMLParserHelper
+from app.shared.helpers import StringHelper
+
 from ..constants import API_ENDPOINTS
-from app.helpers import StringHelper
+from ..helpers import HTMLParserHelper
 
 
 class FeaturedScraper:

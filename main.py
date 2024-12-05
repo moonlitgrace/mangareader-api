@@ -1,9 +1,57 @@
-import uvicorn
+from fastapi import APIRouter, FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+from app.api.v1.router import router as api_v1_router
+
+tags_metadata = [
+    {
+        "name": "API v1",
+        "description": "Version 1 endpoints of the MangaReader API. Access manga content, search for specific titles, and retrieve manga information.",
+    },
+]
+
+description = """
+A Python-based web scraping tool built with FastAPI that provides easy access to manga content from the [mangareader.to](https://mangareader.to) website.
+This API allows users to retrieve up-to-date information.
+Enabling developers to create their own manga-related applications and services.
+"""
+
+root_router = APIRouter()
+
+app = FastAPI(
+    openapi_tags=tags_metadata,
+    title="MangaReader API",
+    description=description,
+    summary="A Python-based web scraping API built with FastAPI that provides easy access to manga contents.",
+    version="1.0.0",
+    # disable redoc and swagger
+    redoc_url=None,
+    docs_url=None,
+)
+
+# https://stackoverflow.com/a/61644963/20547892
+app.mount(
+    "/static",
+    StaticFiles(directory="static"),
+    name="static",
+)
+
+# https://fastapi.tiangolo.com/advanced/templates/
+TEMPLATES = Jinja2Templates(directory="templates")
 
 
-def start():
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+# homepage route
+@root_router.get("/", response_class=HTMLResponse, include_in_schema=False)
+async def root(request: Request):
+    return TEMPLATES.TemplateResponse(
+        "index.html",
+        context={
+            "request": request,
+        },
+    )
 
 
-if __name__ == "__main__":
-    start()
+app.include_router(root_router)
+app.include_router(api_v1_router, prefix="/api/v1", tags=["API v1"])

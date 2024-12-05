@@ -1,5 +1,5 @@
-from selectolax.parser import HTMLParser
 import httpx
+from selectolax.parser import HTMLParser
 
 
 class HTMLParserHelper:

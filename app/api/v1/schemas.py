@@ -1,7 +1,8 @@
-from pydantic import BaseModel
 from typing import List
 
-from app.schemas import BaseResponse
+from pydantic import BaseModel
+
+from app.shared.schemas import BaseResponse
 
 
 # Featured Manga Model
