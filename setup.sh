@@ -13,7 +13,7 @@ if [[ $poetry_yn == "y" || $poetry_yn == "Y" ]] then
 	case $start_yn in
 		[Yy]* )
 			echo "Server starting..."
-			poetry run dev;;
+			poetry run fastapi dev main.py;;
 
 		[Nn]* )
 			echo "Exiting..."
