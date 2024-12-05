@@ -17,12 +17,12 @@ bash setup.sh
 ### CMake
 ```bash
 make install
-make dev # run development server
+make dev
 ```
 ### Poetry
 ```bash
 poetry install
-poetry run dev # run development server
+poetry run fastapi dev main.py
 ```
 
 > You can also create a python virtual environment and active it and install all the dependencies from `requirements.txt` file `pip install -r requirements.txt` and finally run `python3 main.py`
