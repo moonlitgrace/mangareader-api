@@ -19,11 +19,15 @@ shell: # Enter into venv shell
 
 .PNONY: dev
 dev: # Run application server in development
-	poetry run dev
+	poetry run fastapi dev main.py
 
-.PNONY: format
+.PNONY: black
 black: # Run black
-	poetry run black
+	poetry run black .
+
+.PNONY: isort
+black: # Run isort
+	poetry run isort .
 
 .PNONY: requirements
 requirements: # Generate requirements.txt file
