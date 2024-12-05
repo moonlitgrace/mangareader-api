@@ -1,5 +1,6 @@
-from fastapi import HTTPException
 import functools
+
+from fastapi import HTTPException
 
 
 # Return if error happens

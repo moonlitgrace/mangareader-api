@@ -1,28 +1,32 @@
 [tool.poetry]
-name = "mangareader-api"
-version = "0.1.0"
-description = "A Python-based web scraping API built with FastAPI that provides easy access to manga contents."
-authors = ["tokitou-san <tokitousan2005@gmail.com>"]
-license = "MIT"
-readme = "README.md"
-packages = [{include = "app"}]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "^0.115.2"
-uvicorn = {extras = ["standard"], version = "^0.32.0"}
+fastapi = {extras = ["standard"], version = "^0.115.6"}
 requests = "^2.32.3"
 pydantic-core = "^2.24.2"
-anyio = "^4.6.2"
-black = "^24.10.0"
 pre-commit = "^4.0.1"
-jinja2 = "^3.1.4"
-markdown = "^3.7"
 selectolax = "^0.3.24"
 httpx = "^0.27.2"
 
-[tool.poetry.scripts]
-dev = "main:start"
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+isort = "^5.13.2"
+
+[tool.black]
+line-length = 92
+target-version = ["py36", "py37", "py38"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pyright]
+venvPath = "./"
+venv = ".venv"
+pythonVersion = "3.12"
+
 
 [build-system]
 requires = ["poetry-core"]
