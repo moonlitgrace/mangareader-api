@@ -19,7 +19,7 @@ shell: # Enter into venv shell
 
 .PNONY: dev
 dev: # Run application server in development
-	poetry run dev
+	poetry run fastapi dev main.py
 
 .PNONY: format
 black: # Run black
